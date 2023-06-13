@@ -1,13 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
+import { ReportsCount } from "../reports/reportsSlice";
 
-const queryDataInitialState = {
+interface QueryData {
+  start: string;
+  end: string;
+  chartType: string;
+}
+
+interface Data {
+  mostAgendatedOnRange: ReportsCount[];
+  mostAgendatedAllTime: ReportsCount[];
+  queryData: QueryData;
+}
+
+interface StatisticsState {
+  daily: Data;
+  scheduled: Data;
+}
+
+const queryDataInitialState: QueryData = {
   start: getStartMonthDate(),
   end: getEndMonthDate(),
   chartType: "bar",
 };
 
-const initialState = {
+const initialState: StatisticsState = {
   daily: {
     mostAgendatedOnRange: [],
     mostAgendatedAllTime: [],
@@ -24,7 +42,10 @@ const statisticsSlice = createSlice({
   name: "statistics",
   initialState,
   reducers: {
-    setMostAgendatedOnRange: (state, { payload }) => {
+    setMostAgendatedOnRange: (
+      state,
+      { payload }: PayloadAction<[string, ReportsCount[]]>
+    ) => {
       const [schedulingType, mostAgendatedOnRange] = payload;
 
       return schedulingType === "daily"
@@ -43,7 +64,10 @@ const statisticsSlice = createSlice({
             },
           };
     },
-    setMostAgendatedAllTime: (state, { payload }) => {
+    setMostAgendatedAllTime: (
+      state,
+      { payload }: PayloadAction<[string, ReportsCount[]]>
+    ) => {
       const [schedulingType, mostAgendatedAllTime] = payload;
 
       return schedulingType === "daily"
@@ -62,7 +86,7 @@ const statisticsSlice = createSlice({
             },
           };
     },
-    setQueryData: (state, { payload }) => {
+    setQueryData: (state, { payload }: PayloadAction<[string, QueryData]>) => {
       const [schedulingType, queryData] = payload;
 
       return schedulingType === "daily"
@@ -103,4 +127,5 @@ export const {
   setQueryData,
   resetQueryDataStatistics,
 } = statisticsSlice.actions;
+
 export default statisticsSlice.reducer;

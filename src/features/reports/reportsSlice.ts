@@ -1,14 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
 import { UNSET_STATUS } from "../../constants";
 
-const queryDataInitialState = {
+interface Reports {
+  name: string;
+  date: string;
+  time: string;
+  scheduling_count: string;
+  daily_count: string;
+  category: string;
+  id_person: number;
+}
+
+export interface ReportsCount {
+  category: string;
+  counts: number;
+}
+
+interface ReportsState {
+  pngBase64: string;
+  reports: Reports[];
+  reportsOrigen: Reports[];
+  reportsCountOnRange: ReportsCount[];
+  reportsCountAllTime: ReportsCount[];
+  queryData: any;
+}
+
+interface QueryData {
+  startDate: string;
+  endDate: string;
+  category: string;
+}
+
+const queryDataInitialState: QueryData = {
   startDate: getStartMonthDate(),
   endDate: getEndMonthDate(),
   category: UNSET_STATUS,
 };
 
-const initialState = {
+const initialState: ReportsState = {
   pngBase64: "",
   reports: [],
   reportsOrigen: [],
@@ -21,37 +51,43 @@ const reportsSlice = createSlice({
   name: "reports",
   initialState,
   reducers: {
-    setPngBase64: (state, { payload }) => {
+    setPngBase64: (state, { payload }: PayloadAction<string>) => {
       return {
         ...state,
         pngBase64: payload,
       };
     },
-    setReports: (state, { payload }) => {
+    setReports: (state, { payload }: PayloadAction<Reports[]>) => {
       return {
         ...state,
         reports: payload,
       };
     },
-    setReportsOrigen: (state, { payload }) => {
+    setReportsOrigen: (state, { payload }: PayloadAction<Reports[]>) => {
       return {
         ...state,
         reportsOrigen: payload,
       };
     },
-    setReportsCountOnRange: (state, { payload }) => {
+    setReportsCountOnRange: (
+      state,
+      { payload }: PayloadAction<ReportsCount[]>
+    ) => {
       return {
         ...state,
         reportsCountOnRange: payload,
       };
     },
-    setReportsCountAllTime: (state, { payload }) => {
+    setReportsCountAllTime: (
+      state,
+      { payload }: PayloadAction<ReportsCount[]>
+    ) => {
       return {
         ...state,
         reportsCountAllTime: payload,
       };
     },
-    setQueryData: (state, { payload }) => {
+    setQueryData: (state, { payload }: PayloadAction<QueryData>) => {
       return {
         ...state,
         queryData: payload,
@@ -75,4 +111,5 @@ export const {
   setQueryData,
   resetQueryDataReports,
 } = reportsSlice.actions;
+
 export default reportsSlice.reducer;
