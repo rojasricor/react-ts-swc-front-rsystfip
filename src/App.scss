@@ -1,0 +1,44 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+// @import "bootswatch/dist/lux/bootstrap.min.css";
+@import "react-toastify/scss/variables";
+@import "react-toastify/scss/toastContainer";
+@import "react-toastify/scss/toast";
+@import "react-toastify/scss/theme";
+@import "react-toastify/scss/closeButton";
+@import "react-toastify/scss/progressBar";
+@import "react-toastify/scss/animations/flip";
+
+body {
+  padding: 140px 10px 0 10px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bottom-px {
+  bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .schg-sm {
+    width: 1100px;
+  }
+
+  .bottom-px {
+    bottom: 60px;
+  }
+}
+
+.load-events {
+  display: none;
+  position: absolute;
+  top: 95px;
+  right: 40px;
+}
+
+textarea {
+  resize: none;
+}
