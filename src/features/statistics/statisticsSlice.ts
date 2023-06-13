@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
-import { ReportsCount } from "../reports/reportsSlice";
+import { ICounts } from "../../interfaces/ICounts";
 
 interface QueryData {
   start: string;
@@ -9,8 +9,8 @@ interface QueryData {
 }
 
 interface Data {
-  mostAgendatedOnRange: ReportsCount[];
-  mostAgendatedAllTime: ReportsCount[];
+  mostAgendatedOnRange: ICounts[];
+  mostAgendatedAllTime: ICounts[];
   queryData: QueryData;
 }
 
@@ -44,7 +44,7 @@ const statisticsSlice = createSlice({
   reducers: {
     setMostAgendatedOnRange: (
       state,
-      { payload }: PayloadAction<[string, ReportsCount[]]>
+      { payload }: PayloadAction<[string, ICounts[]]>
     ) => {
       const [schedulingType, mostAgendatedOnRange] = payload;
 
@@ -66,7 +66,7 @@ const statisticsSlice = createSlice({
     },
     setMostAgendatedAllTime: (
       state,
-      { payload }: PayloadAction<[string, ReportsCount[]]>
+      { payload }: PayloadAction<[string, ICounts[]]>
     ) => {
       const [schedulingType, mostAgendatedAllTime] = payload;
 

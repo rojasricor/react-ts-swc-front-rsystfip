@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
 import { UNSET_STATUS } from "../../constants";
+import { ICounts } from "../../interfaces/ICounts";
 
 interface Reports {
   name: string;
@@ -12,17 +13,12 @@ interface Reports {
   id_person: number;
 }
 
-export interface ReportsCount {
-  category: string;
-  counts: number;
-}
-
 interface ReportsState {
   pngBase64: string;
   reports: Reports[];
   reportsOrigen: Reports[];
-  reportsCountOnRange: ReportsCount[];
-  reportsCountAllTime: ReportsCount[];
+  reportsCountOnRange: ICounts[];
+  reportsCountAllTime: ICounts[];
   queryData: any;
 }
 
@@ -69,19 +65,13 @@ const reportsSlice = createSlice({
         reportsOrigen: payload,
       };
     },
-    setReportsCountOnRange: (
-      state,
-      { payload }: PayloadAction<ReportsCount[]>
-    ) => {
+    setReportsCountOnRange: (state, { payload }: PayloadAction<ICounts[]>) => {
       return {
         ...state,
         reportsCountOnRange: payload,
       };
     },
-    setReportsCountAllTime: (
-      state,
-      { payload }: PayloadAction<ReportsCount[]>
-    ) => {
+    setReportsCountAllTime: (state, { payload }: PayloadAction<ICounts[]>) => {
       return {
         ...state,
         reportsCountAllTime: payload,
