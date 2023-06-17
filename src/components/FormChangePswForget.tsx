@@ -6,19 +6,31 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
+import { handleSubmit } from "../types/handleSubmit";
+import { handleChangeQD } from "../types/handleChange";
 
-const FormChangePswForget = () => {
-  const formDataInitialState = {
+interface FormData {
+  password: string;
+  confirmPassword: string;
+}
+
+type Params = {
+  resetToken: string;
+  email: string;
+};
+
+const FormChangePswForget = (): React.JSX.Element => {
+  const formDataInitialState: FormData = {
     password: "",
     confirmPassword: "",
   };
 
-  const [formData, setFormData] = useState(formDataInitialState);
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<FormData>(formDataInitialState);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { resetToken, email } = useParams();
+  const { resetToken, email } = useParams<Params>();
 
-  const doChangePassword = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -32,18 +44,21 @@ const FormChangePswForget = () => {
         password_confirm: formData.confirmPassword,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       setFormData(formDataInitialState);
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -51,7 +66,7 @@ const FormChangePswForget = () => {
   };
 
   return (
-    <Form onSubmit={doChangePassword}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-3">
         <Col md={12}>
           <Form.FloatingLabel label="Contraseña nueva:">

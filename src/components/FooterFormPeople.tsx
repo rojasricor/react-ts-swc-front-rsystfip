@@ -3,16 +3,21 @@ import ProtectedElement from "./ProtectedElement";
 import { Button, Spinner, Col } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { GiReturnArrow } from "react-icons/gi";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks";
+import { handleClick } from "../types/handleClick";
 
-const FooterFormPeople = ({ isAllowed }) => {
-  const isLoadingState = useSelector(
+interface Props {
+  isAllowed: boolean;
+}
+
+const FooterFormPeople = ({ isAllowed }: Props) => {
+  const isLoadingState = useAppSelector(
     ({ programming }) => programming.isLoading
   );
 
   const navigate = useNavigate();
 
-  const returnToBack = (e) => {
+  const handleClick = (e: handleClick) => {
     e.preventDefault();
     navigate(-1);
   };
@@ -31,7 +36,7 @@ const FooterFormPeople = ({ isAllowed }) => {
       <ProtectedElement isAllowed={isAllowed}>
         <Button
           variant="light"
-          onClick={returnToBack}
+          onClick={handleClick}
           className="m-1"
           type="submit"
         >

@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { NavigateFunction } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-const Error404Actioner = () => {
-  const navigate = useNavigate();
+const Error404Actioner = (): React.JSX.Element => {
+  const navigate: NavigateFunction = useNavigate();
 
   return (
     <div className="d-grid d-sm-flex justify-content-sm-center">

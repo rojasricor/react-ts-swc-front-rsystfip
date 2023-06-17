@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useAppSelector } from "./hooks";
 import ProtectedElement from "./components/ProtectedElement";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Container } from "react-bootstrap";
@@ -23,13 +24,21 @@ import PageStcsScheduled from "./pages/PageStcsScheduled";
 import PageFaqs from "./pages/PageFaqs";
 import PageNotFound from "./pages/PageNotFound";
 import "./App.scss";
-import { useSelector } from "react-redux";
 
-const App = () => {
-  const authState = useSelector(({ auth }) => auth);
+export interface srcUser {
+  avatar: string;
+  permissions: string[];
+}
 
-  const avatar = authState.auth ? `/img/${authState.user.role}/avatar.png` : "";
-  const permissions = authState.auth ? authState.user.permissions : [];
+const App = (): React.JSX.Element => {
+  const authState = useAppSelector(({ auth }) => auth);
+
+  const avatar: srcUser["avatar"] = authState.auth
+    ? `/img/${authState.user.role}/avatar.png`
+    : "";
+  const permissions: srcUser["permissions"] = authState.auth
+    ? authState.user.permissions
+    : [];
 
   return (
     <BrowserRouter>

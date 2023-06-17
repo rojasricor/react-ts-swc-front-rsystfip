@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import Searcher from "../components/Searcher";
 import Notify from "../components/Notify";
 
-const PageAgendatedPeople = () => {
+const PageAgendatedPeople = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Agendated People";
   }, []);

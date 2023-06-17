@@ -1,4 +1,8 @@
-const Responsive = ({ children }) => (
+interface Props {
+  children: React.JSX.Element[];
+}
+
+const Responsive = ({ children }: Props) => (
   <div className="table-responsive">{children}</div>
 );
 

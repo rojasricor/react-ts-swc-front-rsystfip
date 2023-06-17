@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import RecoveryLinkPassword from "../components/RecoveryLinkPassword";
 import Notify from "../components/Notify";
 
-const PageLinkRecoveryPsw = () => {
+const PageLinkRecoveryPsw = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Recover my password";
   }, []);

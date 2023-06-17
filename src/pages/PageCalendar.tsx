@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import FullCalendarScheduling from "../components/FullCalendarScheduling";
 
-const PageCalendar = () => {
+const PageCalendar = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | People in calendar";
   }, []);

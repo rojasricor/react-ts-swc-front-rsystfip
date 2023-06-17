@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import FetcherDataForChangePsw from "../components/FetcherDataForChangePsw";
 import Notify from "../components/Notify";
 
-const PageChangePassword = () => {
+const PageChangePassword = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Change password users";
   }, []);

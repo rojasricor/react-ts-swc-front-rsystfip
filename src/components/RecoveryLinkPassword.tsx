@@ -7,12 +7,17 @@ import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const RecoveryPassword = () => {
-  const { email, resetToken } = useParams();
-  const [tokenResetIsValid, setTokenResetIsValid] = useState(false);
-  const [loading, setLoading] = useState(false);
+type Params = {
+  email: string;
+  resetToken: string;
+};
 
-  const verifyToken = async () => {
+const RecoveryPassword = (): React.JSX.Element => {
+  const { email, resetToken } = useParams<Params>();
+  const [tokenResetIsValid, setTokenResetIsValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const verifyToken = async (): Promise<void> => {
     setLoading(true);
 
     try {
@@ -27,6 +32,7 @@ const RecoveryPassword = () => {
 
       if (error) {
         toast.warn(error);
+        return;
       }
 
       if (!tokenIsValid) {
@@ -35,7 +41,7 @@ const RecoveryPassword = () => {
           data: { resetToken },
         });
       }
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setLoading(false);

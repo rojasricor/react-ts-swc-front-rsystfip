@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import FormSchedulePeople from "../components/FormSchedulePeople";
 
-const PageEditPeople = () => {
+const PageEditPeople = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Edit people";
   }, []);

@@ -5,36 +5,44 @@ import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import Notify from "./Notify";
 import FullCalendar from "@fullcalendar/react";
-import daygrid from "@fullcalendar/daygrid";
 import esLocale from "@fullcalendar/core/locales/es";
 import { formatTodaysDate, formatTodaysDateTime } from "../libs/todaylib";
-import { globalLocales } from "fullcalendar";
 import { API_ROUTE } from "../constants";
 import { toast } from "react-toastify";
 import { Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { setFormData } from "../features/programming/programmingSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { globalPlugins } from "fullcalendar";
 
-const FullCalendarScheduling = ({ right, initialView }) => {
-  const action = "schedule";
+interface Props {
+  right: string;
+  initialView: string;
+}
 
-  const formDataState = useSelector(
+const FullCalendarScheduling = ({
+  right,
+  initialView,
+}: Props): React.JSX.Element => {
+  const action: string = "schedule";
+
+  const formDataState = useAppSelector(
     ({ programming }) => programming.formData.schedule
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Modal states
-  const [stateModalCancell, setStateModalCancell] = useState(false);
-  const [stateModalScheduling, setStateModalScheduling] = useState(false);
+  const [stateModalCancell, setStateModalCancell] = useState<boolean>(false);
+  const [stateModalScheduling, setStateModalScheduling] =
+    useState<boolean>(false);
 
   // Modal methods
-  const closeModalCancell = () => setStateModalCancell(false);
-  const showModalCancell = () => setStateModalCancell(true);
-  const closeModalScheduling = () => setStateModalScheduling(false);
-  const showModalScheduling = () => setStateModalScheduling(true);
+  const closeModalCancell = (): void => setStateModalCancell(false);
+  const showModalCancell = (): void => setStateModalCancell(true);
+  const closeModalScheduling = (): void => setStateModalScheduling(false);
+  const showModalScheduling = (): void => setStateModalScheduling(true);
 
-  const loadEventsRef = useRef(null);
+  const loadEventsRef = useRef<HTMLDivElement>(null);
 
   return (
     <Responsive>
@@ -51,11 +59,11 @@ const FullCalendarScheduling = ({ right, initialView }) => {
         <FullCalendar
           height="auto"
           headerToolbar={{
-            left: "prevYear,prev,next,nextYear today",
+            left: "prevYear prev,next nextYear today",
             center: "title",
             right,
           }}
-          locales={[esLocale, globalLocales]}
+          locales={[esLocale]}
           locale="es-us"
           navLinks
           nowIndicator
@@ -135,11 +143,12 @@ const FullCalendarScheduling = ({ right, initialView }) => {
             hour: "numeric",
             minute: "2-digit",
           }}
-          loading={(state) =>
-            (loadEventsRef.current.style.display = state ? "block" : "none")
-          }
-          plugins={[daygrid]}
+          loading={(state: boolean): void => {
+            if (loadEventsRef.current)
+              loadEventsRef.current.style.display = state ? "block" : "none";
+          }}
           initialView={initialView}
+          plugins={globalPlugins}
         />
       </Container>
       <p className="text-center mt-2">Scheduled scheduling month to month.</p>

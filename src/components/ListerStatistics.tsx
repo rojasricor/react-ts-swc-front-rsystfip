@@ -1,18 +1,21 @@
-import { useSelector } from "react-redux";
 import Listgroup from "./Listgroup";
+import { PropsStatistics } from "./Statistics";
+import { useAppSelector } from "../hooks";
 
-const ListerStatistics = ({ scheduling_type }) => {
-  const mostAgendatedOnRangeState = useSelector(({ statistics }) =>
+const ListerStatistics = ({
+  scheduling_type,
+}: PropsStatistics): React.JSX.Element => {
+  const mostAgendatedOnRangeState = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.mostAgendatedOnRange
       : statistics.scheduled.mostAgendatedOnRange
   );
-  const mostAgendatedAllTimeState = useSelector(({ statistics }) =>
+  const mostAgendatedAllTimeState = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.mostAgendatedAllTime
       : statistics.scheduled.mostAgendatedAllTime
   );
-  const queryDataState = useSelector(({ statistics }) =>
+  const queryDataState = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData

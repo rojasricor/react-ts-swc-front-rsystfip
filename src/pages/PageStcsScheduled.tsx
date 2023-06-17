@@ -3,7 +3,7 @@ import Statistics from "../components/Statistics";
 import { Row } from "react-bootstrap";
 import Notify from "../components/Notify";
 
-const PageStcsSchedule = () => {
+const PageStcsSchedule = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Statistics scheduled people";
   }, []);

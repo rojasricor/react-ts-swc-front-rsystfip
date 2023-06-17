@@ -1,28 +1,34 @@
 import Downloader from "./Downloader";
-import pdfMake from "pdfmake/build/pdfmake.min";
-import * as pdfConf from "../config/pdfmake.config";
-import { useSelector } from "react-redux";
+import * as pdfMake from "pdfmake/build/pdfmake";
+import {
+  createHeader,
+  footer,
+  myFonts,
+  styles,
+} from "../config/pdfmake.config";
+import { useAppSelector } from "../hooks";
+import { TDocumentDefinitions } from "pdfmake/interfaces";
 
-const PdfCreator = () => {
-  const pngBase64State = useSelector(({ reports }) => reports.pngBase64);
-  const reportsState = useSelector(({ reports }) => reports.reports);
-  const queryDataState = useSelector(({ reports }) => reports.queryData);
-  const peopleState = useSelector(({ people }) => people.people);
-  const reportsCountOnRangeState = useSelector(
+const PdfCreator = (): React.JSX.Element => {
+  const pngBase64State = useAppSelector(({ reports }) => reports.pngBase64);
+  const reportsState = useAppSelector(({ reports }) => reports.reports);
+  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
+  const peopleState = useAppSelector(({ people }) => people.people);
+  const reportsCountOnRangeState = useAppSelector(
     ({ reports }) => reports.reportsCountOnRange
   );
-  const reportsCountAllTimeState = useSelector(
+  const reportsCountAllTimeState = useAppSelector(
     ({ reports }) => reports.reportsCountAllTime
   );
 
-  const pdf = pdfMake.createPdf({
+  const documentDefinition: TDocumentDefinitions = {
     pageMargins: [28, 90],
-    header: pdfConf.createHeader(
+    header: createHeader(
       pngBase64State,
       queryDataState.startDate,
       queryDataState.endDate
     ),
-    footer: pdfConf.footer,
+    footer,
     content: [
       {
         text: `Total personas agendadas: (${peopleState.length})`,
@@ -60,7 +66,7 @@ const PdfCreator = () => {
               ],
             },
           }
-        : {},
+        : [],
       {
         text: `Reportes entre el rango de fecha: (${reportsState.length})`,
         style: "header",
@@ -98,13 +104,13 @@ const PdfCreator = () => {
               ],
             },
           }
-        : {},
+        : [],
       {
         text: "Cantidad agendado(a)s:",
         style: "header",
         alignment: "center",
         marginBottom: 30,
-        pageBreak: reportsState.length !== 0 ? "before" : false,
+        pageBreak: reportsState.length !== 0 ? "before" : undefined,
       },
       {
         columns: [
@@ -149,7 +155,7 @@ const PdfCreator = () => {
                   ],
                 },
               }
-            : {},
+            : [],
           reportsCountAllTimeState.length !== 0
             ? {
                 layout: "headerLineOnly",
@@ -171,14 +177,18 @@ const PdfCreator = () => {
                   ],
                 },
               }
-            : {},
+            : [],
         ],
       },
     ],
-    styles: pdfConf.styles,
-  });
+    styles,
+  };
 
-  pdf.fonts = pdfConf.myFonts;
+  const pdf: pdfMake.TCreatedPdf = pdfMake.createPdf(
+    documentDefinition,
+    undefined,
+    myFonts
+  );
 
   return <Downloader pdf={pdf} />;
 };

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Row, Col, Accordion } from "react-bootstrap";
 
-const PageFaqs = () => {
+const PageFaqs = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Frecuently asked questions";
   }, []);

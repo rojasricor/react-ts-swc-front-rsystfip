@@ -4,7 +4,7 @@ import FormLogin from "../components/FormLogin";
 import { Col, Row, Card, Container } from "react-bootstrap";
 import Notify from "../components/Notify";
 
-const PageAuth = () => {
+const PageAuth = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Authenticate";
   }, []);

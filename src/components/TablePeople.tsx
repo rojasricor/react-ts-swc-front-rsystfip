@@ -1,9 +1,9 @@
 import { Table } from "react-bootstrap";
 import PersonRow from "./PersonRow";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks";
 
-const TablePeople = () => {
-  const peopleState = useSelector(({ people }) => people.people);
+const TablePeople = (): React.JSX.Element => {
+  const peopleState = useAppSelector(({ people }) => people.people);
 
   return (
     <Table responsive hover striped size="sm" className="text-center">

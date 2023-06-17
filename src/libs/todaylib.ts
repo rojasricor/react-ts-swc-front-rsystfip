@@ -1,7 +1,7 @@
 export const getStartMonthDate: Function = (d: Date = new Date()): string =>
   formatTodaysDate(new Date(d.getFullYear(), d.getMonth(), 1));
 
-export const getEndMonthDate: Function = (d = new Date()): string =>
+export const getEndMonthDate: Function = (d: Date = new Date()): string =>
   formatTodaysDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
 
 export const formatTodaysDate = (d: Date = new Date()): string => {
@@ -24,5 +24,5 @@ export const getTime: Function = (d: Date = new Date()): string => {
   return `${h}:${m}:${s}`;
 };
 
-export const formatTodaysDateTime: Function = (date: Date): string =>
-  formatTodaysDate(date) + " " + getTime(date);
+export const formatTodaysDateTime: Function = (d: Date): string =>
+  formatTodaysDate(d) + " " + getTime(d);

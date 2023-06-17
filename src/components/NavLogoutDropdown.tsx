@@ -1,6 +1,5 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, NavigateFunction, useNavigate } from "react-router-dom";
 import { Dropdown, Image, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { BiLogOutCircle } from "react-icons/bi";
 import { resetUserAuthenticated } from "../features/auth/authSlice";
 import { resetQueryDataReports } from "../features/reports/reportsSlice";
@@ -8,15 +7,21 @@ import { resetQueryDataStatistics } from "../features/statistics/statisticsSlice
 import { resetFormDataAdmin } from "../features/admin/adminSlice";
 import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
 import { AUTH_KEY } from "../constants";
+import { srcUser } from "../App";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const NavLogoutDropdown = ({ avatar }) => {
-  const authState = useSelector(({ auth }) => auth);
+interface Props {
+  avatar: srcUser["avatar"];
+}
 
-  const dispatch = useDispatch();
+const NavLogoutDropdown = ({ avatar }: Props): React.JSX.Element => {
+  const authState = useAppSelector(({ auth }) => auth);
 
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const logout = () => {
+  const navigate: NavigateFunction = useNavigate();
+
+  const logout = (): void => {
     if (
       !confirm(
         `${authState.user.name} estás seguro(a)que deseas cerrar sesión?`

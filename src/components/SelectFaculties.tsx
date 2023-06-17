@@ -3,29 +3,39 @@ import { RESOURCE_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { setFaculties } from "../features/resources/resourcesSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const SelectFaculties = ({ action, handleChange, facultieSelectRef }) => {
-  const isEdit = action === "edit";
-  const isSchedule = action === "schedule";
-  const isAdd = action === "add";
+interface Props {
+  action: string;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  facultieSelectRef: React.RefObject<HTMLSelectElement>;
+}
 
-  const formDataState = useSelector(({ programming: { formData } }) => {
+const SelectFaculties = ({
+  action,
+  handleChange,
+  facultieSelectRef,
+}: Props): React.JSX.Element => {
+  const isEdit: boolean = action === "edit";
+  const isSchedule: boolean = action === "schedule";
+  const isAdd: boolean = action === "add";
+
+  const formDataState = useAppSelector(({ programming: { formData } }) => {
     if (isEdit) return formData.edit;
     if (isAdd) return formData.add;
     if (isSchedule) return formData.schedule;
   });
-  const facultiesState = useSelector(({ resources }) => resources.faculties);
+  const facultiesState = useAppSelector(({ resources }) => resources.faculties);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const getFaculties = async () => {
+  const getFaculties = async (): Promise<void> => {
     try {
       const { data } = await axios(`${RESOURCE_ROUTE}?resource=faculties`);
 
       dispatch(setFaculties(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
@@ -39,10 +49,10 @@ const SelectFaculties = ({ action, handleChange, facultieSelectRef }) => {
       <FormSelect
         name="facultie"
         onChange={handleChange}
-        value={formDataState.facultie}
+        value={formDataState?.facultie}
         ref={facultieSelectRef}
         disabled={
-          formDataState.disabledAll || formDataState.disabledAfterAutocomplete
+          formDataState?.disabledAll || formDataState?.disabledAfterAutocomplete
         }
         required
       >

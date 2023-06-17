@@ -4,18 +4,18 @@ import TableReports from "./TableReports";
 import { API_ROUTE, UNSET_STATUS } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { setReports, setReportsOrigen } from "../features/reports/reportsSlice";
 
-const ActionerReports = () => {
-  const dispatch = useDispatch();
+const ActionerReports = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const reportsOrigenState = useSelector(
+  const reportsOrigenState = useAppSelector(
     ({ reports }) => reports.reportsOrigen
   );
-  const queryDataState = useSelector(({ reports }) => reports.queryData);
+  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
 
-  const getReports = async () => {
+  const getReports = async (): Promise<void> => {
     try {
       const { data } = await axios(
         `${API_ROUTE}/reports?start=${queryDataState.startDate}&end=${queryDataState.endDate}&category=${queryDataState.category}`
@@ -23,12 +23,12 @@ const ActionerReports = () => {
 
       filterReports(data);
       dispatch(setReportsOrigen(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
 
-  const filterReports = (dataToFilter = reportsOrigenState) => {
+  const filterReports = (dataToFilter = reportsOrigenState): void => {
     dispatch(
       setReports(
         queryDataState.category !== UNSET_STATUS

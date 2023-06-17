@@ -5,11 +5,18 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { API_ROUTE } from "../constants";
 import { BiTrash, BiKey } from "react-icons/bi";
+import { IUser } from "../interfaces/IUserBase";
 
-const UserRow = ({ user: { id, email } }) => {
+interface Props {
+  user: IUser;
+}
+
+const UserRow = ({
+  user: { id, email },
+}: Props): React.JSX.Element | undefined => {
   const [deleted, setDeleted] = useState(false);
 
-  const deleteUser = async (role) => {
+  const handleClick = async (role: IUser["id"]) => {
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {
@@ -24,12 +31,12 @@ const UserRow = ({ user: { id, email } }) => {
       toast.success("Usuario eliminado exitosamente", {
         position: "top-left",
       });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
 
-  if (deleted) return null;
+  if (deleted) return;
 
   return (
     <tr>
@@ -47,7 +54,7 @@ const UserRow = ({ user: { id, email } }) => {
         </Link>
 
         <Button
-          onClick={() => deleteUser(id)}
+          onClick={() => handleClick(id)}
           variant="danger"
           className={"m-1".concat(id !== 3 ? "" : " disabled")}
           title={`Delete user ${email} (Requires confirmation)`}

@@ -4,19 +4,27 @@ import { Form, Spinner, ModalFooter, Button, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaTimes, FaCheck } from "react-icons/fa";
-import { useSelector } from "react-redux";
 import { setIsLoading } from "../features/programming/programmingSlice";
 import Notify from "./Notify";
+import { useAppSelector } from "../hooks";
+import { handleSubmit } from "../types/handleSubmit";
+import { handleChangeQD } from "../types/handleChange";
 
-const FormCancellPerson = ({ closeModalCancell }) => {
-  const [cancelled_asunt, setCancelled_asunt] = useState("");
+interface Props {
+  closeModalCancell: () => void;
+}
 
-  const isLoadingStatus = useSelector(
+const FormCancellPerson = ({ closeModalCancell }: Props): React.JSX.Element => {
+  const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
+
+  const isLoadingStatus = useAppSelector(
     ({ programming }) => programming.isLoading
   );
-  const formDataState = useSelector(({ programming }) => programming.formData);
+  const formDataState = useAppSelector(
+    ({ programming }) => programming.formData.schedule
+  );
 
-  const cancellPerson = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -29,22 +37,26 @@ const FormCancellPerson = ({ closeModalCancell }) => {
         cancelled_asunt,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       toast.success(ok, { position: "top-left" });
       setCancelled_asunt("");
       closeModalCancell();
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleChange = (e) => setCancelled_asunt(e.target.value);
+  const handleChange = (e: handleChangeQD) =>
+    setCancelled_asunt(e.target.value);
 
   return (
-    <Form onSubmit={cancellPerson}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-3 my-2">
         <Col md={12}>
           <Form.FloatingLabel label="Asunto cancelamiento:">
@@ -52,8 +64,8 @@ const FormCancellPerson = ({ closeModalCancell }) => {
               as="textarea"
               onChange={handleChange}
               placeholder="Complete campo"
-              minLength="5"
-              maxLength="100"
+              minLength={5}
+              maxLength={100}
               spellCheck="false"
               autoComplete="off"
               value={cancelled_asunt}

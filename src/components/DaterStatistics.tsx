@@ -1,20 +1,24 @@
 import { Col, FloatingLabel, FormControl, FormSelect } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { setQueryData } from "../features/statistics/statisticsSlice";
+import { PropsStatistics } from "./Statistics";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { handleChangeQD } from "../types/handleChange";
 
-const DaterStatistics = ({ schedulingType }) => {
-  const dispatch = useDispatch();
+const DaterStatistics = ({
+  scheduling_type,
+}: PropsStatistics): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const queryDataState = useSelector(({ statistics }) =>
-    schedulingType === "daily"
+  const queryDataState = useAppSelector(({ statistics }) =>
+    scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData
   );
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     dispatch(
       setQueryData([
-        schedulingType,
+        scheduling_type,
         {
           ...queryDataState,
           [e.target.name]: e.target.value,

@@ -14,28 +14,40 @@ import {
   PolarAreaController,
   RadialLinearScale,
   Tooltip,
+  ChartTypeRegistry,
 } from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ChartDataset } from "chart.js";
+import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import DaterStatistics from "./DaterStatistics";
 import Ctx from "./Ctx";
 import ListerStatistics from "./ListerStatistics";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   setMostAgendatedOnRange,
   setMostAgendatedAllTime,
 } from "../features/statistics/statisticsSlice";
 
-const Statistics = ({ scheduling_type }) => {
-  const [chartJS, setChartJS] = useState(null);
+export interface PropsStatistics {
+  scheduling_type: string;
+}
 
-  const ctxRef = useRef(null);
+const Statistics = ({
+  scheduling_type,
+}: PropsStatistics): React.JSX.Element => {
+  const [chartJS, setChartJS] = useState<ChartJS<
+    keyof ChartTypeRegistry,
+    string[],
+    string
+  > | null>(null);
 
-  const dispatch = useDispatch();
+  const ctxRef = useRef<HTMLCanvasElement>(null);
 
-  const queryDataState = useSelector(({ statistics }) =>
+  const dispatch = useAppDispatch();
+
+  const queryDataState = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData
@@ -57,109 +69,124 @@ const Statistics = ({ scheduling_type }) => {
     Tooltip
   );
 
-  const refreshChart = (labels, data) => {
+  const refreshChart: (labels: string[], data: string[]) => void = (
+    labels: string[],
+    data: string[]
+  ): void => {
     if (chartJS) chartJS.destroy();
 
-    const label = `Agendamiento ${
+    const label: string = `Agendamiento ${
       scheduling_type === "daily" ? "diario" : "programado"
     } - Cantidad persona(s)`;
 
-    const newChart = new ChartJS(ctxRef.current, {
-      type: queryDataState.chartType,
-      data: {
-        labels,
-        datasets: [
-          {
-            label,
-            data,
-            backgroundColor: [
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(201, 203, 207, 0.2)",
-            ],
-            borderColor: [
-              "rgb(54, 162, 235)",
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(153, 102, 255)",
-              "rgb(201, 203, 207)",
-            ],
-            borderWidth: 1,
-            hoverOffset: 4,
-            tension: 0.1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animations: {
-          tension: {
-            duration: 1000,
-            easing: "linear",
-            from: 1,
-            to: 0,
-            loop: true,
-          },
-        },
-        scales: { x: { beginAtZero: true }, y: { beginAtZero: true } },
-        plugins: {
-          datalabels: {
-            formatter: (value, { dataset: { data } }) => {
-              const percent = Math.round(
-                (value / data.reduce((a, b) => Number(a) + Number(b))) * 100
-              );
-              return (isNaN(percent) ? 0 : percent) + "%";
+    const newChart: typeof chartJS = new ChartJS(
+      ctxRef.current as HTMLCanvasElement,
+      {
+        type: queryDataState.chartType as keyof ChartTypeRegistry,
+        data: {
+          labels,
+          datasets: [
+            {
+              label,
+              data,
+              backgroundColor: [
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 205, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(201, 203, 207, 0.2)",
+              ],
+              borderColor: [
+                "rgb(54, 162, 235)",
+                "rgb(255, 99, 132)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(153, 102, 255)",
+                "rgb(201, 203, 207)",
+              ],
+              borderWidth: 1,
+              hoverOffset: 4,
+              tension: 0.1,
             },
-            labels: { title: { font: { size: 20 } } },
-            align: "end",
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animations: {
+            tension: {
+              duration: 1000,
+              easing: "linear",
+              from: 1,
+              to: 0,
+              loop: true,
+            },
+          },
+          scales: { x: { beginAtZero: true }, y: { beginAtZero: true } },
+          plugins: {
+            datalabels: {
+              formatter: (value: number, ctx: Context): string => {
+                const dataset: ChartDataset = ctx.dataset;
+                const data: typeof dataset.data = dataset.data;
+                const sum: any = data.reduce(
+                  (a, b): number => Number(a) + Number(b)
+                );
+                const percent: number = Math.round((value / sum) * 100);
+
+                return (isNaN(percent) ? 0 : percent) + "%";
+              },
+              labels: { title: { font: { size: 20 } } },
+              align: "end",
+            },
           },
         },
-      },
-    });
+      }
+    );
 
     setChartJS(newChart);
   };
 
-  const getStatistics = async () => {
+  const getStatistics = async (): Promise<void> => {
     try {
       const { data } = await axios(
         `${API_ROUTE}/statistics/${scheduling_type}?start=${queryDataState.start}&end=${queryDataState.end}`
       );
-      const labels = data.map(({ category }) => category);
-      const dataset = data.map(({ scheduling_count }) => scheduling_count);
+
+      const labels: string[] = data.map(
+        ({ category }: { category: string }) => category
+      );
+      const dataset: string[] = data.map(
+        ({ scheduling_count }: { scheduling_count: string }) => scheduling_count
+      );
       refreshChart(labels, dataset);
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
 
-  const getMostAgendatedOnRange = async () => {
+  const getMostAgendatedOnRange = async (): Promise<void> => {
     try {
       const { data } = await axios(
         `${API_ROUTE}/statistics/${scheduling_type}/onrange?start=${queryDataState.start}&end=${queryDataState.end}`
       );
 
       dispatch(setMostAgendatedOnRange([scheduling_type, data]));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
 
-  const getMostAgendatedAllTime = async () => {
+  const getMostAgendatedAllTime = async (): Promise<void> => {
     try {
       const { data } = await axios(
         `${API_ROUTE}/statistics/${scheduling_type}/alltime`
       );
 
       dispatch(setMostAgendatedAllTime([scheduling_type, data]));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
@@ -180,7 +207,7 @@ const Statistics = ({ scheduling_type }) => {
         </h1>
       </Col>
 
-      <DaterStatistics schedulingType={scheduling_type} />
+      <DaterStatistics scheduling_type={scheduling_type} />
 
       <Col md={12} className="my-5">
         <Ctx ctxRef={ctxRef} />

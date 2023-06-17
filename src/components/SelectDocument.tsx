@@ -3,29 +3,34 @@ import { RESOURCE_ROUTE } from "../constants";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
 import { setDocuments } from "../features/resources/resourcesSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const SelectDocument = ({ action, handleChange }) => {
-  const isEdit = action === "edit";
-  const isSchedule = action === "schedule";
-  const isAdd = action === "add";
+interface Props {
+  action: string;
+  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
 
-  const documentsState = useSelector(({ resources }) => resources.documents);
-  const formDataState = useSelector(({ programming: { formData } }) => {
+const SelectDocument = ({ action, handleChange }: Props): React.JSX.Element => {
+  const isEdit: boolean = action === "edit";
+  const isSchedule: boolean = action === "schedule";
+  const isAdd: boolean = action === "add";
+
+  const documentsState = useAppSelector(({ resources }) => resources.documents);
+  const formDataState = useAppSelector(({ programming: { formData } }) => {
     if (isEdit) return formData.edit;
     if (isAdd) return formData.add;
     if (isSchedule) return formData.schedule;
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const getDocuments = async () => {
+  const getDocuments = async (): Promise<void> => {
     try {
       const { data } = await axios(`${RESOURCE_ROUTE}?resource=documents`);
 
       dispatch(setDocuments(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
@@ -39,9 +44,9 @@ const SelectDocument = ({ action, handleChange }) => {
       <FormSelect
         name="doctype"
         onChange={handleChange}
-        value={formDataState.doctype}
+        value={formDataState?.doctype}
         disabled={
-          formDataState.disabledAll || formDataState.disabledAfterAutocomplete
+          formDataState?.disabledAll || formDataState?.disabledAfterAutocomplete
         }
         required
       >

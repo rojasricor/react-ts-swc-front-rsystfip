@@ -5,22 +5,24 @@ import { API_ROUTE, RESOURCE_ROUTE } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { FaUserPlus } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import {
   resetFormDataAdmin,
   setFormData,
   setIsLoading,
 } from "../features/admin/adminSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { handleChangeQD } from "../types/handleChange";
+import { handleSubmit } from "../types/handleSubmit";
 
-const FormUserAdd = () => {
-  const isLoadingState = useSelector(({ admin }) => admin.isLoading);
-  const formDataState = useSelector(({ admin }) => admin.formData);
-  const documentsState = useSelector(({ resources }) => resources.documents);
+const FormUserAdd = (): React.JSX.Element => {
+  const isLoadingState = useAppSelector(({ admin }) => admin.isLoading);
+  const formDataState = useAppSelector(({ admin }) => admin.formData);
+  const documentsState = useAppSelector(({ resources }) => resources.documents);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     dispatch(
       setFormData({
         ...formDataState,
@@ -29,7 +31,7 @@ const FormUserAdd = () => {
     );
   };
 
-  const doCreateUser = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     dispatch(setIsLoading(true));
 
@@ -48,23 +50,26 @@ const FormUserAdd = () => {
         passwordConfirmation: formDataState.passwordConfirmation,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       dispatch(resetFormDataAdmin());
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       dispatch(setIsLoading(false));
     }
   };
 
-  const getDocuments = async () => {
+  const getDocuments = async (): Promise<void> => {
     try {
       const { data } = await axios(`${RESOURCE_ROUTE}?resource=documents`);
 
       dispatch(setDocuments(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
@@ -74,7 +79,7 @@ const FormUserAdd = () => {
   }, []);
 
   return (
-    <Form onSubmit={doCreateUser}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Col md={4}>
           <Form.FloatingLabel label="Rol usuario:">
@@ -99,7 +104,7 @@ const FormUserAdd = () => {
               value={formDataState.name}
               type="text"
               placeholder="Name"
-              maxLength="25"
+              maxLength={25}
               spellCheck="false"
               autoComplete="off"
               required
@@ -115,7 +120,7 @@ const FormUserAdd = () => {
               value={formDataState.lastname}
               type="text"
               placeholder="Lastname"
-              maxLength="25"
+              maxLength={25}
               spellCheck="false"
               autoComplete="off"
               required

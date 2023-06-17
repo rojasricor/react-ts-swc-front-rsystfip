@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 import { FiEdit3 } from "react-icons/fi";
+import { People } from "../features/people/peopleSlice";
+
+interface Props {
+  person: People;
+}
 
 const PersonRow = ({
   person: {
@@ -12,7 +17,7 @@ const PersonRow = ({
     facultie,
     come_asunt,
   },
-}) => (
+}: Props): React.JSX.Element => (
   <tr>
     <td>{id}</td>
     <td>{name}</td>

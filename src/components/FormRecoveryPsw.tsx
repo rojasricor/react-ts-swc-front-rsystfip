@@ -5,14 +5,17 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiMailSend } from "react-icons/bi";
+import { handleSubmit } from "../types/handleSubmit";
+import { handleChangeQD } from "../types/handleChange";
 
-const FormRecoveryPsw = () => {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
+const FormRecoveryPsw = (): React.JSX.Element => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
 
-  const recoverPassword = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const {
         data: { error, ok },
@@ -21,20 +24,23 @@ const FormRecoveryPsw = () => {
         APP_ROUTE: window.location.href,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       toast.success(ok);
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => setEmail(e.target.value);
+  const handleChange = (e: handleChangeQD) => setEmail(e.target.value);
 
   return (
-    <Form onSubmit={recoverPassword}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-3">
         <Col md={12}>
           <Form.FloatingLabel label="Email de registro">

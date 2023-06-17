@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import TableCancelled from "../components/TableCancelled";
 import Notify from "../components/Notify";
 
-const PageCancelledPeople = () => {
+const PageCancelledPeople = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Cancelled people";
   });

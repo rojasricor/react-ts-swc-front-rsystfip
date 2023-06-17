@@ -3,7 +3,7 @@ import { Row, Col, Card } from "react-bootstrap";
 import FormUserAdd from "../components/FormUserAdd";
 import Notify from "../components/Notify";
 
-const PageRegisterUsers = () => {
+const PageRegisterUsers = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Register user";
   }, []);

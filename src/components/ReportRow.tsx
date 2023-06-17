@@ -1,6 +1,12 @@
+import { Reports } from "../features/reports/reportsSlice";
+
+interface Props {
+  report: Reports;
+}
+
 const ReportRow = ({
   report: { name, date, time, scheduling_count, daily_count, category },
-}) => (
+}: Props): React.JSX.Element => (
   <tr>
     <td>{name}</td>
     <td>{date}</td>

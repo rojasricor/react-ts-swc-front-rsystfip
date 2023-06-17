@@ -1,8 +1,10 @@
 import { Navbar, Container, Image } from "react-bootstrap";
-
 import NavMenu from "./NavMenu";
+import { srcUser } from "../App";
 
-const NavBar = ({ avatar, permissions }) => (
+interface Props extends srcUser {}
+
+const NavBar = ({ avatar, permissions }: Props): React.JSX.Element => (
   <Navbar expand="lg" bg="light" fixed="top">
     <Container fluid>
       <Navbar.Brand className="px-lg-3">

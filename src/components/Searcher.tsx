@@ -10,24 +10,25 @@ import {
   setPeopleOrigen,
   setIsLoading,
 } from "../features/people/peopleSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 import { ImUserPlus } from "react-icons/im";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { handleChangeQD } from "../types/handleChange";
 
-const Searcher = () => {
-  const dispatch = useDispatch();
+const Searcher = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const peopleOrigenState = useSelector(({ people }) => people.peopleOrigen);
-  const isLoadingState = useSelector(({ people }) => people.isLoading);
+  const peopleOrigenState = useAppSelector(({ people }) => people.peopleOrigen);
+  const isLoadingState = useAppSelector(({ people }) => people.isLoading);
 
-  const getPeople = async () => {
+  const getPeople = async (): Promise<void> => {
     try {
       const { data } = await axios(`${API_ROUTE}/people`);
 
       dispatch(setPeople(data));
       dispatch(setPeopleOrigen(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       dispatch(setIsLoading(2));
       toast.error(message);
     } finally {
@@ -39,8 +40,8 @@ const Searcher = () => {
     getPeople();
   }, []);
 
-  const filterPeople = (e) => {
-    const query = e.target.value.toLowerCase();
+  const handleChange = (e: handleChangeQD) => {
+    const query: string = e.target.value.toLowerCase();
 
     dispatch(
       setPeople(
@@ -57,7 +58,7 @@ const Searcher = () => {
     <>
       <ButtonGroup className="position-fixed bottom-px">
         <FormControl
-          onChange={filterPeople}
+          onChange={handleChange}
           type="search"
           size="sm"
           placeholder="Buscar"

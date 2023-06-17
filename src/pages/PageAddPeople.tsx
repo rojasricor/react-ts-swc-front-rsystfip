@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import FormSchedulePeople from "../components/FormSchedulePeople";
 
-const PageAddPeople = () => {
+const PageAddPeople = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Daily Scheduling";
   }, []);

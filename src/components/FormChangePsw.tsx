@@ -5,18 +5,31 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
+import { handleSubmit } from "../types/handleSubmit";
+import { handleChangeQD } from "../types/handleChange";
+import { IUser } from "../interfaces/IUserBase";
 
-const FormChangePsw = ({ userId }) => {
-  const formDataInitialState = {
+interface Props {
+  userId: IUser["id"];
+}
+
+interface FormState {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+const FormChangePsw = ({ userId }: Props): React.JSX.Element => {
+  const formDataInitialState: FormState = {
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   };
 
-  const [formData, setFormData] = useState(formDataInitialState);
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<FormState>(formDataInitialState);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const doChangePassword = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -30,18 +43,21 @@ const FormChangePsw = ({ userId }) => {
         new_password_confirm: formData.confirmPassword,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       setFormData(formDataInitialState);
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -49,7 +65,7 @@ const FormChangePsw = ({ userId }) => {
   };
 
   return (
-    <Form onSubmit={doChangePassword}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-3">
         <Col md={12}>
           <Form.FloatingLabel label="Contraseña anterior:">

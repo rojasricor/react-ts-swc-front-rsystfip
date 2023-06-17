@@ -5,7 +5,7 @@ import TableUsers from "../components/TableUsers";
 import Notify from "../components/Notify";
 import { FaUserPlus } from "react-icons/fa";
 
-const PageManageUsers = () => {
+const PageManageUsers = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Manage users";
   }, []);

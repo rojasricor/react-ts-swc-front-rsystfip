@@ -4,22 +4,22 @@ import CancelledRow from "./CancelledRow";
 import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
 import { setCancelledPeople } from "../features/cancelledPeople/cancelledPeopleSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const TableCancelled = () => {
-  const dispatch = useDispatch();
+const TableCancelled = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const cancelledPeopleState = useSelector(
+  const cancelledPeopleState = useAppSelector(
     ({ cancelledPeople }) => cancelledPeople
   );
 
-  const getCancelled = async () => {
+  const getCancelled = async (): Promise<void> => {
     try {
       const { data } = await axios(`${API_ROUTE}/cancelled`);
 
       dispatch(setCancelledPeople(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };

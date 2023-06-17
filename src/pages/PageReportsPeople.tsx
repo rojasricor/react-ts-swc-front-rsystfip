@@ -3,7 +3,7 @@ import ActionerReports from "../components/ActionerReports";
 import { Col, Row } from "react-bootstrap";
 import Notify from "../components/Notify";
 
-const PageReportsPeople = () => {
+const PageReportsPeople = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Generate reports";
   }, []);

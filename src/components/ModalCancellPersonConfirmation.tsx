@@ -1,10 +1,15 @@
 import { Modal } from "react-bootstrap";
 import FormCancellPerson from "./FormCancellPerson";
 
+interface Props {
+  stateModalCancell: boolean;
+  closeModalCancell: () => void;
+}
+
 const ModalCancellPersonConfirmation = ({
   stateModalCancell,
   closeModalCancell,
-}) => (
+}: Props): React.JSX.Element => (
   <Modal
     show={stateModalCancell}
     onHide={closeModalCancell}

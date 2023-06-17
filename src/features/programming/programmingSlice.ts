@@ -2,22 +2,22 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { formatTodaysDate, formatTodaysDateTime } from "../../libs/todaylib";
 
 interface FormDataState {
-  eventId: string;
-  person: string;
-  doc: string;
-  doctype: string;
-  name: string;
-  telContact: string;
-  emailContact: string;
-  facultie: string;
-  asunt: string;
-  color: string;
-  date: string;
-  start: string;
-  end: string;
-  status: number;
-  disabledAll: boolean;
-  disabledAfterAutocomplete: boolean;
+  eventId?: string;
+  person?: string;
+  doc?: string;
+  doctype?: string;
+  name?: string;
+  telContact?: string;
+  emailContact?: string;
+  facultie?: string;
+  asunt?: string;
+  color?: string;
+  date?: string;
+  start?: string;
+  end?: string;
+  status?: string;
+  disabledAll?: boolean;
+  disabledAfterAutocomplete?: boolean;
 }
 
 interface FormData {
@@ -26,7 +26,7 @@ interface FormData {
   schedule: FormDataState;
 }
 
-const formDataInitialState = {
+const formDataInitialState: FormDataState = {
   eventId: "",
   person: "",
   doc: "",
@@ -40,7 +40,7 @@ const formDataInitialState = {
   date: formatTodaysDate(),
   start: formatTodaysDateTime(),
   end: formatTodaysDateTime(),
-  status: 2,
+  status: "daily",
   disabledAll: true,
   disabledAfterAutocomplete: false,
 };
@@ -48,7 +48,7 @@ const formDataInitialState = {
 interface Deans {
   _id: string;
   dean: string;
-  facultie_id: number;
+  facultie_id: string;
 }
 
 interface ProgrammingState {
@@ -73,7 +73,7 @@ const programmingSlice = createSlice({
   reducers: {
     setFormData: (
       state,
-      { payload }: PayloadAction<[string, FormDataState]>
+      { payload }: PayloadAction<[string, FormDataState?]>
     ) => {
       const [action, formData] = payload;
 

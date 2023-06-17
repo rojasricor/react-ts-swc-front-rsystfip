@@ -5,19 +5,19 @@ import UserRow from "./UserRow";
 import axios from "axios";
 import { setUsers } from "../features/admin/adminSlice";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const TableUsers = () => {
-  const dispatch = useDispatch();
+const TableUsers = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const adminState = useSelector(({ admin }) => admin.users);
+  const adminState = useAppSelector(({ admin }) => admin.users);
 
-  const getUsers = async () => {
+  const getUsers = async (): Promise<void> => {
     try {
       const { data } = await axios(`${API_ROUTE}/users`);
 
       dispatch(setUsers(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };

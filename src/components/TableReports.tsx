@@ -1,10 +1,10 @@
 import { Table } from "react-bootstrap";
 import ReportRow from "./ReportRow";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks";
 
-const TableReports = () => {
-  const reportsState = useSelector(({ reports }) => reports.reports);
-  const queryDataState = useSelector(({ reports }) => reports.queryData);
+const TableReports = (): React.JSX.Element => {
+  const reportsState = useAppSelector(({ reports }) => reports.reports);
+  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
 
   return (
     <Table hover striped size="sm" borderless className="text-center">

@@ -4,33 +4,40 @@ import { API_ROUTE, AUTH_KEY } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { setAuthenticatedUser } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { IoMdLogIn } from "react-icons/io";
+import { handleChangeQD } from "../types/handleChange";
+import { handleSubmit } from "../types/handleSubmit";
+import { useAppDispatch } from "../hooks";
 
-const FormLogin = () => {
-  const formDataInitialState = {
+const FormLogin = (): React.JSX.Element => {
+  interface FormData {
+    user: string;
+    password: string;
+  }
+
+  const formDataInitialState: FormData = {
     user: "",
     password: "",
   };
 
-  const [formData, setFormData] = useState(formDataInitialState);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<FormData>(formDataInitialState);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const doLogin = async (e) => {
+  const handleSubmit = async (e: handleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -40,14 +47,17 @@ const FormLogin = () => {
         password: formData.password,
       });
 
-      if (data.error || !data.auth) return toast.warn(data.error);
+      if (data.error || !data.auth) {
+        toast.warn(data.error);
+        return;
+      }
 
       window.sessionStorage.setItem(AUTH_KEY, JSON.stringify(data));
 
       dispatch(setAuthenticatedUser(data));
 
       navigate("/home/welcome");
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       setLoading(false);
@@ -55,7 +65,7 @@ const FormLogin = () => {
   };
 
   return (
-    <Form onSubmit={doLogin}>
+    <Form onSubmit={handleSubmit}>
       <Row className="g-3">
         <Col md={12}>
           <Form.FloatingLabel label="Nombre de usuario">

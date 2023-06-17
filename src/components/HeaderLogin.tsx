@@ -1,6 +1,6 @@
 import { Container, Image, Card } from "react-bootstrap";
 
-const HeaderLogin = () => (
+const HeaderLogin = (): React.JSX.Element => (
   <Container className="text-center mt-2">
     <Image src="/rsystfip.svg" width="72" height="57" alt="rsystfip" />
     <h1 className="h6 mt-3">RSYSTFIP</h1>

@@ -5,16 +5,32 @@ import FormChangePsw from "./FormChangePsw";
 import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { IUser } from "../interfaces/IUserBase";
 
-const FetcherDataForChangePsw = () => {
-  const { role } = useParams();
-  const [user, setUser] = useState([]);
+type Params = {
+  role: string;
+};
 
-  const getDatauser = async () => {
+interface UserData extends IUser {
+  password: string;
+}
+
+const FetcherDataForChangePsw = (): React.JSX.Element => {
+  const initialState: UserData = {
+    id: 0,
+    email: "",
+    password: "",
+  };
+
+  const { role } = useParams<Params>();
+  const [user, setUser] = useState<UserData>(initialState);
+
+  const getDatauser = async (): Promise<void> => {
     try {
       const { data } = await axios(`${API_ROUTE}/user?role=${role}`);
+
       setUser(data);
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };

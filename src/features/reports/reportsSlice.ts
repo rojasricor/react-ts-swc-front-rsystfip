@@ -3,7 +3,7 @@ import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
 import { UNSET_STATUS } from "../../constants";
 import { ICounts } from "../../interfaces/ICounts";
 
-interface Reports {
+export interface Reports {
   name: string;
   date: string;
   time: string;
@@ -47,7 +47,10 @@ const reportsSlice = createSlice({
   name: "reports",
   initialState,
   reducers: {
-    setPngBase64: (state, { payload }: PayloadAction<string>) => {
+    setPngBase64: (
+      state,
+      { payload }: PayloadAction<ReportsState["pngBase64"]>
+    ) => {
       return {
         ...state,
         pngBase64: payload,

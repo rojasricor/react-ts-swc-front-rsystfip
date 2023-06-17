@@ -6,7 +6,11 @@ import ProtectedElement from "../components/ProtectedElement";
 import { FaUserPlus } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 
-const PageHome = ({ permissions }) => {
+interface Props {
+  permissions: string[];
+}
+
+const PageHome = ({ permissions }: Props): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Home";
   }, []);

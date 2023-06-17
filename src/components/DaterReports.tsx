@@ -10,17 +10,20 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCategories } from "../features/resources/resourcesSlice";
 import { setQueryData } from "../features/reports/reportsSlice";
+import { handleChangeQD } from "../types/handleChange";
 
-const DaterReports = () => {
-  const dispatch = useDispatch();
+const DaterReports = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const categoriesState = useSelector(({ resources }) => resources.categories);
-  const queryDataState = useSelector(({ reports }) => reports.queryData);
+  const categoriesState = useAppSelector(
+    ({ resources }) => resources.categories
+  );
+  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     dispatch(
       setQueryData({
         ...queryDataState,
@@ -29,12 +32,12 @@ const DaterReports = () => {
     );
   };
 
-  const getCategories = async () => {
+  const getCategories = async (): Promise<void> => {
     try {
       const { data } = await axios(`${RESOURCE_ROUTE}?resource=categories`);
 
       dispatch(setCategories(data));
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };

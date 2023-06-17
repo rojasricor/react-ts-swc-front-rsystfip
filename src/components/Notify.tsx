@@ -1,6 +1,6 @@
 import { ToastContainer, Flip } from "react-toastify";
 
-const Notify = () => (
+const Notify = (): React.JSX.Element => (
   <ToastContainer
     position="top-right"
     autoClose={2000}

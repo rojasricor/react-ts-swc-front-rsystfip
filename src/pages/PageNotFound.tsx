@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import Error404Actioner from "../components/Error404Actioner";
 
-const PageNotFound = () => {
+const PageNotFound = (): React.JSX.Element => {
   useEffect(() => {
     document.title = "RSystfip | Not found";
   }, []);

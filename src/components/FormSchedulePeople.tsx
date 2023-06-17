@@ -11,36 +11,50 @@ import SmallCaption from "./SmallCaption";
 import FooterFormPeople from "./FooterFormPeople";
 import { IoCalendarNumber } from "react-icons/io5";
 import { GiReturnArrow } from "react-icons/gi";
-import { useDispatch, useSelector } from "react-redux";
 import {
   setFormData,
   setIsLoading,
 } from "../features/programming/programmingSlice";
 import ProtectedElement from "./ProtectedElement";
 import Notify from "./Notify";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { handleChangeQD } from "../types/handleChange";
+import { handleSubmit } from "../types/handleSubmit";
 
-const FormSchedulePeople = ({ action, closeModalScheduling }) => {
-  const { id } = useParams();
+interface Props {
+  action: string;
+  closeModalScheduling?: () => void | undefined;
+}
 
-  const isEdit = action === "edit";
-  const isSchedule = action === "schedule";
-  const isAdd = action === "add";
+type Params = {
+  id: string;
+};
 
-  const facultieSelectRef = useRef(null);
+const FormSchedulePeople = ({
+  action,
+  closeModalScheduling,
+}: Props): React.JSX.Element => {
+  const { id } = useParams<Params>();
 
-  const dispatch = useDispatch();
+  const isEdit: boolean = action === "edit";
+  const isSchedule: boolean = action === "schedule";
+  const isAdd: boolean = action === "add";
 
-  const formDataState = useSelector(({ programming: { formData } }) => {
+  const facultieSelectRef = useRef<HTMLSelectElement>(null);
+
+  const dispatch = useAppDispatch();
+
+  const formDataState = useAppSelector(({ programming: { formData } }) => {
     if (isEdit) return formData.edit;
     if (isAdd) return formData.add;
     if (isSchedule) return formData.schedule;
   });
-  const isLoadingState = useSelector(
+  const isLoadingState = useAppSelector(
     ({ programming }) => programming.isLoading
   );
-  const deansState = useSelector(({ programming }) => programming.deans);
+  const deansState = useAppSelector(({ programming }) => programming.deans);
 
-  const editPerson = async () => {
+  const editPerson = async (): Promise<void> => {
     dispatch(setIsLoading(true));
 
     try {
@@ -48,66 +62,76 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
         data: { ok, error },
       } = await axios.put(`${API_ROUTE}/person`, {
         id,
-        person: formDataState.person,
-        name: formDataState.name,
-        doctype: formDataState.doctype,
-        doc: formDataState.doc,
-        facultie: formDataState.facultie,
-        asunt: formDataState.asunt,
+        person: formDataState?.person,
+        name: formDataState?.name,
+        doctype: formDataState?.doctype,
+        doc: formDataState?.doc,
+        facultie: formDataState?.facultie,
+        asunt: formDataState?.asunt,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       dispatch(setFormData([action]));
 
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       dispatch(setIsLoading(false));
     }
   };
 
-  const schedulePerson = async (closeModalScheduling) => {
+  const schedulePerson = async (
+    closeModalScheduling: Props["closeModalScheduling"] = undefined
+  ): Promise<void> => {
     dispatch(setIsLoading(true));
 
     try {
       const {
         data: { ok, error },
       } = await axios.post(`${API_ROUTE}/person`, {
-        person: formDataState.person,
-        name: formDataState.name,
-        doctype: formDataState.doctype,
-        doc: formDataState.doc,
+        person: formDataState?.person,
+        name: formDataState?.name,
+        doctype: formDataState?.doctype,
+        doc: formDataState?.doc,
         emailContact:
-          formDataState.emailContact === "" ? null : formDataState.emailContact,
+          formDataState?.emailContact === ""
+            ? null
+            : formDataState?.emailContact,
         telContact:
-          formDataState.telContact === "" ? null : formDataState.telContact,
-        facultie: formDataState.facultie,
-        asunt: formDataState.asunt,
-        color: formDataState.color,
-        date: formDataState.date,
-        start: formDataState.start,
-        end: formDataState.end,
-        status: formDataState.status,
+          formDataState?.telContact === "" ? null : formDataState?.telContact,
+        facultie: formDataState?.facultie,
+        asunt: formDataState?.asunt,
+        color: formDataState?.color,
+        date: formDataState?.date,
+        start: formDataState?.start,
+        end: formDataState?.end,
+        status: formDataState?.status,
       });
 
-      if (error || !ok) return toast.warn(error);
+      if (error || !ok) {
+        toast.warn(error);
+        return;
+      }
 
       dispatch(setFormData([action]));
 
-      if (formDataState.status === "scheduled" && closeModalScheduling)
+      if (formDataState?.status === "scheduled" && closeModalScheduling)
         closeModalScheduling();
 
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     } finally {
       dispatch(setIsLoading(false));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: handleSubmit) => {
     e.preventDefault();
 
     if (isEdit) return editPerson();
@@ -126,7 +150,7 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
     }
   };
 
-  const getUserData = async () => {
+  const getUserData = async (): Promise<void> => {
     try {
       const {
         data: {
@@ -153,12 +177,12 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
           },
         ])
       );
-    } catch ({ message }) {
+    } catch ({ message }: any) {
       toast.error(message);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: handleChangeQD) => {
     dispatch(
       setFormData([
         action,
@@ -170,17 +194,17 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
     );
   };
 
-  const loadDeans = () => {
-    if (!deansState || formDataState.person !== "4") return;
+  const loadDeans = (): void => {
+    if (!deansState || formDataState?.person !== "4") return;
 
     for (const { _id, dean, facultie_id } of deansState) {
-      if (_id === formDataState.doc) {
+      if (_id === formDataState?.doc) {
         dispatch(
           setFormData([
             action,
             {
               ...formDataState,
-              doctype: 1,
+              doctype: "1",
               name: dean,
               facultie: facultie_id,
               disabledAfterAutocomplete: true,
@@ -188,7 +212,9 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
           ])
         );
 
-        facultieSelectRef.current.className = "form-control";
+        if (facultieSelectRef.current)
+          facultieSelectRef.current.className = "form-control";
+
         toast.info("Se han completado los datos", { position: "top-left" });
         break;
       }
@@ -197,7 +223,7 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
 
   useEffect(() => {
     loadDeans();
-  }, [formDataState.doc]);
+  }, [formDataState?.doc]);
 
   useEffect(() => {
     id && getUserData();
@@ -219,13 +245,13 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
             <Form.Control
               name="doc"
               onChange={handleChange}
-              value={formDataState.doc}
+              value={formDataState?.doc}
               type="number"
               placeholder="Complete campo"
               title="El número de documento debe ser de 8 a 10 dígitos"
               disabled={
-                formDataState.disabledAll ||
-                formDataState.disabledAfterAutocomplete
+                formDataState?.disabledAll ||
+                formDataState?.disabledAfterAutocomplete
               }
               required
             />
@@ -241,16 +267,16 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
             <Form.Control
               name="name"
               onChange={handleChange}
-              value={formDataState.name}
+              value={formDataState?.name}
               type="text"
               placeholder="Complete campo"
               title="Ingrese nombres y apellidos"
-              maxLength="35"
+              maxLength={35}
               autoComplete="off"
               spellCheck="false"
               disabled={
-                formDataState.disabledAll ||
-                formDataState.disabledAfterAutocomplete
+                formDataState?.disabledAll ||
+                formDataState?.disabledAfterAutocomplete
               }
               required
             />
@@ -263,13 +289,13 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
               <Form.Control
                 name="telContact"
                 onChange={handleChange}
-                value={formDataState.telContact}
+                value={formDataState?.telContact}
                 type="number"
                 placeholder="Complete campo"
                 title="Ingrese el teléfono de contacto, debe tener 10 dígitos"
                 disabled={
-                  formDataState.disabledAll ||
-                  formDataState.disabledAfterAutocomplete
+                  formDataState?.disabledAll ||
+                  formDataState?.disabledAfterAutocomplete
                 }
                 required
               />
@@ -283,15 +309,15 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
               <Form.Control
                 name="emailContact"
                 onChange={handleChange}
-                value={formDataState.emailContact}
+                value={formDataState?.emailContact}
                 type="email"
                 placeholder="Complete campo"
                 title="Ingrese el correo electrónico de contacto"
                 autoComplete="off"
                 spellCheck="false"
                 disabled={
-                  formDataState.disabledAll ||
-                  formDataState.disabledAfterAutocomplete
+                  formDataState?.disabledAll ||
+                  formDataState?.disabledAfterAutocomplete
                 }
                 required
               />
@@ -313,13 +339,13 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
               as="textarea"
               name="asunt"
               onChange={handleChange}
-              value={formDataState.asunt}
+              value={formDataState?.asunt}
               placeholder="Complete campo"
-              minLength="5"
-              maxLength="100"
+              minLength={5}
+              maxLength={100}
               spellCheck="false"
               autoComplete="off"
-              disabled={formDataState.disabledAll}
+              disabled={formDataState?.disabledAll}
               style={{ height: "100px" }}
               required
             />
@@ -333,7 +359,7 @@ const FormSchedulePeople = ({ action, closeModalScheduling }) => {
               onChange={handleChange}
               type="color"
               title="Choose your color"
-              value={formDataState.color}
+              value={formDataState?.color}
             />
           </Col>
         </ProtectedElement>

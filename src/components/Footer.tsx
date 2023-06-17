@@ -2,7 +2,7 @@ import { Container, Image, Nav, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaCodeBranch } from "react-icons/fa";
 
-const Footer = () => (
+const Footer = (): React.JSX.Element => (
   <Container fluid className="border-top py-3 my-4">
     <footer className="d-flex flex-wrap justify-content-between align-items-center">
       <Col md={4} className="mb-0 text-body-secondary">
