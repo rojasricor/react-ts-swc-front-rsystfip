@@ -7,8 +7,8 @@ import axios from "axios";
 import { setAuthenticatedUser } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { IoMdLogIn } from "react-icons/io";
-import { handleChangeQD } from "../types/handleChange";
-import { handleSubmit } from "../types/handleSubmit";
+import { THandleChangeI } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
 import { useAppDispatch } from "../hooks";
 
 const FormLogin = (): React.JSX.Element => {
@@ -30,14 +30,14 @@ const FormLogin = (): React.JSX.Element => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeI) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 

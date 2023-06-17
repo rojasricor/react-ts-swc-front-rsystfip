@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import PeopleBase from "../../interfaces/IPeopleBase";
+import { IPeopleBase } from "../../interfaces/IPeopleBase";
 
-export interface PeopleCancelled extends PeopleBase {
+export interface PeopleCancelled extends IPeopleBase {
   cancelled_asunt: string;
 }
 

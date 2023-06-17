@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import PeopleBase from "../../interfaces/IPeopleBase";
+import { IPeopleBase } from "../../interfaces/IPeopleBase";
 
-export interface People extends PeopleBase {
+export interface People extends IPeopleBase {
   come_asunt: string;
 }
 

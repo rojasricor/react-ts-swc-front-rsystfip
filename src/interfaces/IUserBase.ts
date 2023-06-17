@@ -1,5 +1,5 @@
-import { Base } from "./IResources";
+import { IBase } from "./IResources";
 
-export interface IUser extends Base {
+export interface IUserBase extends IBase {
   email: string;
 }

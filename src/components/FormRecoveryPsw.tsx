@@ -5,14 +5,14 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiMailSend } from "react-icons/bi";
-import { handleSubmit } from "../types/handleSubmit";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleSubmit } from "../types/THandleSubmits";
+import { THandleChangeI } from "../types/THandleChanges";
 
 const FormRecoveryPsw = (): React.JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -37,7 +37,7 @@ const FormRecoveryPsw = (): React.JSX.Element => {
     }
   };
 
-  const handleChange = (e: handleChangeQD) => setEmail(e.target.value);
+  const handleChange = (e: THandleChangeI) => setEmail(e.target.value);
 
   return (
     <Form onSubmit={handleSubmit}>

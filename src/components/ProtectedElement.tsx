@@ -1,9 +1,9 @@
-import { PropsProtected } from "../interfaces/PropsProtected";
+import { IPropsProtected } from "../interfaces/IPropsProtected";
 
 const ProtectedElement = ({
   children,
   isAllowed,
-}: PropsProtected): React.JSX.Element | undefined =>
+}: IPropsProtected): React.JSX.Element | undefined =>
   isAllowed ? children : undefined;
 
 export default ProtectedElement;

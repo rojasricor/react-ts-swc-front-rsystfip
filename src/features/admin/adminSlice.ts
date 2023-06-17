@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Base } from "../../interfaces/IResources";
+import { IBase } from "../../interfaces/IResources";
 
-interface User extends Base {
+interface User extends IBase {
   email: string;
 }
 

@@ -4,7 +4,7 @@ import { Button, Spinner, Col } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { GiReturnArrow } from "react-icons/gi";
 import { useAppSelector } from "../hooks";
-import { handleClick } from "../types/handleClick";
+import { THandleClick } from "../types/THandleClicks";
 
 interface Props {
   isAllowed: boolean;
@@ -17,7 +17,7 @@ const FooterFormPeople = ({ isAllowed }: Props) => {
 
   const navigate = useNavigate();
 
-  const handleClick = (e: handleClick) => {
+  const handleClick = (e: THandleClick) => {
     e.preventDefault();
     navigate(-1);
   };

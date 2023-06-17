@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCategories } from "../features/resources/resourcesSlice";
 import { setQueryData } from "../features/reports/reportsSlice";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleChangeITS } from "../types/THandleChanges";
 
 const DaterReports = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const DaterReports = (): React.JSX.Element => {
   );
   const queryDataState = useAppSelector(({ reports }) => reports.queryData);
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeITS) => {
     dispatch(
       setQueryData({
         ...queryDataState,

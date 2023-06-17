@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { API_ROUTE } from "../constants";
 import { BiTrash, BiKey } from "react-icons/bi";
-import { IUser } from "../interfaces/IUserBase";
+import { IUserBase } from "../interfaces/IUserBase";
 
 interface Props {
-  user: IUser;
+  user: IUserBase;
 }
 
 const UserRow = ({
@@ -16,7 +16,7 @@ const UserRow = ({
 }: Props): React.JSX.Element | undefined => {
   const [deleted, setDeleted] = useState(false);
 
-  const handleClick = async (role: IUser["id"]) => {
+  const handleClick = async (role: IUserBase["id"]) => {
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {

@@ -5,13 +5,13 @@ import FormChangePsw from "./FormChangePsw";
 import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { IUser } from "../interfaces/IUserBase";
+import { IUserBase } from "../interfaces/IUserBase";
 
 type Params = {
   role: string;
 };
 
-interface UserData extends IUser {
+interface UserData extends IUserBase {
   password: string;
 }
 

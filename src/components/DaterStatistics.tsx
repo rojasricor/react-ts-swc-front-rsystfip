@@ -2,7 +2,7 @@ import { Col, FloatingLabel, FormControl, FormSelect } from "react-bootstrap";
 import { setQueryData } from "../features/statistics/statisticsSlice";
 import { PropsStatistics } from "./Statistics";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleChangeITS } from "../types/THandleChanges";
 
 const DaterStatistics = ({
   scheduling_type,
@@ -15,7 +15,7 @@ const DaterStatistics = ({
       : statistics.scheduled.queryData
   );
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeITS) => {
     dispatch(
       setQueryData([
         scheduling_type,

@@ -6,7 +6,7 @@ import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import Notify from "./Notify";
 import FullCalendar from "@fullcalendar/react";
 import esLocale from "@fullcalendar/core/locales/es";
-import { formatTodaysDate, formatTodaysDateTime } from "../libs/todaylib";
+import { formatTodaysDate, formatTodaysDateTime } from "../libs/timeFormatter";
 import { API_ROUTE } from "../constants";
 import { toast } from "react-toastify";
 import { Container } from "react-bootstrap";

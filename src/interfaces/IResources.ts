@@ -1,15 +1,15 @@
-export interface Base {
+export interface IBase {
   id: number;
 }
 
-export interface Category extends Base {
+export interface ICategory extends IBase {
   category: string;
 }
 
-export interface Facultie extends Base {
+export interface IFacultie extends IBase {
   facultie: string;
 }
 
-export interface Document extends Base {
+export interface IDocument extends IBase {
   description: string;
 }

@@ -4,7 +4,7 @@ export const getStartMonthDate: Function = (d: Date = new Date()): string =>
 export const getEndMonthDate: Function = (d: Date = new Date()): string =>
   formatTodaysDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
 
-export const formatTodaysDate = (d: Date = new Date()): string => {
+export const formatTodaysDate: Function = (d: Date = new Date()): string => {
   const month: number = d.getMonth() + 1;
   const day: number = d.getDate();
 

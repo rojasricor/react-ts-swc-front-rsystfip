@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { PropsProtected } from "../interfaces/PropsProtected";
+import { IPropsProtected } from "../interfaces/IPropsProtected";
 
-interface Props extends PropsProtected {
+interface Props extends IPropsProtected {
   navigateTo?: string;
 }
 

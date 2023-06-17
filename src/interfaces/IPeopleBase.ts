@@ -1,6 +1,6 @@
-import { Base } from "./IResources";
+import { IBase } from "./IResources";
 
-interface PeopleBase extends Base {
+export interface IPeopleBase extends IBase {
   name: string;
   ty_doc: string;
   category: string;
@@ -9,5 +9,3 @@ interface PeopleBase extends Base {
   document_number: string;
   facultie: string;
 }
-
-export default PeopleBase;

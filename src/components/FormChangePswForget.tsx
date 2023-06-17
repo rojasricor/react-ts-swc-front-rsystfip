@@ -6,8 +6,8 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
-import { handleSubmit } from "../types/handleSubmit";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleSubmit } from "../types/THandleSubmits";
+import { THandleChangeI } from "../types/THandleChanges";
 
 interface FormData {
   password: string;
@@ -30,7 +30,7 @@ const FormChangePswForget = (): React.JSX.Element => {
 
   const { resetToken, email } = useParams<Params>();
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -58,7 +58,7 @@ const FormChangePswForget = (): React.JSX.Element => {
     }
   };
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeI) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

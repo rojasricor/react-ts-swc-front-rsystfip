@@ -1,5 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { formatTodaysDate, formatTodaysDateTime } from "../../libs/todaylib";
+import {
+  formatTodaysDate,
+  formatTodaysDateTime,
+} from "../../libs/timeFormatter";
 
 interface FormDataState {
   eventId?: string;

@@ -12,8 +12,8 @@ import {
   setIsLoading,
 } from "../features/admin/adminSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { handleChangeQD } from "../types/handleChange";
-import { handleSubmit } from "../types/handleSubmit";
+import { THandleChangeITS } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
 
 const FormUserAdd = (): React.JSX.Element => {
   const isLoadingState = useAppSelector(({ admin }) => admin.isLoading);
@@ -22,7 +22,7 @@ const FormUserAdd = (): React.JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeITS) => {
     dispatch(
       setFormData({
         ...formDataState,
@@ -31,7 +31,7 @@ const FormUserAdd = (): React.JSX.Element => {
     );
   };
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     dispatch(setIsLoading(true));
 

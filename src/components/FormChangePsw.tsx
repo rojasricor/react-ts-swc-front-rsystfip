@@ -5,12 +5,12 @@ import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
-import { handleSubmit } from "../types/handleSubmit";
-import { handleChangeQD } from "../types/handleChange";
-import { IUser } from "../interfaces/IUserBase";
+import { THandleSubmit } from "../types/THandleSubmits";
+import { THandleChangeI } from "../types/THandleChanges";
+import { IUserBase } from "../interfaces/IUserBase";
 
 interface Props {
-  userId: IUser["id"];
+  userId: IUserBase["id"];
 }
 
 interface FormState {
@@ -29,7 +29,7 @@ const FormChangePsw = ({ userId }: Props): React.JSX.Element => {
   const [formData, setFormData] = useState<FormState>(formDataInitialState);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
@@ -57,7 +57,7 @@ const FormChangePsw = ({ userId }: Props): React.JSX.Element => {
     }
   };
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeI) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

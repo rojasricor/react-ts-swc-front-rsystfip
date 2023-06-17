@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getStartMonthDate, getEndMonthDate } from "../../libs/todaylib";
+import { getStartMonthDate, getEndMonthDate } from "../../libs/timeFormatter";
 import { ICounts } from "../../interfaces/ICounts";
 
 interface QueryData {

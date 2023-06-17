@@ -18,12 +18,12 @@ import {
 import ProtectedElement from "./ProtectedElement";
 import Notify from "./Notify";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { handleChangeQD } from "../types/handleChange";
-import { handleSubmit } from "../types/handleSubmit";
+import { THandleChangeITS } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
 
 interface Props {
   action: string;
-  closeModalScheduling?: () => void | undefined;
+  closeModalScheduling?: () => void;
 }
 
 type Params = {
@@ -131,7 +131,7 @@ const FormSchedulePeople = ({
     }
   };
 
-  const handleSubmit = (e: handleSubmit) => {
+  const handleSubmit = (e: THandleSubmit) => {
     e.preventDefault();
 
     if (isEdit) return editPerson();
@@ -182,7 +182,7 @@ const FormSchedulePeople = ({
     }
   };
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeITS) => {
     dispatch(
       setFormData([
         action,

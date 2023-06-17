@@ -7,8 +7,8 @@ import { FaTimes, FaCheck } from "react-icons/fa";
 import { setIsLoading } from "../features/programming/programmingSlice";
 import Notify from "./Notify";
 import { useAppSelector } from "../hooks";
-import { handleSubmit } from "../types/handleSubmit";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleSubmit } from "../types/THandleSubmits";
+import { THandleChangeI } from "../types/THandleChanges";
 
 interface Props {
   closeModalCancell: () => void;
@@ -24,7 +24,7 @@ const FormCancellPerson = ({ closeModalCancell }: Props): React.JSX.Element => {
     ({ programming }) => programming.formData.schedule
   );
 
-  const handleSubmit = async (e: handleSubmit): Promise<void> => {
+  const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -52,7 +52,7 @@ const FormCancellPerson = ({ closeModalCancell }: Props): React.JSX.Element => {
     }
   };
 
-  const handleChange = (e: handleChangeQD) =>
+  const handleChange = (e: THandleChangeI) =>
     setCancelled_asunt(e.target.value);
 
   return (

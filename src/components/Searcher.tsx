@@ -14,7 +14,7 @@ import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 import { ImUserPlus } from "react-icons/im";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { handleChangeQD } from "../types/handleChange";
+import { THandleChangeI } from "../types/THandleChanges";
 
 const Searcher = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ const Searcher = (): React.JSX.Element => {
     getPeople();
   }, []);
 
-  const handleChange = (e: handleChangeQD) => {
+  const handleChange = (e: THandleChangeI) => {
     const query: string = e.target.value.toLowerCase();
 
     dispatch(
