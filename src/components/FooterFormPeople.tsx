@@ -5,12 +5,13 @@ import { FaUserPlus } from "react-icons/fa";
 import { GiReturnArrow } from "react-icons/gi";
 import { useAppSelector } from "../hooks";
 import { THandleClick } from "../types/THandleClicks";
+import React from "react";
 
-interface Props {
+interface IProps {
   isAllowed: boolean;
 }
 
-const FooterFormPeople = ({ isAllowed }: Props) => {
+const FooterFormPeople = ({ isAllowed }: IProps): React.JSX.Element => {
   const isLoadingState = useAppSelector(
     ({ programming }) => programming.isLoading
   );

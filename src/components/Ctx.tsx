@@ -1,8 +1,8 @@
-interface Props {
+interface IProps {
   ctxRef: React.RefObject<HTMLCanvasElement>;
 }
 
-const Ctx = ({ ctxRef }: Props): React.JSX.Element => (
+const Ctx = ({ ctxRef }: IProps): React.JSX.Element => (
   <canvas ref={ctxRef} width="700" height="400" />
 );
 

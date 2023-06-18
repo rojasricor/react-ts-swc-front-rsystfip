@@ -7,13 +7,13 @@ import { API_ROUTE } from "../constants";
 import { BiTrash, BiKey } from "react-icons/bi";
 import { IUserBase } from "../interfaces/IUserBase";
 
-interface Props {
+interface IProps {
   user: IUserBase;
 }
 
 const UserRow = ({
   user: { id, email },
-}: Props): React.JSX.Element | undefined => {
+}: IProps): React.JSX.Element | undefined => {
   const [deleted, setDeleted] = useState(false);
 
   const handleClick = async (role: IUserBase["id"]) => {

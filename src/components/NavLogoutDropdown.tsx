@@ -10,11 +10,11 @@ import { AUTH_KEY } from "../constants";
 import { srcUser } from "../App";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
-interface Props {
+interface IProps {
   avatar: srcUser["avatar"];
 }
 
-const NavLogoutDropdown = ({ avatar }: Props): React.JSX.Element => {
+const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
   const authState = useAppSelector(({ auth }) => auth);
 
   const dispatch = useAppDispatch();

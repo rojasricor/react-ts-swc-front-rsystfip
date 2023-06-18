@@ -7,13 +7,13 @@ import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-type Params = {
+type TParams = {
   email: string;
   resetToken: string;
 };
 
 const RecoveryPassword = (): React.JSX.Element => {
-  const { email, resetToken } = useParams<Params>();
+  const { email, resetToken } = useParams<TParams>();
   const [tokenResetIsValid, setTokenResetIsValid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 

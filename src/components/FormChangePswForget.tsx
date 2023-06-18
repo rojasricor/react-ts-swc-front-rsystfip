@@ -14,7 +14,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-type Params = {
+type TParams = {
   resetToken: string;
   email: string;
 };
@@ -28,7 +28,7 @@ const FormChangePswForget = (): React.JSX.Element => {
   const [formData, setFormData] = useState<FormData>(formDataInitialState);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { resetToken, email } = useParams<Params>();
+  const { resetToken, email } = useParams<TParams>();
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();

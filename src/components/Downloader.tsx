@@ -2,11 +2,11 @@ import { TCreatedPdf } from "pdfmake/build/pdfmake";
 import { FloatingLabel, Button } from "react-bootstrap";
 import { BsDownload } from "react-icons/bs";
 
-interface Props {
+interface IProps {
   pdf: TCreatedPdf;
 }
 
-const Downloader = ({ pdf }: Props): React.JSX.Element => (
+const Downloader = ({ pdf }: IProps): React.JSX.Element => (
   <FloatingLabel label="Descargar:">
     <Button
       variant="light"

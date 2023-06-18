@@ -6,7 +6,7 @@ import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { setFaculties } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
-interface Props {
+interface IProps {
   action: string;
   handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   facultieSelectRef: React.RefObject<HTMLSelectElement>;
@@ -16,7 +16,7 @@ const SelectFaculties = ({
   action,
   handleChange,
   facultieSelectRef,
-}: Props): React.JSX.Element => {
+}: IProps): React.JSX.Element => {
   const isEdit: boolean = action === "edit";
   const isSchedule: boolean = action === "schedule";
   const isAdd: boolean = action === "add";

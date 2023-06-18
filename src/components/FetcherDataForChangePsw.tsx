@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { IUserBase } from "../interfaces/IUserBase";
 
-type Params = {
+type TParams = {
   role: string;
 };
 
@@ -22,7 +22,7 @@ const FetcherDataForChangePsw = (): React.JSX.Element => {
     password: "",
   };
 
-  const { role } = useParams<Params>();
+  const { role } = useParams<TParams>();
   const [user, setUser] = useState<UserData>(initialState);
 
   const getDatauser = async (): Promise<void> => {

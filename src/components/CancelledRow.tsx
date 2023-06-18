@@ -1,6 +1,6 @@
 import { PeopleCancelled } from "../features/cancelledPeople/cancelledPeopleSlice";
 
-interface Props {
+interface IProps {
   index: number;
   person: PeopleCancelled;
 }
@@ -16,7 +16,7 @@ const CancelledRow = ({
     facultie,
     cancelled_asunt,
   },
-}: Props): React.JSX.Element => (
+}: IProps): React.JSX.Element => (
   <tr>
     <td>{index + 1}</td>
     <td>{name}</td>

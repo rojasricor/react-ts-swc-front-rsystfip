@@ -21,20 +21,20 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 
-interface Props {
+interface IProps {
   action: string;
   closeModalScheduling?: () => void;
 }
 
-type Params = {
+type TParams = {
   id: string;
 };
 
 const FormSchedulePeople = ({
   action,
   closeModalScheduling,
-}: Props): React.JSX.Element => {
-  const { id } = useParams<Params>();
+}: IProps): React.JSX.Element => {
+  const { id } = useParams<TParams>();
 
   const isEdit: boolean = action === "edit";
   const isSchedule: boolean = action === "schedule";
@@ -86,7 +86,7 @@ const FormSchedulePeople = ({
   };
 
   const schedulePerson = async (
-    closeModalScheduling: Props["closeModalScheduling"] = undefined
+    closeModalScheduling: IProps["closeModalScheduling"] = undefined
   ): Promise<void> => {
     dispatch(setIsLoading(true));
 

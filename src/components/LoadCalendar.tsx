@@ -1,10 +1,10 @@
 import { Spinner } from "react-bootstrap";
 
-interface Props {
+interface IProps {
   loadEventsRef: React.RefObject<HTMLDivElement>;
 }
 
-const LoadCalendar = ({ loadEventsRef }: Props): React.JSX.Element => (
+const LoadCalendar = ({ loadEventsRef }: IProps): React.JSX.Element => (
   <div className="load-events" ref={loadEventsRef}>
     Cargando <Spinner size="sm" />
   </div>

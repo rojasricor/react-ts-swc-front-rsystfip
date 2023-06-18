@@ -10,11 +10,13 @@ import { useAppSelector } from "../hooks";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 
-interface Props {
+interface IProps {
   closeModalCancell: () => void;
 }
 
-const FormCancellPerson = ({ closeModalCancell }: Props): React.JSX.Element => {
+const FormCancellPerson = ({
+  closeModalCancell,
+}: IProps): React.JSX.Element => {
   const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
 
   const isLoadingStatus = useAppSelector(

@@ -1,7 +1,7 @@
 import { Modal } from "react-bootstrap";
 import FormSchedulePeople from "./FormSchedulePeople";
 
-interface Props {
+interface IProps {
   stateModalScheduling: boolean;
   closeModalScheduling: () => void;
 }
@@ -9,7 +9,7 @@ interface Props {
 const ModalSchedulePeopleForm = ({
   stateModalScheduling,
   closeModalScheduling,
-}: Props): React.JSX.Element => (
+}: IProps): React.JSX.Element => (
   <Modal
     show={stateModalScheduling}
     onHide={closeModalScheduling}

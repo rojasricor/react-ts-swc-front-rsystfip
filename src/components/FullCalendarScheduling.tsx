@@ -14,7 +14,7 @@ import { setFormData } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { globalPlugins } from "fullcalendar";
 
-interface Props {
+interface IProps {
   right: string;
   initialView: string;
 }
@@ -22,7 +22,7 @@ interface Props {
 const FullCalendarScheduling = ({
   right,
   initialView,
-}: Props): React.JSX.Element => {
+}: IProps): React.JSX.Element => {
   const action: string = "schedule";
 
   const formDataState = useAppSelector(

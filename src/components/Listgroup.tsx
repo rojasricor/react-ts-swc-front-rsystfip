@@ -1,13 +1,13 @@
 import { Image, ListGroup } from "react-bootstrap";
 import { ICounts } from "../interfaces/ICounts";
 
-interface Props {
+interface IProps {
   title: string;
   data: ICounts[];
   end: string;
 }
 
-const Listgroup = ({ title, data, end }: Props): React.JSX.Element => (
+const Listgroup = ({ title, data, end }: IProps): React.JSX.Element => (
   <>
     <h5 className="text-center">{title}</h5>
     <ListGroup className="mb-5">

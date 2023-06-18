@@ -1,7 +1,7 @@
 import { Modal } from "react-bootstrap";
 import FormCancellPerson from "./FormCancellPerson";
 
-interface Props {
+interface IProps {
   stateModalCancell: boolean;
   closeModalCancell: () => void;
 }
@@ -9,7 +9,7 @@ interface Props {
 const ModalCancellPersonConfirmation = ({
   stateModalCancell,
   closeModalCancell,
-}: Props): React.JSX.Element => (
+}: IProps): React.JSX.Element => (
   <Modal
     show={stateModalCancell}
     onHide={closeModalCancell}

@@ -6,12 +6,15 @@ import { toast } from "react-toastify";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
-interface Props {
+interface IProps {
   action: string;
   handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectDocument = ({ action, handleChange }: Props): React.JSX.Element => {
+const SelectDocument = ({
+  action,
+  handleChange,
+}: IProps): React.JSX.Element => {
   const isEdit: boolean = action === "edit";
   const isSchedule: boolean = action === "schedule";
   const isAdd: boolean = action === "add";

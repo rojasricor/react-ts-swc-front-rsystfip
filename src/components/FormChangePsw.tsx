@@ -9,7 +9,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { IUserBase } from "../interfaces/IUserBase";
 
-interface Props {
+interface IProps {
   userId: IUserBase["id"];
 }
 
@@ -19,7 +19,7 @@ interface FormState {
   confirmPassword: string;
 }
 
-const FormChangePsw = ({ userId }: Props): React.JSX.Element => {
+const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
   const formDataInitialState: FormState = {
     currentPassword: "",
     newPassword: "",
