@@ -127,7 +127,7 @@ const FullCalendarScheduling = ({
                 {
                   ...formDataState,
                   eventId: id,
-                  date: formatTodaysDateTime(start),
+                  date: formatTodaysDateTime(start as Date),
                 },
               ])
             );
