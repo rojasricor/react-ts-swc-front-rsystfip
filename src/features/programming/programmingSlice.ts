@@ -4,7 +4,7 @@ import {
   formatTodaysDateTime,
 } from "../../libs/timeFormatter";
 
-interface FormDataState {
+export interface FormDataState {
   eventId?: string;
   person?: string;
   doc?: string;
@@ -48,7 +48,7 @@ const formDataInitialState: FormDataState = {
   disabledAfterAutocomplete: false,
 };
 
-interface Deans {
+export interface Deans {
   _id: string;
   dean: string;
   facultie_id: string;

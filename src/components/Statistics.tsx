@@ -28,6 +28,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   setMostAgendatedOnRange,
   setMostAgendatedAllTime,
+  QueryData,
 } from "../features/statistics/statisticsSlice";
 
 export interface PropsStatistics {
@@ -47,7 +48,7 @@ const Statistics = ({
 
   const dispatch = useAppDispatch();
 
-  const queryDataState = useAppSelector(({ statistics }) =>
+  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData

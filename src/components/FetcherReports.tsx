@@ -8,11 +8,14 @@ import {
   setPngBase64,
   setReportsCountOnRange,
   setReportsCountAllTime,
+  QueryData,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
 const FetcherReports = (): React.JSX.Element => {
-  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
+  const queryDataState: QueryData = useAppSelector(
+    ({ reports }) => reports.queryData
+  );
 
   const dispatch = useAppDispatch();
 

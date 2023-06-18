@@ -4,7 +4,10 @@ import { Form, Spinner, ModalFooter, Button, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaTimes, FaCheck } from "react-icons/fa";
-import { setIsLoading } from "../features/programming/programmingSlice";
+import {
+  FormDataState,
+  setIsLoading,
+} from "../features/programming/programmingSlice";
 import Notify from "./Notify";
 import { useAppSelector } from "../hooks";
 import { THandleSubmit } from "../types/THandleSubmits";
@@ -19,10 +22,10 @@ const FormCancellPerson = ({
 }: IProps): React.JSX.Element => {
   const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
 
-  const isLoadingStatus = useAppSelector(
+  const isLoadingStatus: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
   );
-  const formDataState = useAppSelector(
+  const formDataState: FormDataState = useAppSelector(
     ({ programming }) => programming.formData.schedule
   );
 

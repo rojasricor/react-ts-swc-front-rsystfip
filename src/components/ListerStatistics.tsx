@@ -1,21 +1,25 @@
 import Listgroup from "./Listgroup";
 import { PropsStatistics } from "./Statistics";
 import { useAppSelector } from "../hooks";
+import { ICounts } from "../interfaces/ICounts";
+import { QueryData } from "../features/statistics/statisticsSlice";
 
 const ListerStatistics = ({
   scheduling_type,
 }: PropsStatistics): React.JSX.Element => {
-  const mostAgendatedOnRangeState = useAppSelector(({ statistics }) =>
-    scheduling_type === "daily"
-      ? statistics.daily.mostAgendatedOnRange
-      : statistics.scheduled.mostAgendatedOnRange
+  const mostAgendatedOnRangeState: ICounts[] = useAppSelector(
+    ({ statistics }) =>
+      scheduling_type === "daily"
+        ? statistics.daily.mostAgendatedOnRange
+        : statistics.scheduled.mostAgendatedOnRange
   );
-  const mostAgendatedAllTimeState = useAppSelector(({ statistics }) =>
-    scheduling_type === "daily"
-      ? statistics.daily.mostAgendatedAllTime
-      : statistics.scheduled.mostAgendatedAllTime
+  const mostAgendatedAllTimeState: ICounts[] = useAppSelector(
+    ({ statistics }) =>
+      scheduling_type === "daily"
+        ? statistics.daily.mostAgendatedAllTime
+        : statistics.scheduled.mostAgendatedAllTime
   );
-  const queryDataState = useAppSelector(({ statistics }) =>
+  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData

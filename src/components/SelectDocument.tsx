@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { IDocument } from "../interfaces/IResources";
+import { FormDataState } from "../features/programming/programmingSlice";
 
 interface IProps {
   action: string;
@@ -19,12 +21,16 @@ const SelectDocument = ({
   const isSchedule: boolean = action === "schedule";
   const isAdd: boolean = action === "add";
 
-  const documentsState = useAppSelector(({ resources }) => resources.documents);
-  const formDataState = useAppSelector(({ programming: { formData } }) => {
-    if (isEdit) return formData.edit;
-    if (isAdd) return formData.add;
-    if (isSchedule) return formData.schedule;
-  });
+  const documentsState: IDocument[] = useAppSelector(
+    ({ resources }) => resources.documents
+  );
+  const formDataState: FormDataState | undefined = useAppSelector(
+    ({ programming: { formData } }) => {
+      if (isEdit) return formData.edit;
+      if (isAdd) return formData.add;
+      if (isSchedule) return formData.schedule;
+    }
+  );
 
   const dispatch = useAppDispatch();
 

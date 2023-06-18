@@ -12,16 +12,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCategories } from "../features/resources/resourcesSlice";
-import { setQueryData } from "../features/reports/reportsSlice";
+import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { THandleChangeITS } from "../types/THandleChanges";
+import { ICategory } from "../interfaces/IResources";
 
 const DaterReports = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const categoriesState = useAppSelector(
+  const categoriesState: ICategory[] = useAppSelector(
     ({ resources }) => resources.categories
   );
-  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
+  const queryDataState: QueryData = useAppSelector(
+    ({ reports }) => reports.queryData
+  );
 
   const handleChange = (e: THandleChangeITS) => {
     dispatch(

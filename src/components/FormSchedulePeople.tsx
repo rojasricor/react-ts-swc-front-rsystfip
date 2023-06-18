@@ -12,6 +12,8 @@ import FooterFormPeople from "./FooterFormPeople";
 import { IoCalendarNumber } from "react-icons/io5";
 import { GiReturnArrow } from "react-icons/gi";
 import {
+  Deans,
+  FormDataState,
   setFormData,
   setIsLoading,
 } from "../features/programming/programmingSlice";
@@ -44,15 +46,19 @@ const FormSchedulePeople = ({
 
   const dispatch = useAppDispatch();
 
-  const formDataState = useAppSelector(({ programming: { formData } }) => {
-    if (isEdit) return formData.edit;
-    if (isAdd) return formData.add;
-    if (isSchedule) return formData.schedule;
-  });
-  const isLoadingState = useAppSelector(
+  const formDataState: FormDataState | undefined = useAppSelector(
+    ({ programming: { formData } }) => {
+      if (isEdit) return formData.edit;
+      if (isAdd) return formData.add;
+      if (isSchedule) return formData.schedule;
+    }
+  );
+  const isLoadingState: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
   );
-  const deansState = useAppSelector(({ programming }) => programming.deans);
+  const deansState: Deans[] = useAppSelector(
+    ({ programming }) => programming.deans
+  );
 
   const editPerson = async (): Promise<void> => {
     dispatch(setIsLoading(true));

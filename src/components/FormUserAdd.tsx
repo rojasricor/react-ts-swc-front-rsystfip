@@ -7,6 +7,7 @@ import Submitter from "./Submitter";
 import { FaUserPlus } from "react-icons/fa";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import {
+  FormData,
   resetFormDataAdmin,
   setFormData,
   setIsLoading,
@@ -14,11 +15,16 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { IDocument } from "../interfaces/IResources";
 
 const FormUserAdd = (): React.JSX.Element => {
-  const isLoadingState = useAppSelector(({ admin }) => admin.isLoading);
-  const formDataState = useAppSelector(({ admin }) => admin.formData);
-  const documentsState = useAppSelector(({ resources }) => resources.documents);
+  const isLoadingState: boolean = useAppSelector(
+    ({ admin }) => admin.isLoading
+  );
+  const formDataState: FormData = useAppSelector(({ admin }) => admin.formData);
+  const documentsState: IDocument[] = useAppSelector(
+    ({ resources }) => resources.documents
+  );
 
   const dispatch = useAppDispatch();
 

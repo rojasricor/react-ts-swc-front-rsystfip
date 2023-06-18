@@ -5,15 +5,22 @@ import { API_ROUTE, UNSET_STATUS } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setReports, setReportsOrigen } from "../features/reports/reportsSlice";
+import {
+  QueryData,
+  Reports,
+  setReports,
+  setReportsOrigen,
+} from "../features/reports/reportsSlice";
 
 const ActionerReports = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const reportsOrigenState = useAppSelector(
+  const reportsOrigenState: Reports[] = useAppSelector(
     ({ reports }) => reports.reportsOrigen
   );
-  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
+  const queryDataState: QueryData = useAppSelector(
+    ({ reports }) => reports.queryData
+  );
 
   const getReports = async (): Promise<void> => {
     try {
@@ -33,7 +40,8 @@ const ActionerReports = (): React.JSX.Element => {
       setReports(
         queryDataState.category !== UNSET_STATUS
           ? dataToFilter.filter(
-              ({ id_person }) => id_person == queryDataState.category
+              ({ id_person }) =>
+                id_person.toString() === queryDataState.category
             )
           : dataToFilter
       )

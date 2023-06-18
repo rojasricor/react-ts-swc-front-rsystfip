@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const FooterFormPeople = ({ isAllowed }: IProps): React.JSX.Element => {
-  const isLoadingState = useAppSelector(
+  const isLoadingState: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
   );
 

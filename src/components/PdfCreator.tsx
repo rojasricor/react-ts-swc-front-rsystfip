@@ -8,16 +8,25 @@ import {
 } from "../config/pdfmake.config";
 import { useAppSelector } from "../hooks";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
+import { QueryData, Reports } from "../features/reports/reportsSlice";
+import { People } from "../features/people/peopleSlice";
+import { ICounts } from "../interfaces/ICounts";
 
 const PdfCreator = (): React.JSX.Element => {
-  const pngBase64State = useAppSelector(({ reports }) => reports.pngBase64);
-  const reportsState = useAppSelector(({ reports }) => reports.reports);
-  const queryDataState = useAppSelector(({ reports }) => reports.queryData);
-  const peopleState = useAppSelector(({ people }) => people.people);
-  const reportsCountOnRangeState = useAppSelector(
+  const pngBase64State: string = useAppSelector(
+    ({ reports }) => reports.pngBase64
+  );
+  const reportsState: Reports[] = useAppSelector(
+    ({ reports }) => reports.reports
+  );
+  const queryDataState: QueryData = useAppSelector(
+    ({ reports }) => reports.queryData
+  );
+  const peopleState: People[] = useAppSelector(({ people }) => people.people);
+  const reportsCountOnRangeState: ICounts[] = useAppSelector(
     ({ reports }) => reports.reportsCountOnRange
   );
-  const reportsCountAllTimeState = useAppSelector(
+  const reportsCountAllTimeState: ICounts[] = useAppSelector(
     ({ reports }) => reports.reportsCountAllTime
   );
 

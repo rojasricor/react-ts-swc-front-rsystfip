@@ -1,7 +1,8 @@
+import { AuthState } from "../features/auth/authSlice";
 import { useAppSelector } from "../hooks";
 
 const UserLoggedInfo = (): React.JSX.Element => {
-  const authState = useAppSelector(({ auth }) => auth);
+  const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   return (
     <h1 className="h3">

@@ -1,5 +1,8 @@
 import { Col, FloatingLabel, FormControl, FormSelect } from "react-bootstrap";
-import { setQueryData } from "../features/statistics/statisticsSlice";
+import {
+  QueryData,
+  setQueryData,
+} from "../features/statistics/statisticsSlice";
 import { PropsStatistics } from "./Statistics";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
@@ -9,7 +12,7 @@ const DaterStatistics = ({
 }: PropsStatistics): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const queryDataState = useAppSelector(({ statistics }) =>
+  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
     scheduling_type === "daily"
       ? statistics.daily.queryData
       : statistics.scheduled.queryData

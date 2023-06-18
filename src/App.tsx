@@ -24,6 +24,7 @@ import PageStcsScheduled from "./pages/PageStcsScheduled";
 import PageFaqs from "./pages/PageFaqs";
 import PageNotFound from "./pages/PageNotFound";
 import "./App.scss";
+import { AuthState } from "./features/auth/authSlice";
 
 export interface srcUser {
   avatar: string;
@@ -31,7 +32,7 @@ export interface srcUser {
 }
 
 const App = (): React.JSX.Element => {
-  const authState = useAppSelector(({ auth }) => auth);
+  const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   const avatar: srcUser["avatar"] = authState.auth
     ? `/img/${authState.user.role}/avatar.png`

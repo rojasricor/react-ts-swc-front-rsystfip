@@ -10,7 +10,10 @@ import { formatTodaysDate, formatTodaysDateTime } from "../libs/timeFormatter";
 import { API_ROUTE } from "../constants";
 import { toast } from "react-toastify";
 import { Container } from "react-bootstrap";
-import { setFormData } from "../features/programming/programmingSlice";
+import {
+  FormDataState,
+  setFormData,
+} from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { globalPlugins } from "fullcalendar";
 
@@ -25,7 +28,7 @@ const FullCalendarScheduling = ({
 }: IProps): React.JSX.Element => {
   const action: string = "schedule";
 
-  const formDataState = useAppSelector(
+  const formDataState: FormDataState = useAppSelector(
     ({ programming }) => programming.formData.schedule
   );
 

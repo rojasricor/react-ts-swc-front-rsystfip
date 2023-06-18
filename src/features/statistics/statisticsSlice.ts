@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/timeFormatter";
 import { ICounts } from "../../interfaces/ICounts";
 
-interface QueryData {
+export interface QueryData {
   start: string;
   end: string;
   chartType: string;

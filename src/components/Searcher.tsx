@@ -9,6 +9,7 @@ import {
   setPeople,
   setPeopleOrigen,
   setIsLoading,
+  People,
 } from "../features/people/peopleSlice";
 import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
@@ -19,8 +20,12 @@ import { THandleChangeI } from "../types/THandleChanges";
 const Searcher = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const peopleOrigenState = useAppSelector(({ people }) => people.peopleOrigen);
-  const isLoadingState = useAppSelector(({ people }) => people.isLoading);
+  const peopleOrigenState: People[] = useAppSelector(
+    ({ people }) => people.peopleOrigen
+  );
+  const isLoadingState: number = useAppSelector(
+    ({ people }) => people.isLoading
+  );
 
   const getPeople = async (): Promise<void> => {
     try {

@@ -5,10 +5,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { setCategories } from "../features/resources/resourcesSlice";
 import {
+  FormDataState,
   setDeans,
   setFormData,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { ICategory } from "../interfaces/IResources";
 
 interface IProps {
   action: string;
@@ -25,14 +27,16 @@ const SelectPerson = ({
   const isSchedule: boolean = action === "schedule";
   const isAdd: boolean = action === "add";
 
-  const categoriesState = useAppSelector(
+  const categoriesState: ICategory[] = useAppSelector(
     ({ resources }) => resources.categories
   );
-  const formDataState = useAppSelector(({ programming: { formData } }) => {
-    if (isEdit) return formData.edit;
-    if (isAdd) return formData.add;
-    if (isSchedule) return formData.schedule;
-  });
+  const formDataState: FormDataState | undefined = useAppSelector(
+    ({ programming: { formData } }) => {
+      if (isEdit) return formData.edit;
+      if (isAdd) return formData.add;
+      if (isSchedule) return formData.schedule;
+    }
+  );
 
   const dispatch = useAppDispatch();
 

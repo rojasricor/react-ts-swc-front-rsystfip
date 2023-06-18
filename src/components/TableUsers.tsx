@@ -3,14 +3,14 @@ import { API_ROUTE } from "../constants";
 import { Table } from "react-bootstrap";
 import UserRow from "./UserRow";
 import axios from "axios";
-import { setUsers } from "../features/admin/adminSlice";
+import { User, setUsers } from "../features/admin/adminSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
 const TableUsers = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const adminState = useAppSelector(({ admin }) => admin.users);
+  const usersState: User[] = useAppSelector(({ admin }) => admin.users);
 
   const getUsers = async (): Promise<void> => {
     try {
@@ -36,7 +36,7 @@ const TableUsers = (): React.JSX.Element => {
         </tr>
       </thead>
       <tbody>
-        {adminState.map((user, index) => (
+        {usersState.map((user, index) => (
           <UserRow key={index} user={user} />
         ))}
       </tbody>

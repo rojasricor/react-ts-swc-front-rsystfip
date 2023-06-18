@@ -4,21 +4,29 @@ import { AUTH_KEY } from "../../constants";
 const userSessionSaved: string | null = window.sessionStorage.getItem(AUTH_KEY);
 
 interface User {
-  id?: number;
-  role?: string;
-  name?: string;
-  email?: string;
-  permissions?: string[];
+  id: number;
+  role: string;
+  name: string;
+  email: string;
+  permissions: string[];
 }
 
-interface authState {
+export interface AuthState {
   auth: boolean;
   user: User;
 }
 
-const initialState: authState = {
+const userInitialState: User = {
+  id: 0,
+  role: "",
+  name: "",
+  email: "",
+  permissions: [],
+};
+
+const initialState: AuthState = {
   auth: false,
-  user: {},
+  user: userInitialState,
 };
 
 const authSlice = createSlice({
@@ -27,9 +35,9 @@ const authSlice = createSlice({
   reducers: {
     setAuthenticatedUser: (
       _state,
-      { payload }: PayloadAction<authState>
-    ): authState => payload,
-    resetUserAuthenticated: (): authState => initialState,
+      { payload }: PayloadAction<AuthState>
+    ): AuthState => payload,
+    resetUserAuthenticated: (): AuthState => initialState,
   },
 });
 

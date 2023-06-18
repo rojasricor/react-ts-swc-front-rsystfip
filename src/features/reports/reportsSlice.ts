@@ -13,19 +13,19 @@ export interface Reports {
   id_person: number;
 }
 
+export interface QueryData {
+  startDate: string;
+  endDate: string;
+  category: string;
+}
+
 interface ReportsState {
   pngBase64: string;
   reports: Reports[];
   reportsOrigen: Reports[];
   reportsCountOnRange: ICounts[];
   reportsCountAllTime: ICounts[];
-  queryData: any;
-}
-
-interface QueryData {
-  startDate: string;
-  endDate: string;
-  category: string;
+  queryData: QueryData;
 }
 
 const queryDataInitialState: QueryData = {

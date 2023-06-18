@@ -4,15 +4,18 @@ import CancelledRow from "./CancelledRow";
 import { API_ROUTE } from "../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { setCancelledPeople } from "../features/cancelledPeople/cancelledPeopleSlice";
+import {
+  PeopleCancelled,
+  setCancelledPeople,
+} from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
 const TableCancelled = (): React.JSX.Element => {
-  const dispatch = useAppDispatch();
-
-  const cancelledPeopleState = useAppSelector(
+  const cancelledPeopleState: PeopleCancelled[] = useAppSelector(
     ({ cancelledPeople }) => cancelledPeople
   );
+
+  const dispatch = useAppDispatch();
 
   const getCancelled = async (): Promise<void> => {
     try {

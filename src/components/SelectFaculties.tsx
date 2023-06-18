@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { setFaculties } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { FormDataState } from "../features/programming/programmingSlice";
+import { IFacultie } from "../interfaces/IResources";
 
 interface IProps {
   action: string;
@@ -21,12 +23,16 @@ const SelectFaculties = ({
   const isSchedule: boolean = action === "schedule";
   const isAdd: boolean = action === "add";
 
-  const formDataState = useAppSelector(({ programming: { formData } }) => {
-    if (isEdit) return formData.edit;
-    if (isAdd) return formData.add;
-    if (isSchedule) return formData.schedule;
-  });
-  const facultiesState = useAppSelector(({ resources }) => resources.faculties);
+  const formDataState: FormDataState | undefined = useAppSelector(
+    ({ programming: { formData } }) => {
+      if (isEdit) return formData.edit;
+      if (isAdd) return formData.add;
+      if (isSchedule) return formData.schedule;
+    }
+  );
+  const facultiesState: IFacultie[] = useAppSelector(
+    ({ resources }) => resources.faculties
+  );
 
   const dispatch = useAppDispatch();
 
