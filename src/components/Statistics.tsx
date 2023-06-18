@@ -31,13 +31,11 @@ import {
   QueryData,
 } from "../features/statistics/statisticsSlice";
 
-export interface PropsStatistics {
+export interface IProps {
   scheduling_type: string;
 }
 
-const Statistics = ({
-  scheduling_type,
-}: PropsStatistics): React.JSX.Element => {
+const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const [chartJS, setChartJS] = useState<ChartJS<
     keyof ChartTypeRegistry,
     string[],

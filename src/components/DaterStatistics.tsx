@@ -3,13 +3,11 @@ import {
   QueryData,
   setQueryData,
 } from "../features/statistics/statisticsSlice";
-import { PropsStatistics } from "./Statistics";
+import { IProps } from "./Statistics";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 
-const DaterStatistics = ({
-  scheduling_type,
-}: PropsStatistics): React.JSX.Element => {
+const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   const queryDataState: QueryData = useAppSelector(({ statistics }) =>

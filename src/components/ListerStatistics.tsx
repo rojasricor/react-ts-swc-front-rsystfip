@@ -1,12 +1,10 @@
 import Listgroup from "./Listgroup";
-import { PropsStatistics } from "./Statistics";
+import { IProps } from "./Statistics";
 import { useAppSelector } from "../hooks";
 import { ICounts } from "../interfaces/ICounts";
 import { QueryData } from "../features/statistics/statisticsSlice";
 
-const ListerStatistics = ({
-  scheduling_type,
-}: PropsStatistics): React.JSX.Element => {
+const ListerStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const mostAgendatedOnRangeState: ICounts[] = useAppSelector(
     ({ statistics }) =>
       scheduling_type === "daily"
