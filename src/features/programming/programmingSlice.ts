@@ -77,79 +77,59 @@ const programmingSlice = createSlice({
     setFormData: (
       state,
       { payload }: PayloadAction<[string, FormDataState?]>
-    ) => {
+    ): ProgrammingState => {
       const [action, formData] = payload;
 
-      if (action === "add") {
-        return {
-          ...state,
-          formData: {
-            ...state.formData,
-            add: formData ? formData : formDataInitialState,
-          },
-        };
-      }
+      switch (action) {
+        case "add":
+          return {
+            ...state,
+            formData: {
+              ...state.formData,
+              add: formData ?? formDataInitialState,
+            },
+          };
 
-      if (action === "edit") {
-        return {
-          ...state,
-          formData: {
-            ...state.formData,
-            edit: formData ? formData : formDataInitialState,
-          },
-        };
-      }
+        case "edit":
+          return {
+            ...state,
+            formData: {
+              ...state.formData,
+              edit: formData ?? formDataInitialState,
+            },
+          };
 
-      if (action === "schedule") {
-        return {
-          ...state,
-          formData: {
-            ...state.formData,
-            schedule: formData ? formData : formDataInitialState,
-          },
-        };
+        case "schedule":
+          return {
+            ...state,
+            formData: {
+              ...state.formData,
+              schedule: formData ?? formDataInitialState,
+            },
+          };
+
+        default:
+          return state;
       }
     },
-    setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        isLoading: payload,
-      };
-    },
-    setDisabledAll: (state, { payload }: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        disabledAll: payload,
-      };
-    },
-    setDisabledAfterAutocomplete: (
+    setIsLoading: (
       state,
       { payload }: PayloadAction<boolean>
-    ) => {
-      return {
-        ...state,
-        disabledAfterAutocomplete: payload,
-      };
-    },
-    setDeans: (state, { payload }: PayloadAction<Deans[]>) => {
-      return { ...state, deans: payload };
-    },
-    resetAllFormDataProgramming: (state) => {
-      return {
-        ...state,
-        formData: {
-          ...initialState.formData,
-        },
-      };
-    },
+    ): ProgrammingState => ({ ...state, isLoading: payload }),
+    setDeans: (
+      state,
+      { payload }: PayloadAction<Deans[]>
+    ): ProgrammingState => ({ ...state, deans: payload }),
+    resetAllFormDataProgramming: (state): ProgrammingState => ({
+      ...state,
+      formData: { ...initialState.formData },
+    }),
   },
 });
 
 export const {
   setFormData,
   setIsLoading,
-  setDisabledAll,
-  setDisabledAfterAutocomplete,
   setDeans,
   resetAllFormDataProgramming,
 } = programmingSlice.actions;

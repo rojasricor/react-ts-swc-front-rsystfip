@@ -57,7 +57,7 @@ const FetcherReports = (): React.JSX.Element => {
 
       const reader: FileReader = new FileReader();
       reader.readAsDataURL(data);
-      reader.addEventListener("load", () => {
+      reader.addEventListener("load", (): void => {
         if (reader.result) dispatch(setPngBase64(reader.result as string));
       });
     } catch ({ message }: any) {

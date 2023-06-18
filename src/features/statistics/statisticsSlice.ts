@@ -45,7 +45,7 @@ const statisticsSlice = createSlice({
     setMostAgendatedOnRange: (
       state,
       { payload }: PayloadAction<[string, ICounts[]]>
-    ) => {
+    ): StatisticsState => {
       const [schedulingType, mostAgendatedOnRange] = payload;
 
       return schedulingType === "daily"
@@ -67,7 +67,7 @@ const statisticsSlice = createSlice({
     setMostAgendatedAllTime: (
       state,
       { payload }: PayloadAction<[string, ICounts[]]>
-    ) => {
+    ): StatisticsState => {
       const [schedulingType, mostAgendatedAllTime] = payload;
 
       return schedulingType === "daily"
@@ -86,7 +86,10 @@ const statisticsSlice = createSlice({
             },
           };
     },
-    setQueryData: (state, { payload }: PayloadAction<[string, QueryData]>) => {
+    setQueryData: (
+      state,
+      { payload }: PayloadAction<[string, QueryData]>
+    ): StatisticsState => {
       const [schedulingType, queryData] = payload;
 
       return schedulingType === "daily"
@@ -105,19 +108,17 @@ const statisticsSlice = createSlice({
             },
           };
     },
-    resetQueryDataStatistics: (state) => {
-      return {
-        ...state,
-        daily: {
-          ...state.daily,
-          queryData: queryDataInitialState,
-        },
-        scheduled: {
-          ...state.scheduled,
-          queryData: queryDataInitialState,
-        },
-      };
-    },
+    resetQueryDataStatistics: (state): StatisticsState => ({
+      ...state,
+      daily: {
+        ...state.daily,
+        queryData: queryDataInitialState,
+      },
+      scheduled: {
+        ...state.scheduled,
+        queryData: queryDataInitialState,
+      },
+    }),
   },
 });
 

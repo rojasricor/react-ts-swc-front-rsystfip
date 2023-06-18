@@ -25,9 +25,11 @@ const authSlice = createSlice({
   name: "auth",
   initialState: userSessionSaved ? JSON.parse(userSessionSaved) : initialState,
   reducers: {
-    setAuthenticatedUser: (_state, { payload }: PayloadAction<authState>) =>
-      payload,
-    resetUserAuthenticated: () => initialState,
+    setAuthenticatedUser: (
+      _state,
+      { payload }: PayloadAction<authState>
+    ): authState => payload,
+    resetUserAuthenticated: (): authState => initialState,
   },
 });
 

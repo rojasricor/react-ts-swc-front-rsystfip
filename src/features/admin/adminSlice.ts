@@ -45,30 +45,22 @@ const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    setUsers: (state, { payload }: PayloadAction<User[]>) => {
-      return {
-        ...state,
-        users: payload,
-      };
-    },
-    setFormData: (state, { payload }: PayloadAction<FormData>) => {
-      return {
-        ...state,
-        formData: payload,
-      };
-    },
-    setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
-      return {
-        ...state,
-        isLoading: payload,
-      };
-    },
-    resetFormDataAdmin: (state) => {
-      return {
-        ...state,
-        formData: formDataInitialState,
-      };
-    },
+    setUsers: (state, { payload }: PayloadAction<User[]>): AdminState => ({
+      ...state,
+      users: payload,
+    }),
+    setFormData: (state, { payload }: PayloadAction<FormData>): AdminState => ({
+      ...state,
+      formData: payload,
+    }),
+    setIsLoading: (state, { payload }: PayloadAction<boolean>): AdminState => ({
+      ...state,
+      isLoading: payload,
+    }),
+    resetFormDataAdmin: (state) => ({
+      ...state,
+      formData: formDataInitialState,
+    }),
   },
 });
 

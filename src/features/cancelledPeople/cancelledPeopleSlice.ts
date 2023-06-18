@@ -14,7 +14,7 @@ const cancelledPeopleSlice = createSlice({
     setCancelledPeople: (
       _state,
       { payload }: PayloadAction<PeopleCancelled[]>
-    ) => payload,
+    ): PeopleCancelled[] => payload,
   },
 });
 

@@ -21,24 +21,18 @@ const peopleSlice = createSlice({
   name: "people",
   initialState,
   reducers: {
-    setPeople: (state, { payload }: PayloadAction<People[]>) => {
-      return {
-        ...state,
-        people: payload,
-      };
-    },
-    setPeopleOrigen: (state, { payload }: PayloadAction<People[]>) => {
-      return {
-        ...state,
-        peopleOrigen: payload,
-      };
-    },
-    setIsLoading: (state, { payload }: PayloadAction<number>) => {
-      return {
-        ...state,
-        isLoading: payload,
-      };
-    },
+    setPeople: (state, { payload }: PayloadAction<People[]>): PeopleState => ({
+      ...state,
+      people: payload,
+    }),
+    setPeopleOrigen: (
+      state,
+      { payload }: PayloadAction<People[]>
+    ): PeopleState => ({ ...state, peopleOrigen: payload }),
+    setIsLoading: (state, { payload }: PayloadAction<number>): PeopleState => ({
+      ...state,
+      isLoading: payload,
+    }),
   },
 });
 

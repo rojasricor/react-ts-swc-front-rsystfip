@@ -82,15 +82,14 @@ const FullCalendarScheduling = ({
           weekNumberCalculation="ISO"
           selectable
           selectMirror
-          select={({ view: { calendar, type }, start, end }) => {
+          select={({ view: { calendar, type }, start, end }): void => {
             if ("dayGridMonth" === type) return;
 
             const now = new Date();
             if (start < now) {
               calendar.unselect();
-              return toast.warn(
-                "No se puede agendar en una fecha que ya ha pasado."
-              );
+              toast.warn("No se puede agendar en una fecha que ya ha pasado.");
+              return;
             }
 
             if (
@@ -100,7 +99,8 @@ const FullCalendarScheduling = ({
             ) {
               // The selection is out of allow range, cancel
               calendar.unselect();
-              return toast.warn("Agendamientos no disponible en ese horario.");
+              toast.warn("Agendamientos no disponible en ese horario.");
+              return;
             }
 
             showModalScheduling();
@@ -118,7 +118,7 @@ const FullCalendarScheduling = ({
               ])
             );
           }}
-          eventClick={({ event: { id, start } }) => {
+          eventClick={({ event: { id, start } }): void => {
             showModalCancell();
 
             dispatch(
@@ -136,7 +136,9 @@ const FullCalendarScheduling = ({
           dayMaxEvents
           events={{
             url: `${API_ROUTE}/scheduling`,
-            failure: () => toast.error("Error al obtener los agendamientos"),
+            failure: (): void => {
+              toast.error("Error al obtener los agendamientos");
+            },
           }}
           eventOrder="-start"
           eventTimeFormat={{

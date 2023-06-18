@@ -16,7 +16,7 @@ const UserRow = ({
 }: IProps): React.JSX.Element | undefined => {
   const [deleted, setDeleted] = useState(false);
 
-  const handleClick = async (role: IUserBase["id"]) => {
+  const handleClick = async (role: IUserBase["id"]): Promise<void> => {
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {
@@ -25,7 +25,10 @@ const UserRow = ({
         data: { role },
       });
 
-      if (!data) return toast.error("Error al eliminar");
+      if (!data) {
+        toast.error("Error al eliminar");
+        return;
+      }
 
       setDeleted(true);
       toast.success("Usuario eliminado exitosamente", {

@@ -17,24 +17,18 @@ const resourcesSlice = createSlice({
   name: "resources",
   initialState,
   reducers: {
-    setCategories: (state, { payload }: PayloadAction<ICategory[]>) => {
-      return {
-        ...state,
-        categories: payload,
-      };
-    },
-    setDocuments: (state, { payload }: PayloadAction<IDocument[]>) => {
-      return {
-        ...state,
-        documents: payload,
-      };
-    },
-    setFaculties: (state, { payload }: PayloadAction<IFacultie[]>) => {
-      return {
-        ...state,
-        faculties: payload,
-      };
-    },
+    setCategories: (
+      state,
+      { payload }: PayloadAction<ICategory[]>
+    ): ResourcesState => ({ ...state, categories: payload }),
+    setDocuments: (
+      state,
+      { payload }: PayloadAction<IDocument[]>
+    ): ResourcesState => ({ ...state, documents: payload }),
+    setFaculties: (
+      state,
+      { payload }: PayloadAction<IFacultie[]>
+    ): ResourcesState => ({ ...state, faculties: payload }),
   },
 });
 

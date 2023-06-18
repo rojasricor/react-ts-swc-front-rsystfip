@@ -50,48 +50,31 @@ const reportsSlice = createSlice({
     setPngBase64: (
       state,
       { payload }: PayloadAction<ReportsState["pngBase64"]>
-    ) => {
-      return {
-        ...state,
-        pngBase64: payload,
-      };
-    },
-    setReports: (state, { payload }: PayloadAction<Reports[]>) => {
-      return {
-        ...state,
-        reports: payload,
-      };
-    },
-    setReportsOrigen: (state, { payload }: PayloadAction<Reports[]>) => {
-      return {
-        ...state,
-        reportsOrigen: payload,
-      };
-    },
-    setReportsCountOnRange: (state, { payload }: PayloadAction<ICounts[]>) => {
-      return {
-        ...state,
-        reportsCountOnRange: payload,
-      };
-    },
-    setReportsCountAllTime: (state, { payload }: PayloadAction<ICounts[]>) => {
-      return {
-        ...state,
-        reportsCountAllTime: payload,
-      };
-    },
-    setQueryData: (state, { payload }: PayloadAction<QueryData>) => {
-      return {
-        ...state,
-        queryData: payload,
-      };
-    },
-    resetQueryDataReports: (state) => {
-      return {
-        ...state,
-        queryData: queryDataInitialState,
-      };
-    },
+    ): ReportsState => ({ ...state, pngBase64: payload }),
+    setReports: (
+      state,
+      { payload }: PayloadAction<Reports[]>
+    ): ReportsState => ({ ...state, reports: payload }),
+    setReportsOrigen: (
+      state,
+      { payload }: PayloadAction<Reports[]>
+    ): ReportsState => ({ ...state, reportsOrigen: payload }),
+    setReportsCountOnRange: (
+      state,
+      { payload }: PayloadAction<ICounts[]>
+    ): ReportsState => ({ ...state, reportsCountOnRange: payload }),
+    setReportsCountAllTime: (
+      state,
+      { payload }: PayloadAction<ICounts[]>
+    ): ReportsState => ({ ...state, reportsCountAllTime: payload }),
+    setQueryData: (
+      state,
+      { payload }: PayloadAction<QueryData>
+    ): ReportsState => ({ ...state, queryData: payload }),
+    resetQueryDataReports: (state): ReportsState => ({
+      ...state,
+      queryData: queryDataInitialState,
+    }),
   },
 });
 
