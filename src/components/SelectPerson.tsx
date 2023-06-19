@@ -11,6 +11,7 @@ import {
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
+import { v4 } from "uuid";
 
 interface IProps {
   action: string;
@@ -89,8 +90,8 @@ const SelectPerson = ({
         required
       >
         <option value="">No seleccionado</option>
-        {categoriesState.map(({ id, category }, index) => (
-          <option key={index} value={id}>
+        {categoriesState.map(({ id, category }) => (
+          <option key={v4()} value={id}>
             {category}
           </option>
         ))}

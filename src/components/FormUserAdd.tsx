@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { IDocument } from "../interfaces/IResources";
+import { v4 } from "uuid";
 
 const FormUserAdd = (): React.JSX.Element => {
   const isLoadingState: boolean = useAppSelector(
@@ -143,8 +144,8 @@ const FormUserAdd = (): React.JSX.Element => {
               required
             >
               <option value="">No seleccionado</option>
-              {documentsState.map(({ id, description }, index) => (
-                <option key={index} value={id}>
+              {documentsState.map(({ id, description }) => (
+                <option key={v4()} value={id}>
                   {description}
                 </option>
               ))}

@@ -2,6 +2,7 @@ import { Table } from "react-bootstrap";
 import ReportRow from "./ReportRow";
 import { useAppSelector } from "../hooks";
 import { QueryData, Reports } from "../features/reports/reportsSlice";
+import { v4 } from "uuid";
 
 const TableReports = (): React.JSX.Element => {
   const reportsState: Reports[] = useAppSelector(
@@ -28,8 +29,8 @@ const TableReports = (): React.JSX.Element => {
         </tr>
       </thead>
       <tbody>
-        {reportsState.map((person, index) => (
-          <ReportRow key={index} report={person} />
+        {reportsState.map((person) => (
+          <ReportRow key={v4()} report={person} />
         ))}
       </tbody>
     </Table>

@@ -6,6 +6,7 @@ import axios from "axios";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { v4 } from "uuid";
 
 const TableUsers = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -36,8 +37,8 @@ const TableUsers = (): React.JSX.Element => {
         </tr>
       </thead>
       <tbody>
-        {usersState.map((user, index) => (
-          <UserRow key={index} user={user} />
+        {usersState.map((user) => (
+          <UserRow key={v4()} user={user} />
         ))}
       </tbody>
     </Table>

@@ -15,6 +15,7 @@ import { setCategories } from "../features/resources/resourcesSlice";
 import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { ICategory } from "../interfaces/IResources";
+import { v4 } from "uuid";
 
 const DaterReports = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -81,8 +82,8 @@ const DaterReports = (): React.JSX.Element => {
             value={queryDataState.category}
           >
             <option value={UNSET_STATUS}>Todos</option>
-            {categoriesState.map(({ id, category }, index) => (
-              <option key={index} value={id}>
+            {categoriesState.map(({ id, category }) => (
+              <option key={v4()} value={id}>
                 {category}
               </option>
             ))}

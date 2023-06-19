@@ -7,6 +7,7 @@ import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { FormDataState } from "../features/programming/programmingSlice";
+import { v4 } from "uuid";
 
 interface IProps {
   action: string;
@@ -52,8 +53,8 @@ const SelectDocument = ({
         required
       >
         <option value="">No seleccionado</option>
-        {documentsState.map(({ id, description }, index) => (
-          <option key={index} value={id}>
+        {documentsState.map(({ id, description }) => (
+          <option key={v4()} value={id}>
             {description}
           </option>
         ))}

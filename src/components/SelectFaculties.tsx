@@ -7,6 +7,7 @@ import { setFaculties } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { FormDataState } from "../features/programming/programmingSlice";
 import { IFacultie } from "../interfaces/IResources";
+import { v4 } from "uuid";
 
 interface IProps {
   action: string;
@@ -55,8 +56,8 @@ const SelectFaculties = ({
         required
       >
         <option value="">No seleccionado</option>
-        {facultiesState.map(({ id, facultie }, index) => (
-          <option key={index} value={id}>
+        {facultiesState.map(({ id, facultie }) => (
+          <option key={v4()} value={id}>
             {facultie}
           </option>
         ))}

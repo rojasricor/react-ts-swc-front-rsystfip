@@ -9,6 +9,7 @@ import {
   setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { v4 } from "uuid";
 
 const TableCancelled = (): React.JSX.Element => {
   const cancelledPeopleState: PeopleCancelled[] = useAppSelector(
@@ -46,7 +47,7 @@ const TableCancelled = (): React.JSX.Element => {
       </thead>
       <tbody>
         {cancelledPeopleState.map((person, index) => (
-          <CancelledRow key={index} index={index} person={person} />
+          <CancelledRow key={v4()} index={index} person={person} />
         ))}
       </tbody>
     </Table>
