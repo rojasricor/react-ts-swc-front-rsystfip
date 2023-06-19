@@ -6,33 +6,28 @@ import { QueryData } from "../features/statistics/statisticsSlice";
 
 const ListerStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const mostAgendatedOnRangeState: ICounts[] = useAppSelector(
-    ({ statistics }) =>
-      scheduling_type === "daily"
-        ? statistics.daily.mostAgendatedOnRange
-        : statistics.scheduled.mostAgendatedOnRange
+    ({ statistics }) => statistics[scheduling_type].mostAgendatedOnRange
   );
   const mostAgendatedAllTimeState: ICounts[] = useAppSelector(
-    ({ statistics }) =>
-      scheduling_type === "daily"
-        ? statistics.daily.mostAgendatedAllTime
-        : statistics.scheduled.mostAgendatedAllTime
+    ({ statistics }) => statistics[scheduling_type].mostAgendatedAllTime
   );
-  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
-    scheduling_type === "daily"
-      ? statistics.daily.queryData
-      : statistics.scheduled.queryData
+  const queryDataState: QueryData = useAppSelector(
+    ({ statistics }) => statistics[scheduling_type].queryData
   );
+
+  const titleText: string =
+    scheduling_type === "daily" ? "diario" : "programado";
 
   return (
     <>
       <Listgroup
-        title={`Agendamiento ${scheduling_type} en el rango de fecha`}
+        title={`Agendamiento ${titleText} en el rango de fecha`}
         data={mostAgendatedOnRangeState}
         end={queryDataState.end}
       />
 
       <Listgroup
-        title={`Agendamiento ${scheduling_type} en todas las fechas`}
+        title={`Agendamiento ${titleText} en todas las fechas`}
         data={mostAgendatedAllTimeState}
         end={queryDataState.end}
       />

@@ -46,10 +46,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
-    scheduling_type === "daily"
-      ? statistics.daily.queryData
-      : statistics.scheduled.queryData
+  const queryDataState: QueryData = useAppSelector(
+    ({ statistics }) => statistics[scheduling_type].queryData
   );
 
   ChartJS.register(
@@ -68,15 +66,14 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
     Tooltip
   );
 
+  const labelText: string =
+    scheduling_type === "daily" ? "diario" : "programado";
+
   const refreshChart: (labels: string[], data: string[]) => void = (
     labels: string[],
     data: string[]
   ): void => {
     if (chartJS) chartJS.destroy();
-
-    const label: string = `Agendamiento ${
-      scheduling_type === "daily" ? "diario" : "programado"
-    } - Cantidad persona(s)`;
 
     const newChart: typeof chartJS = new ChartJS(
       ctxRef.current as HTMLCanvasElement,
@@ -86,7 +83,7 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
           labels,
           datasets: [
             {
-              label,
+              label: `Agendamiento ${labelText} - Cantidad persona(s)`,
               data,
               backgroundColor: [
                 "rgba(54, 162, 235, 0.2)",
@@ -199,11 +196,7 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   return (
     <>
       <Col md={12}>
-        <h1 className="h3">
-          {`Estadísticas de agendamiento ${
-            scheduling_type === "daily" ? "diario" : "programado"
-          }`}
-        </h1>
+        <h1 className="h3">Estadísticas de agendamiento {labelText}</h1>
       </Col>
 
       <DaterStatistics scheduling_type={scheduling_type} />
@@ -213,11 +206,7 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
       </Col>
 
       <Col md={12}>
-        <ListerStatistics
-          scheduling_type={
-            scheduling_type === "daily" ? "diario" : "programado"
-          }
-        />
+        <ListerStatistics scheduling_type={scheduling_type} />
       </Col>
     </>
   );

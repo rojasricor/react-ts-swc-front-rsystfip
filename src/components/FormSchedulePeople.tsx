@@ -38,20 +38,12 @@ const FormSchedulePeople = ({
 }: IProps): React.JSX.Element => {
   const { id } = useParams<TParams>();
 
-  const isEdit: boolean = action === "edit";
-  const isSchedule: boolean = action === "schedule";
-  const isAdd: boolean = action === "add";
-
   const facultieSelectRef = useRef<HTMLSelectElement>(null);
 
   const dispatch = useAppDispatch();
 
   const formDataState: FormDataState | undefined = useAppSelector(
-    ({ programming: { formData } }) => {
-      if (isEdit) return formData.edit;
-      if (isAdd) return formData.add;
-      if (isSchedule) return formData.schedule;
-    }
+    ({ programming: { formData } }) => formData[action]
   );
   const isLoadingState: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
@@ -140,19 +132,24 @@ const FormSchedulePeople = ({
   const handleSubmit = (e: THandleSubmit) => {
     e.preventDefault();
 
-    if (isEdit) return editPerson();
-    if (isSchedule) return schedulePerson(closeModalScheduling);
-    if (isAdd) {
-      dispatch(
-        setFormData([
-          action,
-          {
-            ...formDataState,
-            status: "daily",
-          },
-        ])
-      );
-      schedulePerson();
+    switch (action) {
+      case "edit":
+        return editPerson();
+
+      case "schedule":
+        return schedulePerson(closeModalScheduling);
+
+      case "add":
+        dispatch(
+          setFormData([
+            action,
+            {
+              ...formDataState,
+              status: "daily",
+            },
+          ])
+        );
+        return schedulePerson();
     }
   };
 
@@ -289,7 +286,7 @@ const FormSchedulePeople = ({
           </Form.FloatingLabel>
         </Col>
 
-        <ProtectedElement isAllowed={isSchedule}>
+        <ProtectedElement isAllowed={action === "schedule"}>
           <Col md={6}>
             <Form.FloatingLabel label="Teléfono de contacto:">
               <Form.Control
@@ -309,7 +306,7 @@ const FormSchedulePeople = ({
           </Col>
         </ProtectedElement>
 
-        <ProtectedElement isAllowed={isSchedule}>
+        <ProtectedElement isAllowed={action === "schedule"}>
           <Col md={6}>
             <Form.FloatingLabel label="Email de contacto:">
               <Form.Control
@@ -358,7 +355,7 @@ const FormSchedulePeople = ({
           </Form.FloatingLabel>
         </Col>
 
-        <ProtectedElement isAllowed={isSchedule}>
+        <ProtectedElement isAllowed={action === "schedule"}>
           <Col md={12}>
             <Form.Control
               name="color"
@@ -372,11 +369,11 @@ const FormSchedulePeople = ({
 
         <SmallCaption />
 
-        <ProtectedElement isAllowed={!isSchedule}>
+        <ProtectedElement isAllowed={action !== "schedule"}>
           <FooterFormPeople isAllowed={action === "edit"} />
         </ProtectedElement>
 
-        <ProtectedElement isAllowed={isSchedule}>
+        <ProtectedElement isAllowed={action === "schedule"}>
           <ModalFooter>
             <Button variant="light" onClick={closeModalScheduling}>
               Cerrar <GiReturnArrow className="mb-1" />

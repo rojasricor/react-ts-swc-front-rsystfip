@@ -23,19 +23,11 @@ const SelectPerson = ({
   handleChange,
   facultieSelectRef,
 }: IProps): React.JSX.Element => {
-  const isEdit: boolean = action === "edit";
-  const isSchedule: boolean = action === "schedule";
-  const isAdd: boolean = action === "add";
-
   const categoriesState: ICategory[] = useAppSelector(
     ({ resources }) => resources.categories
   );
   const formDataState: FormDataState | undefined = useAppSelector(
-    ({ programming: { formData } }) => {
-      if (isEdit) return formData.edit;
-      if (isAdd) return formData.add;
-      if (isSchedule) return formData.schedule;
-    }
+    ({ programming: { formData } }) => formData[action]
   );
 
   const dispatch = useAppDispatch();

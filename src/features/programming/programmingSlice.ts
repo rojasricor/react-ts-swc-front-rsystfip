@@ -29,6 +29,7 @@ interface FormData {
   add: FormDataState;
   edit: FormDataState;
   schedule: FormDataState;
+  [action: string]: FormDataState;
 }
 
 export const formDataInitialState: FormDataState = {

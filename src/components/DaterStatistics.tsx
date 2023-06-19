@@ -10,10 +10,8 @@ import { THandleChangeITS } from "../types/THandleChanges";
 const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const queryDataState: QueryData = useAppSelector(({ statistics }) =>
-    scheduling_type === "daily"
-      ? statistics.daily.queryData
-      : statistics.scheduled.queryData
+  const queryDataState: QueryData = useAppSelector(
+    ({ statistics }) => statistics[scheduling_type].queryData
   );
 
   const handleChange = (e: THandleChangeITS) => {

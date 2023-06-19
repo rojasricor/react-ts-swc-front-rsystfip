@@ -19,7 +19,7 @@ export interface Data {
 export interface StatisticsState {
   daily: Data;
   scheduled: Data;
-  [key: string]: Data;
+  [shcheduling_type: string]: Data;
 }
 
 export const validSchedulingTypes: IKeyBool = {
