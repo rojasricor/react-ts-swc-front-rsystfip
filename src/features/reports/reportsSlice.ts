@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getStartMonthDate, getEndMonthDate } from "../../libs/timeFormatter";
 import { UNSET_STATUS } from "../../constants";
 import { ICounts } from "../../interfaces/ICounts";
+import { endOfMonth, format } from "date-fns";
 
 export interface Reports {
   name: string;
@@ -35,8 +35,8 @@ const initialState: ReportsState = {
   reportsCountOnRange: [],
   reportsCountAllTime: [],
   queryData: {
-    startDate: getStartMonthDate(),
-    endDate: getEndMonthDate(),
+    startDate: format(new Date(), "yyyy-MM-01"),
+    endDate: format(endOfMonth(new Date()), "yyyy-MM-dd"),
     category: UNSET_STATUS,
   },
 };

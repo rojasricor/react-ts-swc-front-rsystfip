@@ -6,7 +6,6 @@ import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import Notify from "./Notify";
 import FullCalendar from "@fullcalendar/react";
 import esLocale from "@fullcalendar/core/locales/es";
-import { formatTodaysDate, formatTodaysDateTime } from "../libs/timeFormatter";
 import { API_ROUTE } from "../constants";
 import { toast } from "react-toastify";
 import { Container } from "react-bootstrap";
@@ -16,6 +15,7 @@ import {
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { globalPlugins } from "fullcalendar";
+import { format } from "date-fns";
 
 interface IProps {
   right: string;
@@ -113,9 +113,9 @@ const FullCalendarScheduling = ({
                 action,
                 {
                   ...formDataState,
-                  date: formatTodaysDate(start),
-                  start: formatTodaysDateTime(start),
-                  end: formatTodaysDateTime(end),
+                  date: format(start, "yyyy-MM-dd"),
+                  start: format(start, "yyyy-MM-dd HH:mm:ss"),
+                  end: format(end, "yyyy-MM-dd HH:mm:ss"),
                   status: "scheduled",
                 },
               ])
@@ -130,7 +130,7 @@ const FullCalendarScheduling = ({
                 {
                   ...formDataState,
                   eventId: id,
-                  date: formatTodaysDateTime(start as Date),
+                  date: format(start as Date, "yyyy-MM-dd HH:mm:ss"),
                 },
               ])
             );

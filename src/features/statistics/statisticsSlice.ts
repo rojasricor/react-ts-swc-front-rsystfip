@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getStartMonthDate, getEndMonthDate } from "../../libs/timeFormatter";
 import { ICounts } from "../../interfaces/ICounts";
 import { IKeyBool } from "../../interfaces/IKeyBool";
 import { updateDataBySchedulingType } from "./functions";
+import { endOfMonth, format } from "date-fns";
 
 export interface QueryData {
   start: string;
@@ -28,8 +28,8 @@ export const validSchedulingTypes: IKeyBool = {
 };
 
 const queryDataInitialState: QueryData = {
-  start: getStartMonthDate(),
-  end: getEndMonthDate(),
+  start: format(new Date(), "yyyy-MM-01"),
+  end: format(endOfMonth(new Date()), "yyyy-MM-dd"),
   chartType: "bar",
 };
 
