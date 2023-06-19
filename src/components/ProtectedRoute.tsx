@@ -12,7 +12,7 @@ const ProtectedRoute = ({
 }: IProps): React.JSX.Element => {
   if (!isAllowed) return <Navigate to={navigateTo} />;
 
-  return children ?? <Outlet />;
+  return children || <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -28,19 +28,17 @@ interface ReportsState {
   queryData: QueryData;
 }
 
-const queryDataInitialState: QueryData = {
-  startDate: getStartMonthDate(),
-  endDate: getEndMonthDate(),
-  category: UNSET_STATUS,
-};
-
 const initialState: ReportsState = {
   pngBase64: "",
   reports: [],
   reportsOrigen: [],
   reportsCountOnRange: [],
   reportsCountAllTime: [],
-  queryData: queryDataInitialState,
+  queryData: {
+    startDate: getStartMonthDate(),
+    endDate: getEndMonthDate(),
+    category: UNSET_STATUS,
+  },
 };
 
 const reportsSlice = createSlice({
@@ -73,7 +71,7 @@ const reportsSlice = createSlice({
     ): ReportsState => ({ ...state, queryData: payload }),
     resetQueryDataReports: (state): ReportsState => ({
       ...state,
-      queryData: queryDataInitialState,
+      queryData: initialState.queryData,
     }),
   },
 });

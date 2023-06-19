@@ -16,17 +16,15 @@ export interface AuthState {
   user: User;
 }
 
-const userInitialState: User = {
-  id: 0,
-  role: "",
-  name: "",
-  email: "",
-  permissions: [],
-};
-
 const initialState: AuthState = {
   auth: false,
-  user: userInitialState,
+  user: {
+    id: 0,
+    role: "",
+    name: "",
+    email: "",
+    permissions: [],
+  },
 };
 
 const authSlice = createSlice({

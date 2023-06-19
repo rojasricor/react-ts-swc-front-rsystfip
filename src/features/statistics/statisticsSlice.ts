@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getStartMonthDate, getEndMonthDate } from "../../libs/timeFormatter";
 import { ICounts } from "../../interfaces/ICounts";
+import { IKeyBool } from "../../interfaces/IKeyBool";
+import { updateDataBySchedulingType } from "./functions";
 
 export interface QueryData {
   start: string;
@@ -8,16 +10,22 @@ export interface QueryData {
   chartType: string;
 }
 
-interface Data {
+export interface Data {
   mostAgendatedOnRange: ICounts[];
   mostAgendatedAllTime: ICounts[];
   queryData: QueryData;
 }
 
-interface StatisticsState {
+export interface StatisticsState {
   daily: Data;
   scheduled: Data;
+  [key: string]: Data;
 }
+
+export const validSchedulingTypes: IKeyBool = {
+  daily: true,
+  scheduled: true,
+};
 
 const queryDataInitialState: QueryData = {
   start: getStartMonthDate(),
@@ -44,80 +52,33 @@ const statisticsSlice = createSlice({
   reducers: {
     setMostAgendatedOnRange: (
       state,
-      { payload }: PayloadAction<[string, ICounts[]]>
-    ): StatisticsState => {
-      const [schedulingType, mostAgendatedOnRange] = payload;
-
-      return schedulingType === "daily"
-        ? {
-            ...state,
-            daily: {
-              ...state.daily,
-              mostAgendatedOnRange,
-            },
-          }
-        : {
-            ...state,
-            scheduled: {
-              ...state.scheduled,
-              mostAgendatedOnRange,
-            },
-          };
-    },
+      {
+        payload: [schedulingType, mostAgendatedOnRange],
+      }: PayloadAction<[string, ICounts[]]>
+    ): StatisticsState =>
+      updateDataBySchedulingType(state, schedulingType, {
+        mostAgendatedOnRange,
+      }),
     setMostAgendatedAllTime: (
       state,
-      { payload }: PayloadAction<[string, ICounts[]]>
-    ): StatisticsState => {
-      const [schedulingType, mostAgendatedAllTime] = payload;
-
-      return schedulingType === "daily"
-        ? {
-            ...state,
-            daily: {
-              ...state.daily,
-              mostAgendatedAllTime,
-            },
-          }
-        : {
-            ...state,
-            scheduled: {
-              ...state.scheduled,
-              mostAgendatedAllTime,
-            },
-          };
-    },
+      {
+        payload: [schedulingType, mostAgendatedAllTime],
+      }: PayloadAction<[string, ICounts[]]>
+    ): StatisticsState =>
+      updateDataBySchedulingType(state, schedulingType, {
+        mostAgendatedAllTime,
+      }),
     setQueryData: (
       state,
-      { payload }: PayloadAction<[string, QueryData]>
-    ): StatisticsState => {
-      const [schedulingType, queryData] = payload;
-
-      return schedulingType === "daily"
-        ? {
-            ...state,
-            daily: {
-              ...state.daily,
-              queryData,
-            },
-          }
-        : {
-            ...state,
-            scheduled: {
-              ...state.scheduled,
-              queryData,
-            },
-          };
-    },
+      {
+        payload: [schedulingType, queryData],
+      }: PayloadAction<[string, QueryData]>
+    ): StatisticsState =>
+      updateDataBySchedulingType(state, schedulingType, { queryData }),
     resetQueryDataStatistics: (state): StatisticsState => ({
       ...state,
-      daily: {
-        ...state.daily,
-        queryData: queryDataInitialState,
-      },
-      scheduled: {
-        ...state.scheduled,
-        queryData: queryDataInitialState,
-      },
+      daily: { ...state.daily, queryData: queryDataInitialState },
+      scheduled: { ...state.scheduled, queryData: queryDataInitialState },
     }),
   },
 });

@@ -23,21 +23,19 @@ interface AdminState {
   isLoading: boolean;
 }
 
-const formDataInitialState: FormData = {
-  role: "",
-  name: "",
-  lastname: "",
-  docType: "",
-  doc: "",
-  email: "",
-  tel: "",
-  password: "",
-  passwordConfirmation: "",
-};
-
 const initialState: AdminState = {
   users: [],
-  formData: formDataInitialState,
+  formData: {
+    role: "",
+    name: "",
+    lastname: "",
+    docType: "",
+    doc: "",
+    email: "",
+    tel: "",
+    password: "",
+    passwordConfirmation: "",
+  },
   isLoading: false,
 };
 
@@ -59,7 +57,7 @@ const adminSlice = createSlice({
     }),
     resetFormDataAdmin: (state) => ({
       ...state,
-      formData: formDataInitialState,
+      formData: initialState.formData,
     }),
   },
 });

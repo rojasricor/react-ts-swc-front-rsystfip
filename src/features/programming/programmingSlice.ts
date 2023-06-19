@@ -3,6 +3,8 @@ import {
   formatTodaysDate,
   formatTodaysDateTime,
 } from "../../libs/timeFormatter";
+import { updateFormDataByAction } from "./functions";
+import { IKeyBool } from "../../interfaces/IKeyBool";
 
 export interface FormDataState {
   eventId?: string;
@@ -29,7 +31,7 @@ interface FormData {
   schedule: FormDataState;
 }
 
-const formDataInitialState: FormDataState = {
+export const formDataInitialState: FormDataState = {
   eventId: "",
   person: "",
   doc: "",
@@ -54,11 +56,17 @@ export interface Deans {
   facultie_id: string;
 }
 
-interface ProgrammingState {
+export interface ProgrammingState {
   formData: FormData;
   isLoading: boolean;
   deans: Deans[];
 }
+
+export const validFormDataAction: IKeyBool = {
+  add: true,
+  edit: true,
+  schedule: true,
+};
 
 const initialState: ProgrammingState = {
   formData: {
@@ -76,42 +84,8 @@ const programmingSlice = createSlice({
   reducers: {
     setFormData: (
       state,
-      { payload }: PayloadAction<[string, FormDataState?]>
-    ): ProgrammingState => {
-      const [action, formData] = payload;
-
-      switch (action) {
-        case "add":
-          return {
-            ...state,
-            formData: {
-              ...state.formData,
-              add: formData ?? formDataInitialState,
-            },
-          };
-
-        case "edit":
-          return {
-            ...state,
-            formData: {
-              ...state.formData,
-              edit: formData ?? formDataInitialState,
-            },
-          };
-
-        case "schedule":
-          return {
-            ...state,
-            formData: {
-              ...state.formData,
-              schedule: formData ?? formDataInitialState,
-            },
-          };
-
-        default:
-          return state;
-      }
-    },
+      { payload: [action, formData] }: PayloadAction<[string, FormDataState?]>
+    ): ProgrammingState => updateFormDataByAction(state, action, formData),
     setIsLoading: (
       state,
       { payload }: PayloadAction<boolean>
