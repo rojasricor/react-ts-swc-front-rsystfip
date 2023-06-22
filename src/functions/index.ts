@@ -1,4 +1,5 @@
 import { toast, Id as ToastId } from "react-toastify";
+import { TOAST_ID } from "../constants";
 
 export const showAndUpdateToast: (
   errors: string[],
@@ -10,8 +11,8 @@ export const showAndUpdateToast: (
   const errorMessages: string[] = Object.values(errors).flat() as string[];
   const errorMessagesText: string = errorMessages.join(", ");
 
-  if (toast.isActive("toast-warn-errors-api")) {
-    toast.update("toast-warn-errors-api", {
+  if (toast.isActive(TOAST_ID)) {
+    toast.update(TOAST_ID, {
       render: errorMessagesText,
       autoClose: errorMessages.length * 3000,
     });
@@ -21,7 +22,7 @@ export const showAndUpdateToast: (
   if (setMyToast === undefined) {
     toast.warn(errorMessagesText, {
       autoClose: errorMessages.length * 3000,
-      toastId: "toast-warn-errors-api",
+      toastId: TOAST_ID,
     });
     return;
   }
@@ -29,7 +30,7 @@ export const showAndUpdateToast: (
   return setMyToast(
     toast.warn(errorMessagesText, {
       autoClose: errorMessages.length * 3000,
-      toastId: "toast-warn-errors-api",
+      toastId: TOAST_ID,
     })
   );
 };
