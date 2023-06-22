@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IBase } from "../../interfaces/IResources";
+import { IUserBase } from "../../interfaces/IUserBase";
 
-export interface User extends IBase {
-  email: string;
+export interface User extends IUserBase {
+  name: string;
+  lastname: string;
+  tel: string;
+  role: string;
 }
 
 export interface FormData {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
@@ -8,6 +8,7 @@ import { BiKey } from "react-icons/bi";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { IUserBase } from "../interfaces/IUserBase";
+import { showAndUpdateToast } from "../functions";
 
 interface IProps {
   userId: IUserBase["id"];
@@ -28,6 +29,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
 
   const [formData, setFormData] = useState<FormState>(formDataInitialState);
   const [loading, setLoading] = useState<boolean>(false);
+  const [myToast, setMyToast] = useState<ToastId>("");
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
@@ -35,7 +37,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
 
     try {
       const {
-        data: { error, ok },
+        data: { errors, ok },
       } = await axios.put(`${API_ROUTE}/password`, {
         id: userId,
         current_password: formData.currentPassword,
@@ -43,13 +45,11 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
         new_password_confirm: formData.confirmPassword,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       setFormData(formDataInitialState);
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import { API_ROUTE, RESOURCE_ROUTE } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
@@ -17,6 +17,7 @@ import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { IDocument } from "../interfaces/IResources";
 import { v4 } from "uuid";
+import { showAndUpdateToast } from "../functions";
 
 const FormUserAdd = (): React.JSX.Element => {
   const isLoadingState: boolean = useAppSelector(
@@ -26,6 +27,8 @@ const FormUserAdd = (): React.JSX.Element => {
   const documentsState: IDocument[] = useAppSelector(
     ({ resources }) => resources.documents
   );
+
+  const [myToast, setMyToast] = useState<ToastId>("");
 
   const dispatch = useAppDispatch();
 
@@ -44,7 +47,7 @@ const FormUserAdd = (): React.JSX.Element => {
 
     try {
       const {
-        data: { error, ok },
+        data: { errors, ok },
       } = await axios.post(`${API_ROUTE}/user`, {
         role: formDataState.role,
         name: formDataState.name,
@@ -57,13 +60,11 @@ const FormUserAdd = (): React.JSX.Element => {
         passwordConfirmation: formDataState.passwordConfirmation,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       dispatch(resetFormDataAdmin());
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {

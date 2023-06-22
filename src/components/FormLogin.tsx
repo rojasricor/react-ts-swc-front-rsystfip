@@ -10,6 +10,7 @@ import { IoMdLogIn } from "react-icons/io";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { useAppDispatch } from "../hooks";
+import { showAndUpdateToast } from "../functions";
 
 const FormLogin = (): React.JSX.Element => {
   interface FormData {
@@ -47,10 +48,7 @@ const FormLogin = (): React.JSX.Element => {
         password: formData.password,
       });
 
-      if (data.error || !data.auth) {
-        toast.warn(data.error);
-        return;
-      }
+      if (data.errors) return showAndUpdateToast(data.errors);
 
       window.sessionStorage.setItem(AUTH_KEY, JSON.stringify(data));
 

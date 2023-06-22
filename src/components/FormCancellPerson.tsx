@@ -2,16 +2,17 @@ import { useState } from "react";
 import { API_ROUTE } from "../constants";
 import { Form, Spinner, ModalFooter, Button, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import { FaTimes, FaCheck } from "react-icons/fa";
 import {
   FormDataState,
   setIsLoading,
 } from "../features/programming/programmingSlice";
 import Notify from "./Notify";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
+import { showAndUpdateToast } from "../functions";
 
 interface IProps {
   closeModalCancell: () => void;
@@ -21,6 +22,9 @@ const FormCancellPerson = ({
   closeModalCancell,
 }: IProps): React.JSX.Element => {
   const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
+  const [myToast, setMyToast] = useState<ToastId>("");
+
+  const dispatch = useAppDispatch();
 
   const isLoadingStatus: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
@@ -31,29 +35,27 @@ const FormCancellPerson = ({
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
 
     try {
       const {
-        data: { ok, error },
+        data: { ok, errors },
       } = await axios.patch(`${API_ROUTE}/person`, {
         id: formDataState.eventId,
         date: formDataState.date,
         cancelled_asunt,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
       setCancelled_asunt("");
       closeModalCancell();
     } catch ({ message }: any) {
       toast.error(message);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
+import { showAndUpdateToast } from "../functions";
 
 interface FormData {
   password: string;
@@ -27,6 +28,7 @@ const FormChangePswForget = (): React.JSX.Element => {
 
   const [formData, setFormData] = useState<FormData>(formDataInitialState);
   const [loading, setLoading] = useState<boolean>(false);
+  const [myToast, setMyToast] = useState<ToastId>("");
 
   const { resetToken, email } = useParams<TParams>();
 
@@ -36,7 +38,7 @@ const FormChangePswForget = (): React.JSX.Element => {
 
     try {
       const {
-        data: { error, ok },
+        data: { errors, ok },
       } = await axios.put(`${API_ROUTE}/recover/password`, {
         email,
         resetToken,
@@ -44,13 +46,11 @@ const FormChangePswForget = (): React.JSX.Element => {
         password_confirm: formData.confirmPassword,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       setFormData(formDataInitialState);
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {

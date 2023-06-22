@@ -6,23 +6,24 @@ import { Button } from "react-bootstrap";
 import { API_ROUTE } from "../constants";
 import { BiTrash, BiKey } from "react-icons/bi";
 import { IUserBase } from "../interfaces/IUserBase";
+import { User } from "../features/admin/adminSlice";
 
 interface IProps {
-  user: IUserBase;
+  user: User;
 }
 
 const UserRow = ({
-  user: { id, email },
+  user: { id, email, role },
 }: IProps): React.JSX.Element | undefined => {
   const [deleted, setDeleted] = useState(false);
 
-  const handleClick = async (role: IUserBase["id"]): Promise<void> => {
+  const handleClick = async (roleId: IUserBase["id"]): Promise<void> => {
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {
       const { data } = await axios.delete(`${API_ROUTE}/user`, {
         headers: { "Content-Type": "application/json" },
-        data: { role },
+        data: { roleId },
       });
 
       if (!data) {
@@ -44,7 +45,7 @@ const UserRow = ({
   return (
     <tr>
       <td>
-        {email} {id === 3 && "(Admin)"}
+        {email} ({role.substring(0, 1).toUpperCase().concat(role.substring(1))})
       </td>
 
       <td>

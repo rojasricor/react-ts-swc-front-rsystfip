@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Spinner, Col, Row, ModalFooter, Button } from "react-bootstrap";
 import axios from "axios";
 import { API_ROUTE } from "../constants";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import SelectPerson from "./SelectPerson";
 import SelectDocument from "./SelectDocument";
 import SelectFaculties from "./SelectFaculties";
@@ -22,6 +22,7 @@ import Notify from "./Notify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { showAndUpdateToast } from "../functions";
 
 interface IProps {
   action: string;
@@ -37,6 +38,8 @@ const FormSchedulePeople = ({
   closeModalScheduling,
 }: IProps): React.JSX.Element => {
   const { id } = useParams<TParams>();
+
+  const [myToast, setMyToast] = useState<ToastId>("");
 
   const facultieSelectRef = useRef<HTMLSelectElement>(null);
 
@@ -57,7 +60,7 @@ const FormSchedulePeople = ({
 
     try {
       const {
-        data: { ok, error },
+        data: { ok, errors },
       } = await axios.put(`${API_ROUTE}/person`, {
         id,
         person: formDataState?.person,
@@ -68,14 +71,12 @@ const FormSchedulePeople = ({
         asunt: formDataState?.asunt,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       dispatch(setFormData([action]));
 
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {
@@ -90,7 +91,7 @@ const FormSchedulePeople = ({
 
     try {
       const {
-        data: { ok, error },
+        data: { ok, errors },
       } = await axios.post(`${API_ROUTE}/person`, {
         person: formDataState?.person,
         name: formDataState?.name,
@@ -111,10 +112,7 @@ const FormSchedulePeople = ({
         status: formDataState?.status,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       dispatch(setFormData([action]));
 
@@ -122,6 +120,7 @@ const FormSchedulePeople = ({
         closeModalScheduling();
 
       toast.success(ok, { position: "top-left" });
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {

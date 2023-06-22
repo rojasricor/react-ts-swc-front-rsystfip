@@ -1,17 +1,17 @@
-import { ToastContainer, Flip } from "react-toastify";
+import { ToastContainer, toast, Zoom } from "react-toastify";
 
 const Notify = (): React.JSX.Element => (
   <ToastContainer
-    position="top-right"
-    autoClose={2000}
-    hideProgressBar={false}
-    newestOnTop={false}
-    transition={Flip}
+    position={toast.POSITION.TOP_RIGHT}
+    autoClose={3000}
+    hideProgressBar
+    newestOnTop
+    transition={Zoom}
     closeOnClick
     rtl={false}
-    pauseOnFocusLoss
-    draggable
-    pauseOnHover
+    pauseOnFocusLoss={false}
+    draggable={false}
+    pauseOnHover={false}
     theme="colored"
   />
 );

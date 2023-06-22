@@ -1,16 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, Id as ToastId } from "react-toastify";
 import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiMailSend } from "react-icons/bi";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
+import { showAndUpdateToast } from "../functions";
 
 const FormRecoveryPsw = (): React.JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const [myToast, setMyToast] = useState<ToastId>("");
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
@@ -18,18 +20,16 @@ const FormRecoveryPsw = (): React.JSX.Element => {
 
     try {
       const {
-        data: { error, ok },
+        data: { errors, ok },
       } = await axios.post(`${API_ROUTE}/auth/recover/password`, {
         email,
         APP_ROUTE: window.location.href,
       });
 
-      if (error || !ok) {
-        toast.warn(error);
-        return;
-      }
+      if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
       toast.success(ok);
+      toast.dismiss(myToast);
     } catch ({ message }: any) {
       toast.error(message);
     } finally {
