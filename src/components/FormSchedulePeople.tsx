@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Spinner, Col, Row, ModalFooter, Button } from "react-bootstrap";
-import axios from "axios";
-import { API_ROUTE } from "../constants";
 import { toast, Id as ToastId } from "react-toastify";
 import SelectPerson from "./SelectPerson";
 import SelectDocument from "./SelectDocument";
@@ -23,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 interface IProps {
   action: string;
@@ -61,7 +60,7 @@ const FormSchedulePeople = ({
     try {
       const {
         data: { ok, errors },
-      } = await axios.put(`${API_ROUTE}/person`, {
+      } = await api.put("/person", {
         id,
         person: formDataState?.person,
         name: formDataState?.name,
@@ -92,7 +91,7 @@ const FormSchedulePeople = ({
     try {
       const {
         data: { ok, errors },
-      } = await axios.post(`${API_ROUTE}/person`, {
+      } = await api.post("/person", {
         person: formDataState?.person,
         name: formDataState?.name,
         doctype: formDataState?.doctype,
@@ -163,7 +162,7 @@ const FormSchedulePeople = ({
           document_number,
           come_asunt,
         },
-      } = await axios(`${API_ROUTE}/person?id=${id}`);
+      } = await api(`/person?id=${id}`);
 
       dispatch(
         setFormData([

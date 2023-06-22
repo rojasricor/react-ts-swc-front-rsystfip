@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { API_ROUTE, RESOURCE_ROUTE, UNSET_STATUS } from "../constants";
+import { UNSET_STATUS } from "../constants";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { setCategories } from "../features/resources/resourcesSlice";
 import {
@@ -12,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 interface IProps {
   action: string;
@@ -35,7 +35,7 @@ const SelectPerson = ({
 
   const getDeans = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/deans`);
+      const { data } = await api("/deans");
 
       dispatch(setDeans(data));
     } catch ({ message }: any) {
@@ -69,7 +69,7 @@ const SelectPerson = ({
 
   const getCategories = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${RESOURCE_ROUTE}?resource=categories`);
+      const { data } = await api("/resource?resource=categories");
 
       dispatch(setCategories(data));
     } catch ({ message }: any) {

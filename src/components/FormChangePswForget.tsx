@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { toast, Id as ToastId } from "react-toastify";
-import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 interface FormData {
   password: string;
@@ -39,7 +38,7 @@ const FormChangePswForget = (): React.JSX.Element => {
     try {
       const {
         data: { errors, ok },
-      } = await axios.put(`${API_ROUTE}/recover/password`, {
+      } = await api.put("/recover/password", {
         email,
         resetToken,
         password: formData.password,

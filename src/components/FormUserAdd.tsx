@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast, Id as ToastId } from "react-toastify";
-import { API_ROUTE, RESOURCE_ROUTE } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { FaUserPlus } from "react-icons/fa";
@@ -18,6 +16,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { IDocument } from "../interfaces/IResources";
 import { v4 } from "uuid";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 const FormUserAdd = (): React.JSX.Element => {
   const isLoadingState: boolean = useAppSelector(
@@ -48,7 +47,7 @@ const FormUserAdd = (): React.JSX.Element => {
     try {
       const {
         data: { errors, ok },
-      } = await axios.post(`${API_ROUTE}/user`, {
+      } = await api.post("/user", {
         role: formDataState.role,
         name: formDataState.name,
         lastname: formDataState.lastname,
@@ -74,7 +73,7 @@ const FormUserAdd = (): React.JSX.Element => {
 
   const getDocuments = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${RESOURCE_ROUTE}?resource=documents`);
+      const { data } = await api("/resource?resource=documents");
 
       dispatch(setDocuments(data));
     } catch ({ message }: any) {

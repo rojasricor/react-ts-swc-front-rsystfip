@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { API_ROUTE } from "../constants";
 import { Form, Spinner, ModalFooter, Button, Row, Col } from "react-bootstrap";
-import axios from "axios";
 import { toast, Id as ToastId } from "react-toastify";
 import { FaTimes, FaCheck } from "react-icons/fa";
 import {
@@ -13,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 interface IProps {
   closeModalCancell: () => void;
@@ -40,7 +39,7 @@ const FormCancellPerson = ({
     try {
       const {
         data: { ok, errors },
-      } = await axios.patch(`${API_ROUTE}/person`, {
+      } = await api.patch("/person", {
         id: formDataState.eventId,
         date: formDataState.date,
         cancelled_asunt,

@@ -1,7 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast, Id as ToastId } from "react-toastify";
-import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiKey } from "react-icons/bi";
@@ -9,6 +7,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { IUserBase } from "../interfaces/IUserBase";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 interface IProps {
   userId: IUserBase["id"];
@@ -38,7 +37,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
     try {
       const {
         data: { errors, ok },
-      } = await axios.put(`${API_ROUTE}/password`, {
+      } = await api.put("/password", {
         id: userId,
         current_password: formData.currentPassword,
         new_password: formData.newPassword,

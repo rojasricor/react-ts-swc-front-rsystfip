@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Col, Card } from "react-bootstrap";
 import FormChangePsw from "./FormChangePsw";
-import { API_ROUTE } from "../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { IUserBase } from "../interfaces/IUserBase";
+import { api } from "../api/axios";
 
 type TParams = {
   role: string;
@@ -27,7 +26,7 @@ const FetcherDataForChangePsw = (): React.JSX.Element => {
 
   const getDatauser = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/user?role=${role}`);
+      const { data } = await api(`/user?role=${role}`);
 
       setUser(data);
     } catch ({ message }: any) {

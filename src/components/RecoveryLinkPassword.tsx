@@ -3,9 +3,8 @@ import { useParams } from "react-router-dom";
 import { Col, Card, Spinner, Container } from "react-bootstrap";
 import ResetTokenInvalid from "./ResetTokenInvalid";
 import FormChangePswForget from "./FormChangePswForget";
-import { API_ROUTE } from "../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { api } from "../api/axios";
 
 type TParams = {
   email: string;
@@ -23,7 +22,7 @@ const RecoveryPassword = (): React.JSX.Element => {
     try {
       const {
         data: { tokenIsValid, error },
-      } = await axios.post(`${API_ROUTE}/auth/verify/resetToken`, {
+      } = await api.post("/auth/verify/resetToken", {
         resetToken,
         email,
       });
@@ -36,7 +35,7 @@ const RecoveryPassword = (): React.JSX.Element => {
       }
 
       if (!tokenIsValid) {
-        await axios.delete(`${API_ROUTE}/auth/delete/resetToken`, {
+        await api.delete("/auth/delete/resetToken", {
           headers: { "Content-Type": "application/json" },
           data: { resetToken },
         });

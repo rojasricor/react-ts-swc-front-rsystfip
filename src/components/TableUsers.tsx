@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { API_ROUTE } from "../constants";
 import { Table } from "react-bootstrap";
 import UserRow from "./UserRow";
-import axios from "axios";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 const TableUsers = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -15,7 +14,7 @@ const TableUsers = (): React.JSX.Element => {
 
   const getUsers = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/users`);
+      const { data } = await api("/users");
 
       dispatch(setUsers(data));
     } catch ({ message }: any) {

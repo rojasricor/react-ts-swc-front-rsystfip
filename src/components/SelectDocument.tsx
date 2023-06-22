@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { RESOURCE_ROUTE } from "../constants";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { FormDataState } from "../features/programming/programmingSlice";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 interface IProps {
   action: string;
@@ -29,7 +28,7 @@ const SelectDocument = ({
 
   const getDocuments = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${RESOURCE_ROUTE}?resource=documents`);
+      const { data } = await api("/resource?resource=documents");
 
       dispatch(setDocuments(data));
     } catch ({ message }: any) {

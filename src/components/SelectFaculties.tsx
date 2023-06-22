@@ -1,6 +1,4 @@
 import { useEffect } from "react";
-import { RESOURCE_ROUTE } from "../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { setFaculties } from "../features/resources/resourcesSlice";
@@ -8,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { FormDataState } from "../features/programming/programmingSlice";
 import { IFacultie } from "../interfaces/IResources";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 interface IProps {
   action: string;
@@ -31,7 +30,7 @@ const SelectFaculties = ({
 
   const getFaculties = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${RESOURCE_ROUTE}?resource=faculties`);
+      const { data } = await api("/resource?resource=faculties");
 
       dispatch(setFaculties(data));
     } catch ({ message }: any) {

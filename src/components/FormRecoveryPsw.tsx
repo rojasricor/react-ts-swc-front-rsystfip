@@ -1,13 +1,12 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast, Id as ToastId } from "react-toastify";
-import { API_ROUTE } from "../constants";
 import { Form, Row, Col, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import { BiMailSend } from "react-icons/bi";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 const FormRecoveryPsw = (): React.JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,7 +20,7 @@ const FormRecoveryPsw = (): React.JSX.Element => {
     try {
       const {
         data: { errors, ok },
-      } = await axios.post(`${API_ROUTE}/auth/recover/password`, {
+      } = await api.post("/auth/recover/password", {
         email,
         APP_ROUTE: window.location.href,
       });

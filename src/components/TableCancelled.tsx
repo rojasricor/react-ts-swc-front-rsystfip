@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import CancelledRow from "./CancelledRow";
-import { API_ROUTE } from "../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
 import {
   PeopleCancelled,
@@ -10,6 +8,7 @@ import {
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 const TableCancelled = (): React.JSX.Element => {
   const cancelledPeopleState: PeopleCancelled[] = useAppSelector(
@@ -20,7 +19,7 @@ const TableCancelled = (): React.JSX.Element => {
 
   const getCancelled = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/cancelled`);
+      const { data } = await api("/cancelled");
 
       dispatch(setCancelledPeople(data));
     } catch ({ message }: any) {

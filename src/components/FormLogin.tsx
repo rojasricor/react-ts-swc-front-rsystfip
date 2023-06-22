@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { API_ROUTE, AUTH_KEY } from "../constants";
+import { AUTH_KEY } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
-import axios from "axios";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { IoMdLogIn } from "react-icons/io";
@@ -11,6 +10,7 @@ import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { useAppDispatch } from "../hooks";
 import { showAndUpdateToast } from "../functions";
+import { api } from "../api/axios";
 
 const FormLogin = (): React.JSX.Element => {
   interface FormData {
@@ -43,7 +43,7 @@ const FormLogin = (): React.JSX.Element => {
     setLoading(true);
 
     try {
-      const { data, headers } = await axios.post(`${API_ROUTE}/auth`, {
+      const { data, headers } = await api.post("/auth", {
         username: formData.user,
         password: formData.password,
       });

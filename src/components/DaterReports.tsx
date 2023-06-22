@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { UNSET_STATUS, RESOURCE_ROUTE } from "../constants";
+import { UNSET_STATUS } from "../constants";
 import FetcherReports from "./FetcherReports";
 import {
   Col,
@@ -8,7 +8,6 @@ import {
   FormControl,
   FormSelect,
 } from "react-bootstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setCategories } from "../features/resources/resourcesSlice";
@@ -16,6 +15,7 @@ import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { ICategory } from "../interfaces/IResources";
 import { v4 } from "uuid";
+import { api } from "../api/axios";
 
 const DaterReports = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ const DaterReports = (): React.JSX.Element => {
 
   const getCategories = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${RESOURCE_ROUTE}?resource=categories`);
+      const { data } = await api("/resource?resource=categories");
 
       dispatch(setCategories(data));
     } catch ({ message }: any) {

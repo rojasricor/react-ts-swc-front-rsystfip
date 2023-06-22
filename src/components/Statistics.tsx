@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { API_ROUTE } from "../constants";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -21,7 +20,6 @@ import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import DaterStatistics from "./DaterStatistics";
 import Ctx from "./Ctx";
 import ListerStatistics from "./ListerStatistics";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Col } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -30,6 +28,7 @@ import {
   setMostAgendatedAllTime,
   QueryData,
 } from "../features/statistics/statisticsSlice";
+import { api } from "../api/axios";
 
 export interface IProps {
   scheduling_type: string;
@@ -147,8 +146,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
 
   const getStatistics = async (): Promise<void> => {
     try {
-      const { data } = await axios(
-        `${API_ROUTE}/statistics/${scheduling_type}?start=${queryDataState.start}&end=${queryDataState.end}`
+      const { data } = await api(
+        `/statistics/${scheduling_type}?start=${queryDataState.start}&end=${queryDataState.end}`
       );
 
       const labels: string[] = data.map(
@@ -165,8 +164,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
 
   const getMostAgendatedOnRange = async (): Promise<void> => {
     try {
-      const { data } = await axios(
-        `${API_ROUTE}/statistics/${scheduling_type}/onrange?start=${queryDataState.start}&end=${queryDataState.end}`
+      const { data } = await api(
+        `/statistics/${scheduling_type}/onrange?start=${queryDataState.start}&end=${queryDataState.end}`
       );
 
       dispatch(setMostAgendatedOnRange([scheduling_type, data]));
@@ -177,9 +176,7 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
 
   const getMostAgendatedAllTime = async (): Promise<void> => {
     try {
-      const { data } = await axios(
-        `${API_ROUTE}/statistics/${scheduling_type}/alltime`
-      );
+      const { data } = await api(`/statistics/${scheduling_type}/alltime`);
 
       dispatch(setMostAgendatedAllTime([scheduling_type, data]));
     } catch ({ message }: any) {

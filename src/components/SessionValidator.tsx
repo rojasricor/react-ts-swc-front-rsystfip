@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
-import axios from "axios";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { API_ROUTE } from "../constants";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { toast } from "react-toastify";
 import Notify from "./Notify";
+import { api } from "../api/axios";
 
 const SessionValidator = (): React.JSX.Element | undefined => {
   const authState: AuthState = useAppSelector(({ auth }) => auth);
@@ -20,8 +19,8 @@ const SessionValidator = (): React.JSX.Element | undefined => {
     if (!authState.auth || !authState.token) return;
 
     try {
-      await axios.post(
-        `${API_ROUTE}/auth/validate/token/session`,
+      await api.post(
+        "/auth/validate/token/session",
         { token: authState.token },
         { headers: { Authorization: authState.token } }
       );

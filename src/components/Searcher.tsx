@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { API_ROUTE } from "../constants";
 import { Spinner, FormControl, Button, ButtonGroup } from "react-bootstrap";
 import TablePeople from "./TablePeople";
 import {
@@ -16,6 +14,7 @@ import { IoCalendarNumber } from "react-icons/io5";
 import { ImUserPlus } from "react-icons/im";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeI } from "../types/THandleChanges";
+import { api } from "../api/axios";
 
 const Searcher = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -29,7 +28,7 @@ const Searcher = (): React.JSX.Element => {
 
   const getPeople = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/people`);
+      const { data } = await api("/people");
 
       dispatch(setPeople(data));
       dispatch(setPeopleOrigen(data));

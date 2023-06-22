@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { API_ROUTE } from "../constants";
 import PdfCreator from "./PdfCreator";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { setPeople, setPeopleOrigen } from "../features/people/peopleSlice";
 import {
@@ -11,6 +9,7 @@ import {
   QueryData,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { api } from "../api/axios";
 
 const FetcherReports = (): React.JSX.Element => {
   const queryDataState: QueryData = useAppSelector(
@@ -21,7 +20,7 @@ const FetcherReports = (): React.JSX.Element => {
 
   const getPeople = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/people`);
+      const { data } = await api("/people");
 
       dispatch(setPeople(data));
       dispatch(setPeopleOrigen(data));
@@ -32,8 +31,8 @@ const FetcherReports = (): React.JSX.Element => {
 
   const getReportsCountOnRange = async (): Promise<void> => {
     try {
-      const { data } = await axios(
-        `${API_ROUTE}/reports/count?start=${queryDataState.startDate}&end=${queryDataState.endDate}`
+      const { data } = await api(
+        `/reports/count?start=${queryDataState.startDate}&end=${queryDataState.endDate}`
       );
 
       dispatch(setReportsCountOnRange(data));
@@ -44,7 +43,7 @@ const FetcherReports = (): React.JSX.Element => {
 
   const getReportsCountAlltime = async (): Promise<void> => {
     try {
-      const { data } = await axios(`${API_ROUTE}/reports/counts`);
+      const { data } = await api("/reports/counts");
 
       dispatch(setReportsCountAllTime(data));
     } catch ({ message }: any) {
@@ -54,7 +53,7 @@ const FetcherReports = (): React.JSX.Element => {
 
   const getPngbase64 = async (): Promise<void> => {
     try {
-      const { data } = await axios("/img/admin/avatar.png", {
+      const { data } = await api("/img/admin/avatar.png", {
         responseType: "blob",
       });
 

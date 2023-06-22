@@ -1,12 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { API_ROUTE } from "../constants";
 import { BiTrash, BiKey } from "react-icons/bi";
 import { IUserBase } from "../interfaces/IUserBase";
 import { User } from "../features/admin/adminSlice";
+import { api } from "../api/axios";
 
 interface IProps {
   user: User;
@@ -21,7 +20,7 @@ const UserRow = ({
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {
-      const { data } = await axios.delete(`${API_ROUTE}/user`, {
+      const { data } = await api.delete("/user", {
         headers: { "Content-Type": "application/json" },
         data: { roleId },
       });
