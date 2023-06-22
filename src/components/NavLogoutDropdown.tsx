@@ -6,7 +6,6 @@ import { resetQueryDataReports } from "../features/reports/reportsSlice";
 import { resetQueryDataStatistics } from "../features/statistics/statisticsSlice";
 import { resetFormDataAdmin } from "../features/admin/adminSlice";
 import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
-import { AUTH_KEY } from "../constants";
 import { srcUser } from "../App";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
@@ -29,7 +28,6 @@ const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
     )
       return;
 
-    window.sessionStorage.removeItem(AUTH_KEY);
     dispatch(resetUserAuthenticated());
     dispatch(resetFormDataAdmin());
     dispatch(resetQueryDataReports());

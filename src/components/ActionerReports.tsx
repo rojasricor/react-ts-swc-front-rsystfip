@@ -50,7 +50,6 @@ const ActionerReports = (): React.JSX.Element => {
 
   useEffect(() => {
     getReports();
-    filterReports();
   }, []);
 
   useEffect(() => {

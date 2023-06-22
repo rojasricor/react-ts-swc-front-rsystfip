@@ -25,6 +25,7 @@ import PageFaqs from "./pages/PageFaqs";
 import PageNotFound from "./pages/PageNotFound";
 import "./App.scss";
 import { AuthState } from "./features/auth/authSlice";
+import SessionValidator from "./components/SessionValidator";
 
 export interface srcUser {
   avatar: string;
@@ -43,6 +44,7 @@ const App = (): React.JSX.Element => {
 
   return (
     <BrowserRouter>
+      <SessionValidator />
       <Container fluid>
         <ProtectedElement isAllowed={authState.auth}>
           <NavBar avatar={avatar} permissions={permissions} />

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import ProtectedElement from "./ProtectedElement";
 import { Button, Spinner, Col } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
@@ -16,7 +16,7 @@ const FooterFormPeople = ({ isAllowed }: IProps): React.JSX.Element => {
     ({ programming }) => programming.isLoading
   );
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const handleClick = (e: THandleClick) => {
     e.preventDefault();

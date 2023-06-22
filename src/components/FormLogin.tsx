@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { API_ROUTE, AUTH_KEY } from "../constants";
 import { Row, Col, Form, Spinner } from "react-bootstrap";
 import Submitter from "./Submitter";
 import axios from "axios";
-import { setAuthenticatedUser } from "../features/auth/authSlice";
+import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { IoMdLogIn } from "react-icons/io";
 import { THandleChangeI } from "../types/THandleChanges";
@@ -29,7 +29,7 @@ const FormLogin = (): React.JSX.Element => {
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const handleChange = (e: THandleChangeI) => {
     setFormData({
@@ -43,16 +43,20 @@ const FormLogin = (): React.JSX.Element => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${API_ROUTE}/auth`, {
+      const { data, headers } = await axios.post(`${API_ROUTE}/auth`, {
         username: formData.user,
         password: formData.password,
       });
 
       if (data.errors) return showAndUpdateToast(data.errors);
 
-      window.sessionStorage.setItem(AUTH_KEY, JSON.stringify(data));
+      const dataToSavedSession: AuthState = {
+        ...data,
+        token: headers.authorization,
+      };
+      window.localStorage.setItem(AUTH_KEY, JSON.stringify(dataToSavedSession));
 
-      dispatch(setAuthenticatedUser(data));
+      dispatch(setAuthenticatedUser(dataToSavedSession));
 
       navigate("/home/welcome");
     } catch ({ message }: any) {
