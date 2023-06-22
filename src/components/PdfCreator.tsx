@@ -1,6 +1,6 @@
 import Downloader from "./Downloader";
 import * as pdfMake from "pdfmake/build/pdfmake";
-import { createHeader, footer, myFonts, styles } from "../utils/pdfmake";
+import { createHeader, footer, myFonts, styles } from "../extras/pdfmake";
 import { useAppSelector } from "../hooks";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import { QueryData, Reports } from "../features/reports/reportsSlice";
