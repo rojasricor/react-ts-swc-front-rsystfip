@@ -1,4 +1,4 @@
-import { Container, Image, Nav, Col, Button } from "react-bootstrap";
+import { Container, Image, Nav, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaCodeBranch } from "react-icons/fa";
 
@@ -11,13 +11,12 @@ const Footer = (): React.JSX.Element => (
       </Col>
 
       <Col md={4}>
-        <Button
-          variant="link"
-          href="#"
+        <Link
+          to="#"
           className="d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
         >
           <Image src="/rsystfip.svg" alt="Rsystfip" width="40" height="32" />
-        </Button>
+        </Link>
       </Col>
 
       <Col md={4}>
