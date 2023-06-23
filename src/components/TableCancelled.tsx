@@ -32,7 +32,7 @@ const TableCancelled = (): React.JSX.Element => {
   }, []);
 
   return (
-    <Table responsive hover striped size="sm" className="text-center">
+    <Table responsive hover borderless size="sm" className="text-center">
       <caption>Cancelled people history.</caption>
       <thead>
         <tr>

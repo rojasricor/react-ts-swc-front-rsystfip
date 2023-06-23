@@ -13,7 +13,7 @@ const TableReports = (): React.JSX.Element => {
   );
 
   return (
-    <Table hover striped size="sm" borderless className="text-center">
+    <Table responsive hover borderless size="sm" className="text-center">
       <caption>
         Data about people schedule between {queryDataState.startDate} and{" "}
         {queryDataState.endDate}.

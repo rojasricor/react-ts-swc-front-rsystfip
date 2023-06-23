@@ -10,7 +10,11 @@ const NavMenu = ({ avatar, permissions }: IProps): React.JSX.Element => (
   <Navbar.Collapse id="rs-nav">
     <Nav className="me-auto">
       <Nav.Item>
-        <NavLink to="/home/welcome" className="nav-link">
+        <NavLink
+          to="/home/welcome"
+          className="nav-link"
+          title="Página de inicio"
+        >
           Inicio
         </NavLink>
       </Nav.Item>

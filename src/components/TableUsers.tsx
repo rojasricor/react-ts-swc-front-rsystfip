@@ -27,7 +27,7 @@ const TableUsers = (): React.JSX.Element => {
   }, []);
 
   return (
-    <Table responsive hover striped size="sm" className="text-center">
+    <Table responsive hover borderless size="sm" className="text-center">
       <caption>Access users.</caption>
       <thead>
         <tr>

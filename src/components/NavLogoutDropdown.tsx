@@ -46,7 +46,10 @@ const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
         <Image roundedCircle src={avatar} width="40" alt="Account" />
       </Dropdown.Toggle>
 
-      <Dropdown.Menu align={{ lg: "end" }}>
+      <Dropdown.Menu
+        align={{ lg: "end" }}
+        className="border-0 shadow-sm rounded-3 bg-white"
+      >
         <NavLink to="/help/asks/frecuently" className="dropdown-item">
           FAQs
         </NavLink>
