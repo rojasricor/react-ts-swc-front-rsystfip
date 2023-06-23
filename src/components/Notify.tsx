@@ -12,6 +12,7 @@ const Notify = (): React.JSX.Element => (
     pauseOnFocusLoss={false}
     draggable={false}
     pauseOnHover={false}
+    limit={2}
     theme="colored"
   />
 );

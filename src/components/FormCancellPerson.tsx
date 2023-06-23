@@ -6,7 +6,6 @@ import {
   FormDataState,
   setIsLoading,
 } from "../features/programming/programmingSlice";
-import Notify from "./Notify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
@@ -100,7 +99,6 @@ const FormCancellPerson = ({
           </Button>
         </ModalFooter>
       </Row>
-      <Notify />
     </Form>
   );
 };

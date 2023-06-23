@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import HeaderLogin from "../components/HeaderLogin";
 import FormLogin from "../components/FormLogin";
 import { Col, Row, Card, Container } from "react-bootstrap";
-import Notify from "../components/Notify";
 
 const PageAuth = (): React.JSX.Element => {
   useEffect(() => {
@@ -20,7 +19,6 @@ const PageAuth = (): React.JSX.Element => {
             </Container>
           </Card.Body>
         </Card>
-        <Notify />
       </Col>
     </Row>
   );

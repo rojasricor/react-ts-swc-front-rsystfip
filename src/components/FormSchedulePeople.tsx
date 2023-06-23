@@ -16,7 +16,6 @@ import {
   setIsLoading,
 } from "../features/programming/programmingSlice";
 import ProtectedElement from "./ProtectedElement";
-import Notify from "./Notify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
@@ -406,7 +405,6 @@ const FormSchedulePeople = ({
           </ModalFooter>
         </ProtectedElement>
       </Row>
-      <Notify />
     </Form>
   );
 };

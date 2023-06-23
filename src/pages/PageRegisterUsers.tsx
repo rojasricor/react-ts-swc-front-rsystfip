@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import FormUserAdd from "../components/FormUserAdd";
-import Notify from "../components/Notify";
 
 const PageRegisterUsers = (): React.JSX.Element => {
   useEffect(() => {
@@ -18,7 +17,6 @@ const PageRegisterUsers = (): React.JSX.Element => {
           </Card.Body>
         </Card>
       </Col>
-      <Notify />
     </Row>
   );
 };

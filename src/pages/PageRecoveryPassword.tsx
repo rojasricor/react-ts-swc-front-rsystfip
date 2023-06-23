@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Row } from "react-bootstrap";
 import RecoveryPassword from "../components/RecoveryPassword";
-import Notify from "../components/Notify";
 
 const PageRecoveryPassword = (): React.JSX.Element => {
   useEffect(() => {
@@ -11,7 +10,6 @@ const PageRecoveryPassword = (): React.JSX.Element => {
   return (
     <Row>
       <RecoveryPassword />
-      <Notify />
     </Row>
   );
 };

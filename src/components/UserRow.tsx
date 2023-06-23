@@ -20,20 +20,20 @@ const UserRow = ({
     if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
     try {
-      const { data } = await api.delete("/user", {
+      const {
+        data: { ok, error },
+      } = await api.delete("/user", {
         headers: { "Content-Type": "application/json" },
         data: { roleId },
       });
 
-      if (!data) {
-        toast.error("Error al eliminar");
+      if (error || !ok) {
+        toast.error(error);
         return;
       }
 
       setDeleted(true);
-      toast.success("Usuario eliminado exitosamente", {
-        position: "top-left",
-      });
+      toast.success(ok, { position: "top-left" });
     } catch ({ message }: any) {
       toast.error(message);
     }

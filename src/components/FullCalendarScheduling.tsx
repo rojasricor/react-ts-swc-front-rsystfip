@@ -3,7 +3,6 @@ import Responsive from "./Responsive";
 import LoadCalendar from "./LoadCalendar";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
-import Notify from "./Notify";
 import FullCalendar from "@fullcalendar/react";
 import esLocale from "@fullcalendar/core/locales/es";
 import { toast } from "react-toastify";
@@ -172,7 +171,6 @@ const FullCalendarScheduling = ({
         />
       </Container>
       <p className="text-center mt-2">Scheduled scheduling month to month.</p>
-      <Notify />
     </Responsive>
   );
 };

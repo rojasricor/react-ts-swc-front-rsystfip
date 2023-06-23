@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import TableCancelled from "../components/TableCancelled";
-import Notify from "../components/Notify";
 
 const PageCancelledPeople = (): React.JSX.Element => {
   useEffect(() => {
@@ -13,7 +12,6 @@ const PageCancelledPeople = (): React.JSX.Element => {
       <Col md={12}>
         <h1 className="h3">Citas canceladas</h1>
         <TableCancelled />
-        <Notify />
       </Col>
     </Row>
   );

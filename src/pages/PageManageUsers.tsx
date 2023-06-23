@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Card } from "react-bootstrap";
 import TableUsers from "../components/TableUsers";
-import Notify from "../components/Notify";
 import { FaUserPlus } from "react-icons/fa";
 
 const PageManageUsers = (): React.JSX.Element => {
@@ -25,7 +24,6 @@ const PageManageUsers = (): React.JSX.Element => {
           </Card.Body>
         </Card>
       </Col>
-      <Notify />
     </Row>
   );
 };

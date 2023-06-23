@@ -36,11 +36,11 @@ const SessionValidator = (): React.JSX.Element | undefined => {
   useEffect(() => {
     api.defaults.headers.common["Authorization"] = authState.token;
 
-    sessionValidatorTimerRef.current = setInterval(validateSession, 1000);
+    // sessionValidatorTimerRef.current = setInterval(validateSession, 1000);
 
-    return () => {
-      clearInterval(sessionValidatorTimerRef.current);
-    };
+    // return () => {
+    //   clearInterval(sessionValidatorTimerRef.current);
+    // };
   }, [authState.auth]);
 
   return <Notify />;

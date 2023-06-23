@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import ActionerReports from "../components/ActionerReports";
 import { Col, Row } from "react-bootstrap";
-import Notify from "../components/Notify";
 
 const PageReportsPeople = (): React.JSX.Element => {
   useEffect(() => {
@@ -13,7 +12,6 @@ const PageReportsPeople = (): React.JSX.Element => {
       <Col md={12}>
         <h1 className="h3">Reportes por mes</h1>
         <ActionerReports />
-        <Notify />
       </Col>
     </Row>
   );
