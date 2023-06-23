@@ -8,6 +8,7 @@ import {
   setPeopleOrigen,
   setIsLoading,
   People,
+  setFind,
 } from "../features/people/peopleSlice";
 import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
@@ -25,13 +26,14 @@ const Searcher = (): React.JSX.Element => {
   const isLoadingState: number = useAppSelector(
     ({ people }) => people.isLoading
   );
+  const findState: string = useAppSelector(({ people }) => people.find);
 
   const getPeople = async (): Promise<void> => {
     try {
       const { data } = await api("/people");
 
-      dispatch(setPeople(data));
       dispatch(setPeopleOrigen(data));
+      findState !== "" ? filterPeople() : dispatch(setPeople(data));
     } catch ({ message }: any) {
       dispatch(setIsLoading(2));
       toast.error(message);
@@ -40,32 +42,41 @@ const Searcher = (): React.JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    getPeople();
-  }, []);
-
-  const handleChange = (e: THandleChangeI) => {
-    const query: string = e.target.value.toLowerCase();
-
+  const filterPeople = (): void => {
     dispatch(
       setPeople(
         peopleOrigenState.filter(
           ({ name, document_number }) =>
-            name.toLowerCase().startsWith(query) ||
-            document_number.startsWith(query)
+            name.toLowerCase().startsWith(findState) ||
+            document_number.startsWith(findState)
         )
       )
     );
   };
 
+  useEffect(() => {
+    getPeople();
+  }, []);
+
+  const handleChange = (e: THandleChangeI) =>
+    dispatch(setFind(e.target.value.toLocaleLowerCase()));
+
+  useEffect(() => {
+    filterPeople();
+  }, [findState]);
+
   return (
     <>
       <ButtonGroup className="position-fixed bottom-px">
         <FormControl
+          name="find"
           onChange={handleChange}
+          value={findState}
           type="search"
           size="sm"
           placeholder="Buscar"
+          spellCheck={false}
+          autoComplete="off"
           autoFocus
         />
         <Button onClick={() => getPeople()} title="Refrescar datos">

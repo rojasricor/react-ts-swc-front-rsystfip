@@ -78,7 +78,9 @@ const FormLogin = (): React.JSX.Element => {
               type="text"
               placeholder="Usuario"
               autoComplete="off"
-              spellCheck="false"
+              spellCheck={false}
+              minLength={5}
+              maxLength={30}
               autoFocus
               required
             />
@@ -93,6 +95,9 @@ const FormLogin = (): React.JSX.Element => {
               type={passwordVisible ? "text" : "password"}
               placeholder="Contraseña"
               autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
               required
             />
           </Form.FloatingLabel>

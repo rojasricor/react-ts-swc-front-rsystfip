@@ -76,6 +76,10 @@ const FormChangePswForget = (): React.JSX.Element => {
               type="password"
               placeholder="New password"
               autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
+              autoFocus
               required
             />
           </Form.FloatingLabel>
@@ -90,6 +94,9 @@ const FormChangePswForget = (): React.JSX.Element => {
               type="password"
               placeholder="Confirm new password"
               autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
               required
             />
           </Form.FloatingLabel>

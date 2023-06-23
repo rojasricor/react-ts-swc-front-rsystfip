@@ -253,11 +253,15 @@ const FormSchedulePeople = ({
               value={formDataState?.doc}
               type="number"
               placeholder="Complete campo"
-              title="El número de documento debe ser de 8 a 10 dígitos"
+              autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
               disabled={
                 formDataState?.disabledAll ||
                 formDataState?.disabledAfterAutocomplete
               }
+              autoFocus
               required
             />
           </Form.FloatingLabel>
@@ -275,10 +279,10 @@ const FormSchedulePeople = ({
               value={formDataState?.name}
               type="text"
               placeholder="Complete campo"
-              title="Ingrese nombres y apellidos"
-              maxLength={35}
               autoComplete="off"
-              spellCheck="false"
+              spellCheck={false}
+              minLength={8}
+              maxLength={50}
               disabled={
                 formDataState?.disabledAll ||
                 formDataState?.disabledAfterAutocomplete
@@ -297,7 +301,10 @@ const FormSchedulePeople = ({
                 value={formDataState?.telContact}
                 type="number"
                 placeholder="Complete campo"
-                title="Ingrese el teléfono de contacto, debe tener 10 dígitos"
+                autoComplete="off"
+                spellCheck={false}
+                minLength={10}
+                maxLength={10}
                 disabled={
                   formDataState?.disabledAll ||
                   formDataState?.disabledAfterAutocomplete
@@ -317,9 +324,10 @@ const FormSchedulePeople = ({
                 value={formDataState?.emailContact}
                 type="email"
                 placeholder="Complete campo"
-                title="Ingrese el correo electrónico de contacto"
                 autoComplete="off"
-                spellCheck="false"
+                spellCheck={false}
+                minLength={10}
+                maxLength={30}
                 disabled={
                   formDataState?.disabledAll ||
                   formDataState?.disabledAfterAutocomplete
@@ -346,12 +354,12 @@ const FormSchedulePeople = ({
               onChange={handleChange}
               value={formDataState?.asunt}
               placeholder="Complete campo"
-              minLength={5}
-              maxLength={100}
-              spellCheck="false"
               autoComplete="off"
-              disabled={formDataState?.disabledAll}
+              spellCheck={false}
+              minLength={10}
+              maxLength={150}
               style={{ height: "100px" }}
+              disabled={formDataState?.disabledAll}
               required
             />
           </Form.FloatingLabel>
@@ -362,9 +370,8 @@ const FormSchedulePeople = ({
             <Form.Control
               name="color"
               onChange={handleChange}
-              type="color"
-              title="Choose your color"
               value={formDataState?.color}
+              type="color"
             />
           </Col>
         </ProtectedElement>

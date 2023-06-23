@@ -111,9 +111,11 @@ const FormUserAdd = (): React.JSX.Element => {
               value={formDataState.name}
               type="text"
               placeholder="Name"
-              maxLength={25}
-              spellCheck="false"
               autoComplete="off"
+              spellCheck={false}
+              minLength={3}
+              maxLength={25}
+              autoFocus
               required
             />
           </Form.FloatingLabel>
@@ -127,9 +129,10 @@ const FormUserAdd = (): React.JSX.Element => {
               value={formDataState.lastname}
               type="text"
               placeholder="Lastname"
-              maxLength={25}
-              spellCheck="false"
               autoComplete="off"
+              spellCheck={false}
+              minLength={3}
+              maxLength={25}
               required
             />
           </Form.FloatingLabel>
@@ -161,6 +164,10 @@ const FormUserAdd = (): React.JSX.Element => {
               value={formDataState.doc}
               type="number"
               placeholder="Document"
+              autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={10}
               required
             />
           </Form.FloatingLabel>
@@ -174,8 +181,10 @@ const FormUserAdd = (): React.JSX.Element => {
               value={formDataState.email}
               type="email"
               placeholder="Email"
-              spellCheck="false"
               autoComplete="off"
+              spellCheck={false}
+              minLength={10}
+              maxLength={30}
               required
             />
           </Form.FloatingLabel>
@@ -189,6 +198,10 @@ const FormUserAdd = (): React.JSX.Element => {
               value={formDataState.tel}
               type="number"
               placeholder="Phone"
+              autoComplete="off"
+              spellCheck={false}
+              minLength={10}
+              maxLength={10}
               required
             />
           </Form.FloatingLabel>
@@ -203,6 +216,9 @@ const FormUserAdd = (): React.JSX.Element => {
               type="password"
               placeholder="Password"
               autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
               required
             />
           </Form.FloatingLabel>
@@ -217,6 +233,9 @@ const FormUserAdd = (): React.JSX.Element => {
               type="password"
               placeholder="Confirm password"
               autoComplete="off"
+              spellCheck={false}
+              minLength={8}
+              maxLength={30}
               required
             />
           </Form.FloatingLabel>

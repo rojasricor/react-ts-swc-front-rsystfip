@@ -33,8 +33,8 @@ const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
           <FormControl
             name="start"
             onChange={handleChange}
-            type="date"
             value={queryDataState.start}
+            type="date"
           />
         </FloatingLabel>
       </Col>
@@ -44,8 +44,8 @@ const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
           <FormControl
             name="end"
             onChange={handleChange}
-            type="date"
             value={queryDataState.end}
+            type="date"
           />
         </FloatingLabel>
       </Col>

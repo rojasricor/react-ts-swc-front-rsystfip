@@ -44,12 +44,16 @@ const FormRecoveryPsw = (): React.JSX.Element => {
         <Col md={12}>
           <Form.FloatingLabel label="Email de registro">
             <Form.Control
+              name="email"
               onChange={handleChange}
               value={email}
               type="email"
               placeholder="Email"
-              spellCheck="false"
               autoComplete="off"
+              spellCheck={false}
+              minLength={10}
+              maxLength={30}
+              autoFocus
               required
             />
           </Form.FloatingLabel>

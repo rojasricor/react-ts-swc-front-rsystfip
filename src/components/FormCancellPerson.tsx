@@ -70,14 +70,16 @@ const FormCancellPerson = ({
           <Form.FloatingLabel label="Asunto cancelamiento:">
             <Form.Control
               as="textarea"
+              name="cancelled_asunt"
               onChange={handleChange}
-              placeholder="Complete campo"
-              minLength={5}
-              maxLength={100}
-              spellCheck="false"
-              autoComplete="off"
               value={cancelled_asunt}
+              placeholder="Complete campo"
+              autoComplete="off"
+              spellCheck={false}
+              minLength={10}
+              maxLength={150}
               style={{ height: "100px" }}
+              autoFocus
               required
             />
           </Form.FloatingLabel>

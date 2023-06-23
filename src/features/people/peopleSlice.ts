@@ -9,12 +9,14 @@ interface PeopleState {
   isLoading: number;
   people: People[];
   peopleOrigen: People[];
+  find: string;
 }
 
 const initialState: PeopleState = {
   isLoading: 0,
   people: [],
   peopleOrigen: [],
+  find: "",
 };
 
 const peopleSlice = createSlice({
@@ -33,9 +35,14 @@ const peopleSlice = createSlice({
       ...state,
       isLoading: payload,
     }),
+    setFind: (state, { payload }: PayloadAction<string>): PeopleState => ({
+      ...state,
+      find: payload,
+    }),
   },
 });
 
-export const { setPeople, setPeopleOrigen, setIsLoading } = peopleSlice.actions;
+export const { setPeople, setPeopleOrigen, setIsLoading, setFind } =
+  peopleSlice.actions;
 
 export default peopleSlice.reducer;

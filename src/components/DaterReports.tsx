@@ -57,8 +57,8 @@ const DaterReports = (): React.JSX.Element => {
           <FormControl
             name="startDate"
             onChange={handleChange}
-            type="date"
             value={queryDataState.startDate}
+            type="date"
           />
         </FloatingLabel>
       </Col>
@@ -68,8 +68,8 @@ const DaterReports = (): React.JSX.Element => {
           <FormControl
             name="endDate"
             onChange={handleChange}
-            type="date"
             value={queryDataState.endDate}
+            type="date"
           />
         </FloatingLabel>
       </Col>
