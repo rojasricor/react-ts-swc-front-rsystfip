@@ -73,6 +73,7 @@ const FormLogin = (): React.JSX.Element => {
           <Form.FloatingLabel label="Nombre de usuario">
             <Form.Control
               name="user"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.user}
               type="text"
@@ -90,6 +91,7 @@ const FormLogin = (): React.JSX.Element => {
           <Form.FloatingLabel label="Contraseña">
             <Form.Control
               name="password"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.password}
               type={passwordVisible ? "text" : "password"}
@@ -104,6 +106,7 @@ const FormLogin = (): React.JSX.Element => {
         </Col>
         <Col md={12}>
           <Form.Check
+            className="mt-2"
             onClick={() => setPasswordVisible(!passwordVisible)}
             type="switch"
             label="Mostrar contraseña"

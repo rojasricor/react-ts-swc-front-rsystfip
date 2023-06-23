@@ -70,6 +70,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
           <Form.FloatingLabel label="Contraseña anterior:">
             <Form.Control
               name="currentPassword"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.currentPassword}
               type="password"
@@ -88,6 +89,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
           <Form.FloatingLabel label="Contraseña nueva:">
             <Form.Control
               name="newPassword"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.newPassword}
               type="password"
@@ -105,6 +107,7 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
           <Form.FloatingLabel label="Confirmar contraseña nueva:">
             <Form.Control
               name="confirmPassword"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.confirmPassword}
               type="password"

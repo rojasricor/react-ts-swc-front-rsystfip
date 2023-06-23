@@ -57,7 +57,7 @@ const SelectPerson = ({
       );
 
       if (facultieSelectRef.current) {
-        facultieSelectRef.current.className = "form-select";
+        facultieSelectRef.current.className = "form-select border-0 bg-white";
         facultieSelectRef.current.disabled = false;
         if (formDataState?.person === "5")
           facultieSelectRef.current.disabled = true;
@@ -85,6 +85,7 @@ const SelectPerson = ({
     <FloatingLabel label="Persona a registrar:">
       <FormSelect
         name="person"
+        className="border-0 bg-white"
         onChange={handleChange}
         value={formDataState?.person}
         required

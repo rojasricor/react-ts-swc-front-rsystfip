@@ -46,6 +46,7 @@ const SelectFaculties = ({
     <FloatingLabel label="Facultad:">
       <FormSelect
         name="facultie"
+        className="border-0 bg-white"
         onChange={handleChange}
         value={formDataState?.facultie}
         ref={facultieSelectRef}

@@ -71,6 +71,7 @@ const FormCancellPerson = ({
             <Form.Control
               as="textarea"
               name="cancelled_asunt"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={cancelled_asunt}
               placeholder="Complete campo"

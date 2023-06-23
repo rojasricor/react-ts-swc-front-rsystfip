@@ -56,6 +56,7 @@ const DaterReports = (): React.JSX.Element => {
         <FloatingLabel label="Desde:">
           <FormControl
             name="startDate"
+            className="border-0 bg-white"
             onChange={handleChange}
             value={queryDataState.startDate}
             type="date"
@@ -67,6 +68,7 @@ const DaterReports = (): React.JSX.Element => {
         <FloatingLabel label="Hasta:">
           <FormControl
             name="endDate"
+            className="border-0 bg-white"
             onChange={handleChange}
             value={queryDataState.endDate}
             type="date"
@@ -78,6 +80,7 @@ const DaterReports = (): React.JSX.Element => {
         <FloatingLabel label="Persona:">
           <FormSelect
             name="category"
+            className="border-0 bg-white"
             onChange={handleChange}
             value={queryDataState.category}
           >

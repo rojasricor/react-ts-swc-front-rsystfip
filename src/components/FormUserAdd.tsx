@@ -92,6 +92,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Rol usuario:">
             <Form.Select
               name="role"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.role}
               required
@@ -107,6 +108,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Nombres:">
             <Form.Control
               name="name"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.name}
               type="text"
@@ -125,6 +127,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Apellidos:">
             <Form.Control
               name="lastname"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.lastname}
               type="text"
@@ -142,6 +145,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Tipo de Documento:">
             <Form.Select
               name="docType"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.docType}
               required
@@ -160,6 +164,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Documento:">
             <Form.Control
               name="doc"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.doc}
               type="number"
@@ -177,6 +182,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Correo institucional:">
             <Form.Control
               name="email"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.email}
               type="email"
@@ -194,6 +200,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Celular:">
             <Form.Control
               name="tel"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.tel}
               type="number"
@@ -211,6 +218,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Contraseña:">
             <Form.Control
               name="password"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.password}
               type="password"
@@ -228,6 +236,7 @@ const FormUserAdd = (): React.JSX.Element => {
           <Form.FloatingLabel label="Confirmar contraseña:">
             <Form.Control
               name="passwordConfirmation"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState.passwordConfirmation}
               type="password"

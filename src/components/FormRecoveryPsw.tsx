@@ -45,6 +45,7 @@ const FormRecoveryPsw = (): React.JSX.Element => {
           <Form.FloatingLabel label="Email de registro">
             <Form.Control
               name="email"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={email}
               type="email"

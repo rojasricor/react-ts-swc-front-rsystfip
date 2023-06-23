@@ -218,7 +218,8 @@ const FormSchedulePeople = ({
         );
 
         if (facultieSelectRef.current)
-          facultieSelectRef.current.className = "form-control";
+          facultieSelectRef.current.className =
+            "form-control border-0 bg-white";
 
         toast.info("Se han completado los datos", { position: "top-left" });
         break;
@@ -249,6 +250,7 @@ const FormSchedulePeople = ({
           <Form.FloatingLabel label="Cédula:">
             <Form.Control
               name="doc"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState?.doc}
               type="number"
@@ -275,6 +277,7 @@ const FormSchedulePeople = ({
           <Form.FloatingLabel label="Nombres y Apellidos:">
             <Form.Control
               name="name"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState?.name}
               type="text"
@@ -297,6 +300,7 @@ const FormSchedulePeople = ({
             <Form.FloatingLabel label="Teléfono de contacto:">
               <Form.Control
                 name="telContact"
+                className="border-0 bg-white"
                 onChange={handleChange}
                 value={formDataState?.telContact}
                 type="number"
@@ -320,6 +324,7 @@ const FormSchedulePeople = ({
             <Form.FloatingLabel label="Email de contacto:">
               <Form.Control
                 name="emailContact"
+                className="border-0 bg-white"
                 onChange={handleChange}
                 value={formDataState?.emailContact}
                 type="email"
@@ -351,6 +356,7 @@ const FormSchedulePeople = ({
             <Form.Control
               as="textarea"
               name="asunt"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState?.asunt}
               placeholder="Complete campo"
@@ -369,6 +375,7 @@ const FormSchedulePeople = ({
           <Col md={12}>
             <Form.Control
               name="color"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formDataState?.color}
               type="color"

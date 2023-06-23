@@ -14,7 +14,7 @@ const Downloader = ({ pdf }: IProps): React.JSX.Element => (
         () => pdf.open()
         // pdf.download(`Rsystfip-Report-${formatTodaysDateTime()}.pdf`)
       }
-      className="form-control"
+      className="form-control border-0 bg-white"
       title="Reporte PDF"
     >
       PDF <BsDownload className="mb-1" />

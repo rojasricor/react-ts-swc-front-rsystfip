@@ -71,6 +71,7 @@ const FormChangePswForget = (): React.JSX.Element => {
           <Form.FloatingLabel label="Contraseña nueva:">
             <Form.Control
               name="password"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.password}
               type="password"
@@ -89,6 +90,7 @@ const FormChangePswForget = (): React.JSX.Element => {
           <Form.FloatingLabel label="Confirmar contraseña nueva:">
             <Form.Control
               name="confirmPassword"
+              className="border-0 bg-white"
               onChange={handleChange}
               value={formData.confirmPassword}
               type="password"

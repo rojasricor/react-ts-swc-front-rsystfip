@@ -70,6 +70,7 @@ const Searcher = (): React.JSX.Element => {
       <ButtonGroup className="position-fixed bottom-px">
         <FormControl
           name="find"
+          className="bg-white"
           onChange={handleChange}
           value={findState}
           type="search"
@@ -79,7 +80,11 @@ const Searcher = (): React.JSX.Element => {
           autoComplete="off"
           autoFocus
         />
-        <Button onClick={() => getPeople()} title="Refrescar datos">
+        <Button
+          variant="dark"
+          onClick={() => getPeople()}
+          title="Refrescar datos"
+        >
           {isLoadingState === 0 ? (
             <Spinner size="sm" />
           ) : isLoadingState === 1 ? (
@@ -90,14 +95,14 @@ const Searcher = (): React.JSX.Element => {
         </Button>
         <Link
           to="/people/add"
-          className="btn btn-primary"
+          className="btn btn-dark"
           title="Agendamiento por día"
         >
           <ImUserPlus className="mb-1" />
         </Link>
         <Link
           to="/people/schedule"
-          className="btn btn-primary"
+          className="btn btn-dark"
           title="Agendamiento programado"
         >
           <IoCalendarNumber className="mb-1" />

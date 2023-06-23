@@ -44,6 +44,7 @@ const SelectDocument = ({
     <FloatingLabel label="Tipo de Documento:">
       <FormSelect
         name="doctype"
+        className="border-0 bg-white"
         onChange={handleChange}
         value={formDataState?.doctype}
         disabled={
