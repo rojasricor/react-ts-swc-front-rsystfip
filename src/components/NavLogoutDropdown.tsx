@@ -8,6 +8,7 @@ import { resetFormDataAdmin } from "../features/admin/adminSlice";
 import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
 import { srcUser } from "../App";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { destroyTemporals } from "../features/temp/tempSlice";
 
 interface IProps {
   avatar: srcUser["avatar"];
@@ -33,6 +34,7 @@ const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
     dispatch(resetQueryDataReports());
     dispatch(resetQueryDataStatistics());
     dispatch(resetAllFormDataProgramming());
+    dispatch(destroyTemporals());
 
     navigate("/auth/login");
   };
