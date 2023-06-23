@@ -12,6 +12,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { registerAChange } from "../features/calendar/calendarSlice";
 
 interface IProps {
   closeModalCancell: () => void;
@@ -47,6 +48,7 @@ const FormCancellPerson = ({
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
+      dispatch(registerAChange());
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);
       setCancelled_asunt("");

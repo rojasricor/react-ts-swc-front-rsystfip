@@ -7,6 +7,7 @@ import reportsSlice from "../features/reports/reportsSlice";
 import resourcesSlice from "../features/resources/resourcesSlice";
 import statisticsSlice from "../features/statistics/statisticsSlice";
 import programmingSlice from "../features/programming/programmingSlice";
+import calendarSlice from "../features/calendar/calendarSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     statistics: statisticsSlice,
     resources: resourcesSlice,
     programming: programmingSlice,
+    calendar: calendarSlice,
   },
 });
 

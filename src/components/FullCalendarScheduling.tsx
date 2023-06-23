@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Responsive from "./Responsive";
 import LoadCalendar from "./LoadCalendar";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
@@ -6,7 +6,6 @@ import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import Notify from "./Notify";
 import FullCalendar from "@fullcalendar/react";
 import esLocale from "@fullcalendar/core/locales/es";
-import { API_ROUTE } from "../constants";
 import { toast } from "react-toastify";
 import { Container } from "react-bootstrap";
 import {
@@ -14,8 +13,13 @@ import {
   setFormData,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { globalPlugins } from "fullcalendar";
+import { EventSourceInput, globalPlugins } from "fullcalendar";
 import { format } from "date-fns";
+import { api } from "../api/axios";
+import {
+  ICalendarState,
+  setCalendarEvents,
+} from "../features/calendar/calendarSlice";
 
 interface IProps {
   right: string;
@@ -30,6 +34,9 @@ const FullCalendarScheduling = ({
 
   const formDataState: FormDataState = useAppSelector(
     ({ programming }) => programming.formData.schedule
+  );
+  const calendarEventsState: ICalendarState = useAppSelector(
+    ({ calendar }) => calendar
   );
 
   const dispatch = useAppDispatch();
@@ -46,6 +53,19 @@ const FullCalendarScheduling = ({
   const showModalScheduling = (): void => setStateModalScheduling(true);
 
   const loadEventsRef = useRef<HTMLDivElement>(null);
+
+  const getEvents = async (): Promise<void> => {
+    try {
+      const { data } = await api("/scheduling/all");
+      dispatch(setCalendarEvents(data));
+    } catch (error: any) {
+      toast.error("Error al obtener los agendamientos");
+    }
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, [calendarEventsState.changes]);
 
   return (
     <Responsive>
@@ -137,12 +157,7 @@ const FullCalendarScheduling = ({
           }}
           editable
           dayMaxEvents
-          events={{
-            url: `${API_ROUTE}/scheduling`,
-            failure: (): void => {
-              toast.error("Error al obtener los agendamientos");
-            },
-          }}
+          events={calendarEventsState.calendarEvents as EventSourceInput}
           eventOrder="-start"
           eventTimeFormat={{
             hour: "numeric",

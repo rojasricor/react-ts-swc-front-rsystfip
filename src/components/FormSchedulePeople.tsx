@@ -22,6 +22,7 @@ import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { registerAChange } from "../features/calendar/calendarSlice";
 
 interface IProps {
   action: string;
@@ -115,8 +116,11 @@ const FormSchedulePeople = ({
 
       dispatch(setFormData([action]));
 
-      if (formDataState?.status === "scheduled" && closeModalScheduling)
+      if (formDataState?.status === "scheduled" && closeModalScheduling) {
+        dispatch(registerAChange());
+
         closeModalScheduling();
+      }
 
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);

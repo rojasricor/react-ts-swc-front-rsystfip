@@ -19,11 +19,9 @@ const SessionValidator = (): React.JSX.Element | undefined => {
     if (!authState.auth || !authState.token) return;
 
     try {
-      await api.post(
-        "/auth/validate/token/session",
-        { token: authState.token },
-        { headers: { Authorization: authState.token } }
-      );
+      await api.post("/auth/validate/token/session", {
+        token: authState.token,
+      });
     } catch (error: any) {
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,
@@ -36,6 +34,8 @@ const SessionValidator = (): React.JSX.Element | undefined => {
   };
 
   useEffect(() => {
+    api.defaults.headers.common["Authorization"] = authState.token;
+
     sessionValidatorTimerRef.current = setInterval(validateSession, 1000);
 
     return () => {
