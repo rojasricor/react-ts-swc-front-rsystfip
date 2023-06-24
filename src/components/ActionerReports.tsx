@@ -24,14 +24,18 @@ const ActionerReports = (): React.JSX.Element => {
 
   const getReports = async (): Promise<void> => {
     try {
-      const { data } = await api(
-        `/reports?start=${queryDataState.startDate}&end=${queryDataState.endDate}&category=${queryDataState.category}`
-      );
+      const { data } = await api("/reports", {
+        params: {
+          start: queryDataState.startDate,
+          end: queryDataState.endDate,
+          category: queryDataState.category,
+        },
+      });
 
       filterReports(data);
       dispatch(setReportsOrigen(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

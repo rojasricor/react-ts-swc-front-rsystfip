@@ -28,11 +28,13 @@ const SelectDocument = ({
 
   const getDocuments = async (): Promise<void> => {
     try {
-      const { data } = await api("/resource?resource=documents");
+      const { data } = await api("/resource", {
+        params: { resource: "documents" },
+      });
 
       dispatch(setDocuments(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

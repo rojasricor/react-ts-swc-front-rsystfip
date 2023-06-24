@@ -59,8 +59,8 @@ const FormLogin = (): React.JSX.Element => {
       dispatch(setAuthenticatedUser(dataToSavedSession));
 
       navigate("/home/welcome");
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

@@ -76,8 +76,8 @@ const FormSchedulePeople = ({
 
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -123,8 +123,8 @@ const FormSchedulePeople = ({
 
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -156,33 +156,24 @@ const FormSchedulePeople = ({
 
   const getUserData = async (): Promise<void> => {
     try {
-      const {
-        data: {
-          category_id,
-          document_id,
-          facultie_id,
-          name,
-          document_number,
-          come_asunt,
-        },
-      } = await api(`/person?id=${id}`);
+      const { data } = await api("/person", { params: { id } });
 
       dispatch(
         setFormData([
           action,
           {
             ...formDataState,
-            person: category_id,
-            doctype: document_id,
-            facultie: facultie_id,
-            name,
-            doc: document_number,
-            asunt: come_asunt,
+            person: data.category_id,
+            doctype: data.document_id,
+            facultie: data.facultie_id,
+            name: data.name,
+            doc: data.document_number,
+            asunt: data.come_asunt,
           },
         ])
       );
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

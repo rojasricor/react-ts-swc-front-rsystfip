@@ -52,8 +52,8 @@ const FormCancellPerson = ({
       toast.dismiss(myToast);
       setCancelled_asunt("");
       closeModalCancell();
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       dispatch(setIsLoading(false));
     }

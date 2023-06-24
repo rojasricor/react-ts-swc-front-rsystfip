@@ -38,11 +38,13 @@ const DaterReports = (): React.JSX.Element => {
 
   const getCategories = async (): Promise<void> => {
     try {
-      const { data } = await api("/resource?resource=categories");
+      const { data } = await api("/resource", {
+        params: { resource: "categories" },
+      });
 
       dispatch(setCategories(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

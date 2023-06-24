@@ -64,8 +64,8 @@ const FormUserAdd = (): React.JSX.Element => {
       dispatch(resetFormDataAdmin());
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       dispatch(setIsLoading(false));
     }
@@ -73,11 +73,13 @@ const FormUserAdd = (): React.JSX.Element => {
 
   const getDocuments = async (): Promise<void> => {
     try {
-      const { data } = await api("/resource?resource=documents");
+      const { data } = await api("/resource", {
+        params: { resource: "documents" },
+      });
 
       dispatch(setDocuments(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

@@ -23,11 +23,11 @@ const FetcherDataForChangePsw = (): React.JSX.Element => {
 
   const getDatauser = async (): Promise<void> => {
     try {
-      const { data } = await api(`/user?role=${role}`);
+      const { data } = await api("/user", { params: { role } });
 
       dispatch(setTempDataForChangePsw(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

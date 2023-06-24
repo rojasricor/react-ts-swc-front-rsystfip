@@ -157,8 +157,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
         ({ scheduling_count }: { scheduling_count: string }) => scheduling_count
       );
       refreshChart(labels, dataset);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -169,8 +169,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
       );
 
       dispatch(setMostAgendatedOnRange([scheduling_type, data]));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -179,8 +179,8 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
       const { data } = await api(`/statistics/${scheduling_type}/alltime`);
 
       dispatch(setMostAgendatedAllTime([scheduling_type, data]));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

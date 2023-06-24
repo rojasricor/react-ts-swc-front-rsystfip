@@ -49,8 +49,8 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
       setFormData(formDataInitialState);
       toast.success(ok, { position: "top-left" });
       toast.dismiss(myToast);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

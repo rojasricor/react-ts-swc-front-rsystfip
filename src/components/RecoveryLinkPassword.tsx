@@ -40,8 +40,8 @@ const RecoveryPassword = (): React.JSX.Element => {
           data: { resetToken },
         });
       }
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

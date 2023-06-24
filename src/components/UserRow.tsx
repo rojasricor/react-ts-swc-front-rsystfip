@@ -28,14 +28,14 @@ const UserRow = ({
       });
 
       if (error || !ok) {
-        toast.error(error);
+        toast.warn(error);
         return;
       }
 
       setDeleted(true);
       toast.success(ok, { position: "top-left" });
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

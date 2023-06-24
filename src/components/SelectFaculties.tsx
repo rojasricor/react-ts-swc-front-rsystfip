@@ -30,11 +30,13 @@ const SelectFaculties = ({
 
   const getFaculties = async (): Promise<void> => {
     try {
-      const { data } = await api("/resource?resource=faculties");
+      const { data } = await api("/resource", {
+        params: { resource: "faculties" },
+      });
 
       dispatch(setFaculties(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

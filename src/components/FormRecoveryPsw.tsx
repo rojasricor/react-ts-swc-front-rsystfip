@@ -29,8 +29,8 @@ const FormRecoveryPsw = (): React.JSX.Element => {
 
       toast.success(ok);
       toast.dismiss(myToast);
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

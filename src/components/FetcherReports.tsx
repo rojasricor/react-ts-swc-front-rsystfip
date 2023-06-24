@@ -24,8 +24,8 @@ const FetcherReports = (): React.JSX.Element => {
 
       dispatch(setPeople(data));
       dispatch(setPeopleOrigen(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -36,8 +36,8 @@ const FetcherReports = (): React.JSX.Element => {
       );
 
       dispatch(setReportsCountOnRange(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -46,8 +46,8 @@ const FetcherReports = (): React.JSX.Element => {
       const { data } = await api("/reports/counts");
 
       dispatch(setReportsCountAllTime(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -62,8 +62,8 @@ const FetcherReports = (): React.JSX.Element => {
       reader.addEventListener("load", (): void => {
         if (reader.result) dispatch(setPngBase64(reader.result as string));
       });
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

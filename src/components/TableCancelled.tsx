@@ -22,8 +22,8 @@ const TableCancelled = (): React.JSX.Element => {
       const { data } = await api("/cancelled");
 
       dispatch(setCancelledPeople(data));
-    } catch ({ message }: any) {
-      toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
