@@ -29,7 +29,7 @@ const FullCalendarScheduling = ({
   right,
   initialView,
 }: IProps): React.JSX.Element => {
-  const action: string = "schedule";
+  const action = "schedule";
 
   const formDataState: FormDataState = useAppSelector(
     ({ programming }) => programming.formData.schedule

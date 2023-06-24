@@ -4,9 +4,7 @@ import ProtectedElement from "./ProtectedElement";
 import NavLogoutDropdown from "./NavLogoutDropdown";
 import { srcUser } from "../App";
 
-interface IProps extends srcUser {}
-
-const NavMenu = ({ avatar, permissions }: IProps): React.JSX.Element => (
+const NavMenu = ({ avatar, permissions }: srcUser): React.JSX.Element => (
   <Navbar.Collapse id="rs-nav">
     <Nav className="me-auto">
       <Nav.Item>
