@@ -31,7 +31,7 @@ import {
 import { api } from "../api/axios";
 
 export interface IProps {
-  scheduling_type: string;
+  scheduling_type: "daily" | "scheduled";
 }
 
 const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {

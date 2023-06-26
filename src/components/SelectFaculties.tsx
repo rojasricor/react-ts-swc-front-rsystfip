@@ -7,9 +7,10 @@ import { FormDataState } from "../features/programming/programmingSlice";
 import { IFacultie } from "../interfaces/IResources";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
+import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
-  action: string;
+  action: actionFormSchedule;
   handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   facultieSelectRef: React.RefObject<HTMLSelectElement>;
 }

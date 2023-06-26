@@ -24,13 +24,13 @@ import { api } from "../api/axios";
 import { registerAChange } from "../features/calendar/calendarSlice";
 
 interface IProps {
-  action: string;
+  action: "add" | "edit" | "schedule";
   closeModalScheduling?: () => void;
 }
 
-type TParams = {
-  id: string;
-};
+export type actionFormSchedule = IProps["action"];
+
+type TParams = { id: string };
 
 const FormSchedulePeople = ({
   action,
