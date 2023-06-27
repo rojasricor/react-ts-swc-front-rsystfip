@@ -8,6 +8,7 @@ import { THandleChangeI } from "../types/THandleChanges";
 import { IUserBase } from "../interfaces/IUserBase";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { changePswSchema } from "../schemas/joiValidation";
 
 interface IProps {
   userId: IUserBase["id"];
@@ -32,17 +33,21 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    setLoading(true);
 
+    const payload = {
+      id: userId,
+      current_password: formData.currentPassword,
+      new_password: formData.newPassword,
+      new_password_confirm: formData.confirmPassword,
+    };
+    const { error } = changePswSchema.validate(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
+
+    setLoading(true);
     try {
       const {
         data: { errors, ok },
-      } = await api.put("/password", {
-        id: userId,
-        current_password: formData.currentPassword,
-        new_password: formData.newPassword,
-        new_password_confirm: formData.confirmPassword,
-      });
+      } = await api.put("/password", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 

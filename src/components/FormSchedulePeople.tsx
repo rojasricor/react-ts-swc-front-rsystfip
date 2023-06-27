@@ -22,6 +22,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
 import { registerAChange } from "../features/calendar/calendarSlice";
+import { peopleEditSchema, schedulerSchema } from "../schemas/joiValidation";
 
 interface IProps {
   action: "add" | "edit" | "schedule";
@@ -55,20 +56,23 @@ const FormSchedulePeople = ({
   );
 
   const editPerson = async (): Promise<void> => {
-    dispatch(setIsLoading(true));
+    const payload = {
+      id,
+      person: formDataState?.person,
+      name: formDataState?.name,
+      doctype: formDataState?.doctype,
+      doc: formDataState?.doc,
+      facultie: formDataState?.facultie,
+      asunt: formDataState?.asunt,
+    };
+    const { error } = peopleEditSchema.validate(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
 
+    dispatch(setIsLoading(true));
     try {
       const {
         data: { ok, errors },
-      } = await api.put("/person", {
-        id,
-        person: formDataState?.person,
-        name: formDataState?.name,
-        doctype: formDataState?.doctype,
-        doc: formDataState?.doc,
-        facultie: formDataState?.facultie,
-        asunt: formDataState?.asunt,
-      });
+      } = await api.put("/person", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
@@ -84,32 +88,34 @@ const FormSchedulePeople = ({
   };
 
   const schedulePerson = async (
-    closeModalScheduling: IProps["closeModalScheduling"] = undefined
+    closeModalScheduling?: IProps["closeModalScheduling"]
   ): Promise<void> => {
-    dispatch(setIsLoading(true));
+    const payload = {
+      person: formDataState?.person,
+      name: formDataState?.name,
+      doctype: formDataState?.doctype,
+      doc: formDataState?.doc,
+      emailContact:
+        formDataState?.emailContact === "" ? null : formDataState?.emailContact,
+      telContact:
+        formDataState?.telContact === "" ? null : formDataState?.telContact,
+      facultie: formDataState?.facultie,
+      asunt: formDataState?.asunt,
+      color: formDataState?.color,
+      date: formDataState?.date,
+      start: formDataState?.start,
+      end: formDataState?.end,
+      status: formDataState?.status,
+    };
+    const { error } = schedulerSchema.validate(payload);
+    console.log(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
 
+    dispatch(setIsLoading(true));
     try {
       const {
         data: { ok, errors },
-      } = await api.post("/person", {
-        person: formDataState?.person,
-        name: formDataState?.name,
-        doctype: formDataState?.doctype,
-        doc: formDataState?.doc,
-        emailContact:
-          formDataState?.emailContact === ""
-            ? null
-            : formDataState?.emailContact,
-        telContact:
-          formDataState?.telContact === "" ? null : formDataState?.telContact,
-        facultie: formDataState?.facultie,
-        asunt: formDataState?.asunt,
-        color: formDataState?.color,
-        date: formDataState?.date,
-        start: formDataState?.start,
-        end: formDataState?.end,
-        status: formDataState?.status,
-      });
+      } = await api.post("/person", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 
@@ -163,9 +169,9 @@ const FormSchedulePeople = ({
           action,
           {
             ...formDataState,
-            person: data.category_id,
-            doctype: data.document_id,
-            facultie: data.facultie_id,
+            person: data.category_id.toString(),
+            doctype: data.document_id.toString(),
+            facultie: data.facultie_id.toString(),
             name: data.name,
             doc: data.document_number,
             asunt: data.come_asunt,
@@ -201,7 +207,7 @@ const FormSchedulePeople = ({
               ...formDataState,
               doctype: "1",
               name: dean,
-              facultie: facultie_id,
+              facultie: facultie_id.toString(),
               disabledAfterAutocomplete: true,
             },
           ])

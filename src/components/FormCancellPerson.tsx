@@ -12,6 +12,7 @@ import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
 import { registerAChange } from "../features/calendar/calendarSlice";
+import { cancellSchema } from "../schemas/joiValidation";
 
 interface IProps {
   closeModalCancell: () => void;
@@ -34,16 +35,20 @@ const FormCancellPerson = ({
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    dispatch(setIsLoading(true));
 
+    const payload = {
+      id: formDataState.eventId,
+      date: formDataState.date,
+      cancelled_asunt,
+    };
+    const { error } = cancellSchema.validate(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
+
+    dispatch(setIsLoading(true));
     try {
       const {
         data: { ok, errors },
-      } = await api.patch("/person", {
-        id: formDataState.eventId,
-        date: formDataState.date,
-        cancelled_asunt,
-      });
+      } = await api.patch("/person", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 

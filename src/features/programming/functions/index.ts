@@ -8,7 +8,7 @@ import {
 export const updateFormDataByAction = (
   state: ProgrammingState,
   action: string,
-  formData: FormDataState | undefined
+  formData?: FormDataState
 ): ProgrammingState => {
   if (!(action in validFormDataAction)) return state;
 

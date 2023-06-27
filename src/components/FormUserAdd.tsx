@@ -17,6 +17,7 @@ import { IDocument } from "../interfaces/IResources";
 import { v4 } from "uuid";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { userSchema } from "../schemas/joiValidation";
 
 const FormUserAdd = (): React.JSX.Element => {
   const isLoadingState: boolean = useAppSelector(
@@ -42,22 +43,15 @@ const FormUserAdd = (): React.JSX.Element => {
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    dispatch(setIsLoading(true));
 
+    const { error } = userSchema.validate(formDataState);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
+
+    dispatch(setIsLoading(true));
     try {
       const {
         data: { errors, ok },
-      } = await api.post("/user", {
-        role: formDataState.role,
-        name: formDataState.name,
-        lastname: formDataState.lastname,
-        docType: formDataState.docType,
-        doc: formDataState.doc,
-        email: formDataState.email,
-        tel: formDataState.tel,
-        password: formDataState.password,
-        passwordConfirmation: formDataState.passwordConfirmation,
-      });
+      } = await api.post("/user", formDataState);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 

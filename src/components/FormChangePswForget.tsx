@@ -8,6 +8,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { forgetPswSchema } from "../schemas/joiValidation";
 
 interface FormData {
   password: string;
@@ -33,17 +34,21 @@ const FormChangePswForget = (): React.JSX.Element => {
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    setLoading(true);
 
+    const payload = {
+      email,
+      resetToken,
+      password: formData.password,
+      password_confirm: formData.confirmPassword,
+    };
+    const { error } = forgetPswSchema.validate(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
+
+    setLoading(true);
     try {
       const {
         data: { errors, ok },
-      } = await api.put("/recover/password", {
-        email,
-        resetToken,
-        password: formData.password,
-        password_confirm: formData.confirmPassword,
-      });
+      } = await api.put("/recover/password", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 

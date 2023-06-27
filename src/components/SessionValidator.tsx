@@ -25,7 +25,6 @@ const SessionValidator = (): React.JSX.Element | undefined => {
     } catch (error: any) {
       toast.error(error.response.data, {
         position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
         closeButton: false,
       });
       dispatch(resetUserAuthenticated());

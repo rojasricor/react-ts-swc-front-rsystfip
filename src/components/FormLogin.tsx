@@ -11,15 +11,16 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { useAppDispatch } from "../hooks";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { authSchema } from "../schemas/joiValidation";
 
 const FormLogin = (): React.JSX.Element => {
   interface FormData {
-    user: string;
+    username: string;
     password: string;
   }
 
   const formDataInitialState: FormData = {
-    user: "",
+    username: "",
     password: "",
   };
 
@@ -40,13 +41,13 @@ const FormLogin = (): React.JSX.Element => {
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    setLoading(true);
 
+    const { error } = authSchema.validate(formData);
+    if (error) return showAndUpdateToast(error.message);
+
+    setLoading(true);
     try {
-      const { data, headers } = await api.post("/auth", {
-        username: formData.user,
-        password: formData.password,
-      });
+      const { data, headers } = await api.post("/auth", formData);
 
       if (data.errors) return showAndUpdateToast(data.errors);
 
@@ -72,10 +73,10 @@ const FormLogin = (): React.JSX.Element => {
         <Col md={12}>
           <Form.FloatingLabel label="Nombre de usuario">
             <Form.Control
-              name="user"
+              name="username"
               className="border-0 bg-white"
               onChange={handleChange}
-              value={formData.user}
+              value={formData.username}
               type="text"
               placeholder="Usuario"
               autoComplete="off"

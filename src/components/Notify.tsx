@@ -3,7 +3,7 @@ import { ToastContainer, toast, Zoom } from "react-toastify";
 const Notify = (): React.JSX.Element => (
   <ToastContainer
     position={toast.POSITION.TOP_RIGHT}
-    autoClose={3000}
+    autoClose={false}
     hideProgressBar
     newestOnTop
     transition={Zoom}

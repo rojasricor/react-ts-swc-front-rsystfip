@@ -17,7 +17,7 @@ export interface FormDataState {
   date?: string;
   start?: string;
   end?: string;
-  status?: string;
+  status?: "daily" | "scheduled" | "cancelled";
   disabledAll?: boolean;
   disabledAfterAutocomplete?: boolean;
 }

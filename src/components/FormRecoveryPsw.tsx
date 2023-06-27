@@ -7,6 +7,7 @@ import { THandleSubmit } from "../types/THandleSubmits";
 import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { recoverPswSchema } from "../schemas/joiValidation";
 
 const FormRecoveryPsw = (): React.JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,15 +16,16 @@ const FormRecoveryPsw = (): React.JSX.Element => {
 
   const handleSubmit = async (e: THandleSubmit): Promise<void> => {
     e.preventDefault();
-    setLoading(true);
 
+    const payload = { email, APP_ROUTE: window.location.href };
+    const { error } = recoverPswSchema.validate(payload);
+    if (error) return showAndUpdateToast(error.message, setMyToast);
+
+    setLoading(true);
     try {
       const {
         data: { errors, ok },
-      } = await api.post("/auth/recover/password", {
-        email,
-        APP_ROUTE: window.location.href,
-      });
+      } = await api.post("/auth/recover/password", payload);
 
       if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
 

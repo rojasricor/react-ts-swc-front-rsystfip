@@ -1,10 +1,6 @@
 import { Content, StyleDictionary, TFontDictionary } from "pdfmake/interfaces";
 
-export const createHeader: (
-  image: string,
-  startDate: string,
-  endDate: string
-) => Content = (
+export const createHeader = (
   image: string,
   startDate: string,
   endDate: string
@@ -27,10 +23,7 @@ export const createHeader: (
   ],
 });
 
-export const footer: (currentPage: number, pageCount: number) => Content = (
-  currentPage: number,
-  pageCount: number
-): Content => ({
+export const footer = (currentPage: number, pageCount: number): Content => ({
   text: `Page ${currentPage}/${pageCount} - Rsystfip`,
   alignment: "center",
   fontSize: 8,

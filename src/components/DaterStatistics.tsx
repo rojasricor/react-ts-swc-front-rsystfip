@@ -3,9 +3,9 @@ import {
   QueryData,
   setQueryData,
 } from "../features/statistics/statisticsSlice";
-import { IProps } from "./Statistics";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
+import { IProps } from "./Statistics";
 
 const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
   const dispatch = useAppDispatch();
