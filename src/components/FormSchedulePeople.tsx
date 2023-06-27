@@ -108,7 +108,6 @@ const FormSchedulePeople = ({
       status: formDataState?.status,
     };
     const { error } = schedulerSchema.validate(payload);
-    console.log(payload);
     if (error) return showAndUpdateToast(error.message, setMyToast);
 
     dispatch(setIsLoading(true));

@@ -18,13 +18,24 @@ export const cancellSchema = JoiDefaults.object({
 export const changePswSchema = JoiDefaults.object({
   id: Joi.number().min(1).max(10).required(), // Will _id user
   current_password: Joi.string().min(8).max(30).required(),
-  new_password: Joi.string().min(8).max(30).required(),
+  new_password: Joi.string()
+    .min(8)
+    .max(30)
+    .required()
+    .invalid(Joi.ref("current_password"))
+    .messages({
+      "any.invalid": "The new password must be different from the old password",
+    }),
   new_password_confirm: Joi.string()
     .valid(Joi.ref("new_password"), "")
     .min(8)
     .max(30)
     .required()
-    .messages({ "any.only": "Passwords does not match" }),
+    .invalid(Joi.ref("current_password"))
+    .messages({
+      "any.invalid": "The new password must be different from the old password",
+      "any.only": "Passwords does not match",
+    }),
 });
 
 const emailItfipSchema = JoiDefaults.object({
