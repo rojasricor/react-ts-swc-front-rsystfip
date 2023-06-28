@@ -3,7 +3,6 @@ import {
   BarController,
   BarElement,
   CategoryScale,
-  ChartDataset,
   Chart as ChartJS,
   ChartTypeRegistry,
   LineController,
@@ -122,13 +121,10 @@ export default function Statistics({
           plugins: {
             datalabels: {
               formatter: (value: number, ctx: Context): string => {
-                const dataset: ChartDataset = ctx.dataset;
-                const data: typeof dataset.data = dataset.data;
-                const sum: any = data.reduce(
-                  (a, b): number => Number(a) + Number(b)
-                );
-                const percent: number = Math.round((value / sum) * 100);
-
+                let sum = 0;
+                const data = ctx.dataset.data;
+                data.forEach((n) => (sum += Number(n)));
+                const percent = Math.round((value / sum) * 100);
                 return (isNaN(percent) ? 0 : percent).toString().concat("%");
               },
               labels: { title: { font: { size: 20 } } },
