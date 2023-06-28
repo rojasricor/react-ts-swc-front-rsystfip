@@ -1,7 +1,7 @@
 import { AuthState } from "../features/auth/authSlice";
 import { useAppSelector } from "../hooks";
 
-const UserLoggedInfo = (): React.JSX.Element => {
+export default function UserLoggedInfo(): React.JSX.Element {
   const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   return (
@@ -11,6 +11,4 @@ const UserLoggedInfo = (): React.JSX.Element => {
       }: ${authState.user.name}`}
     </h1>
   );
-};
-
-export default UserLoggedInfo;
+}

@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { v4 } from "uuid";
+import { api } from "../api/axios";
+import { FormDataState } from "../features/programming/programmingSlice";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
-import { FormDataState } from "../features/programming/programmingSlice";
-import { v4 } from "uuid";
-import { api } from "../api/axios";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -14,10 +14,10 @@ interface IProps {
   handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectDocument = ({
+export default function SelectDocument({
   action,
   handleChange,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const documentsState: IDocument[] = useAppSelector(
     ({ resources }) => resources.documents
   );
@@ -64,6 +64,4 @@ const SelectDocument = ({
       </FormSelect>
     </FloatingLabel>
   );
-};
-
-export default SelectDocument;
+}

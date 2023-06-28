@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import DaterReports from "./DaterReports";
-import TableReports from "./TableReports";
-import { UNSET_STATUS } from "../constants";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { api } from "../api/axios";
+import { UNSET_STATUS } from "../constants";
 import {
   QueryData,
   Reports,
   setReports,
   setReportsOrigen,
 } from "../features/reports/reportsSlice";
-import { api } from "../api/axios";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import DaterReports from "./DaterReports";
+import TableReports from "./TableReports";
 
-const ActionerReports = (): React.JSX.Element => {
+export default function ActionerReports(): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   const reportsOrigenState: Reports[] = useAppSelector(
@@ -70,6 +70,4 @@ const ActionerReports = (): React.JSX.Element => {
       <TableReports />
     </>
   );
-};
-
-export default ActionerReports;
+}

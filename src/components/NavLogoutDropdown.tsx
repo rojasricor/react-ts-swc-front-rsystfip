@@ -1,20 +1,22 @@
-import { NavLink, NavigateFunction, useNavigate } from "react-router-dom";
-import { Dropdown, Image, Button } from "react-bootstrap";
+import { Button, Dropdown, Image } from "react-bootstrap";
 import { BiLogOutCircle } from "react-icons/bi";
+import { NavLink, NavigateFunction, useNavigate } from "react-router-dom";
+import { srcUser } from "../App";
+import { resetFormDataAdmin } from "../features/admin/adminSlice";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
+import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
 import { resetQueryDataReports } from "../features/reports/reportsSlice";
 import { resetQueryDataStatistics } from "../features/statistics/statisticsSlice";
-import { resetFormDataAdmin } from "../features/admin/adminSlice";
-import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
-import { srcUser } from "../App";
-import { useAppDispatch, useAppSelector } from "../hooks";
 import { destroyTemporals } from "../features/temp/tempSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
 interface IProps {
   avatar: srcUser["avatar"];
 }
 
-const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
+export default function NavLogoutDropdown({
+  avatar,
+}: IProps): React.JSX.Element {
   const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   const dispatch = useAppDispatch();
@@ -68,6 +70,4 @@ const NavLogoutDropdown = ({ avatar }: IProps): React.JSX.Element => {
       </Dropdown.Menu>
     </Dropdown>
   );
-};
-
-export default NavLogoutDropdown;
+}

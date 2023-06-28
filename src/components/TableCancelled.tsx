@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
-import CancelledRow from "./CancelledRow";
 import { toast } from "react-toastify";
+import { v4 } from "uuid";
+import { api } from "../api/axios";
 import {
   PeopleCancelled,
   setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { v4 } from "uuid";
-import { api } from "../api/axios";
+import CancelledRow from "./CancelledRow";
 
-const TableCancelled = (): React.JSX.Element => {
+export default function TableCancelled(): React.JSX.Element {
   const cancelledPeopleState: PeopleCancelled[] = useAppSelector(
     ({ cancelledPeople }) => cancelledPeople
   );
@@ -51,6 +51,4 @@ const TableCancelled = (): React.JSX.Element => {
       </tbody>
     </Table>
   );
-};
-
-export default TableCancelled;
+}

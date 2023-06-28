@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
 import {
-  Chart as ChartJS,
   ArcElement,
   BarController,
   BarElement,
   CategoryScale,
+  ChartDataset,
+  Chart as ChartJS,
+  ChartTypeRegistry,
   LineController,
   LineElement,
   LinearScale,
@@ -13,28 +14,29 @@ import {
   PolarAreaController,
   RadialLinearScale,
   Tooltip,
-  ChartTypeRegistry,
 } from "chart.js";
-import { ChartDataset } from "chart.js";
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
-import DaterStatistics from "./DaterStatistics";
-import Ctx from "./Ctx";
-import ListerStatistics from "./ListerStatistics";
-import { toast } from "react-toastify";
+import { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import {
-  setMostAgendatedOnRange,
-  setMostAgendatedAllTime,
-  QueryData,
-} from "../features/statistics/statisticsSlice";
+import { toast } from "react-toastify";
 import { api } from "../api/axios";
+import {
+  QueryData,
+  setMostAgendatedAllTime,
+  setMostAgendatedOnRange,
+} from "../features/statistics/statisticsSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import Ctx from "./Ctx";
+import DaterStatistics from "./DaterStatistics";
+import ListerStatistics from "./ListerStatistics";
 
 export interface IProps {
   scheduling_type: "daily" | "scheduled";
 }
 
-const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
+export default function Statistics({
+  scheduling_type,
+}: IProps): React.JSX.Element {
   const [chartJS, setChartJS] = useState<ChartJS<
     keyof ChartTypeRegistry,
     string[],
@@ -203,6 +205,4 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
       </Col>
     </>
   );
-};
-
-export default Statistics;
+}

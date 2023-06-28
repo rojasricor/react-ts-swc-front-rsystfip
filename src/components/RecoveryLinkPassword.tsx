@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Card, Col, Container, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { Col, Card, Spinner, Container } from "react-bootstrap";
-import ResetTokenInvalid from "./ResetTokenInvalid";
-import FormChangePswForget from "./FormChangePswForget";
 import { toast } from "react-toastify";
 import { api } from "../api/axios";
+import FormChangePswForget from "./FormChangePswForget";
+import ResetTokenInvalid from "./ResetTokenInvalid";
 
-type TParams = {
-  email: string;
-  resetToken: string;
-};
+type TParams = { email: string; resetToken: string };
 
-const RecoveryPassword = (): React.JSX.Element => {
+export default function RecoveryPassword(): React.JSX.Element {
   const { email, resetToken } = useParams<TParams>();
   const [tokenResetIsValid, setTokenResetIsValid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,6 +68,4 @@ const RecoveryPassword = (): React.JSX.Element => {
       </Card>
     </Col>
   );
-};
-
-export default RecoveryPassword;
+}

@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import { UNSET_STATUS } from "../constants";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { setCategories } from "../features/resources/resourcesSlice";
+import { v4 } from "uuid";
+import { api } from "../api/axios";
+import { UNSET_STATUS } from "../constants";
 import {
   FormDataState,
   setDeans,
   setFormData,
 } from "../features/programming/programmingSlice";
+import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
-import { v4 } from "uuid";
-import { api } from "../api/axios";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -20,11 +20,11 @@ interface IProps {
   facultieSelectRef: React.RefObject<HTMLSelectElement>;
 }
 
-const SelectPerson = ({
+export default function SelectPerson({
   action,
   handleChange,
   facultieSelectRef,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const categoriesState: ICategory[] = useAppSelector(
     ({ resources }) => resources.categories
   );
@@ -102,6 +102,4 @@ const SelectPerson = ({
       </FormSelect>
     </FloatingLabel>
   );
-};
-
-export default SelectPerson;
+}

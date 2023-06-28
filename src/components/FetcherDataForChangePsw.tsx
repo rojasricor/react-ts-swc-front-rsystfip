@@ -1,18 +1,16 @@
 import { useEffect } from "react";
+import { Card, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { Col, Card } from "react-bootstrap";
-import FormChangePsw from "./FormChangePsw";
 import { toast } from "react-toastify";
-import { IUserBase } from "../interfaces/IUserBase";
 import { api } from "../api/axios";
-import { useAppDispatch, useAppSelector } from "../hooks";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { IUserBase } from "../interfaces/IUserBase";
+import FormChangePsw from "./FormChangePsw";
 
-type TParams = {
-  role: string;
-};
+type TParams = { role: string };
 
-const FetcherDataForChangePsw = (): React.JSX.Element => {
+export default function FetcherDataForChangePsw(): React.JSX.Element {
   const { role } = useParams<TParams>();
 
   const dispatch = useAppDispatch();
@@ -45,6 +43,4 @@ const FetcherDataForChangePsw = (): React.JSX.Element => {
       </Card>
     </Col>
   );
-};
-
-export default FetcherDataForChangePsw;
+}

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { toast, Id as ToastId } from "react-toastify";
-import { Form, Row, Col, Spinner } from "react-bootstrap";
-import Submitter from "./Submitter";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiMailSend } from "react-icons/bi";
-import { THandleSubmit } from "../types/THandleSubmits";
-import { THandleChangeI } from "../types/THandleChanges";
-import { showAndUpdateToast } from "../functions";
+import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
+import { showAndUpdateToast } from "../functions";
 import { recoverPswSchema } from "../schemas/joiValidation";
+import { THandleChangeI } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
+import Submitter from "./Submitter";
 
-const FormRecoveryPsw = (): React.JSX.Element => {
+export default function FormRecoveryPsw(): React.JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [myToast, setMyToast] = useState<ToastId>("");
@@ -74,6 +74,4 @@ const FormRecoveryPsw = (): React.JSX.Element => {
       </Row>
     </Form>
   );
-};
-
-export default FormRecoveryPsw;
+}

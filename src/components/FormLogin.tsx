@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { AUTH_KEY } from "../constants";
-import { Row, Col, Form, Spinner } from "react-bootstrap";
-import Submitter from "./Submitter";
-import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
-import { toast } from "react-toastify";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { IoMdLogIn } from "react-icons/io";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { api } from "../api/axios";
+import { AUTH_KEY } from "../constants";
+import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
+import { showAndUpdateToast } from "../functions";
+import { useAppDispatch } from "../hooks";
+import { authSchema } from "../schemas/joiValidation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { useAppDispatch } from "../hooks";
-import { showAndUpdateToast } from "../functions";
-import { api } from "../api/axios";
-import { authSchema } from "../schemas/joiValidation";
+import Submitter from "./Submitter";
 
-const FormLogin = (): React.JSX.Element => {
+export default function FormLogin(): React.JSX.Element {
   interface FormData {
     username: string;
     password: string;
@@ -125,6 +125,4 @@ const FormLogin = (): React.JSX.Element => {
       </Row>
     </Form>
   );
-};
-
-export default FormLogin;
+}

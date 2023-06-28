@@ -1,26 +1,23 @@
 import { useState } from "react";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
+import { BiKey } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { toast, Id as ToastId } from "react-toastify";
-import { Form, Row, Col, Spinner } from "react-bootstrap";
-import Submitter from "./Submitter";
-import { BiKey } from "react-icons/bi";
-import { THandleSubmit } from "../types/THandleSubmits";
-import { THandleChangeI } from "../types/THandleChanges";
-import { showAndUpdateToast } from "../functions";
 import { api } from "../api/axios";
+import { showAndUpdateToast } from "../functions";
 import { forgetPswSchema } from "../schemas/joiValidation";
+import { THandleChangeI } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
+import Submitter from "./Submitter";
 
 interface FormData {
   password: string;
   confirmPassword: string;
 }
 
-type TParams = {
-  resetToken: string;
-  email: string;
-};
+type TParams = { resetToken: string; email: string };
 
-const FormChangePswForget = (): React.JSX.Element => {
+export default function FormChangePswForget(): React.JSX.Element {
   const formDataInitialState: FormData = {
     password: "",
     confirmPassword: "",
@@ -121,6 +118,4 @@ const FormChangePswForget = (): React.JSX.Element => {
       </Row>
     </Form>
   );
-};
-
-export default FormChangePswForget;
+}

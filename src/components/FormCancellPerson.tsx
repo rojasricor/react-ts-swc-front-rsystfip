@@ -1,26 +1,26 @@
 import { useState } from "react";
-import { Form, Spinner, ModalFooter, Button, Row, Col } from "react-bootstrap";
-import { toast, Id as ToastId } from "react-toastify";
-import { FaTimes, FaCheck } from "react-icons/fa";
+import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
+import { FaCheck, FaTimes } from "react-icons/fa";
+import { Id as ToastId, toast } from "react-toastify";
+import { api } from "../api/axios";
+import { registerAChange } from "../features/calendar/calendarSlice";
 import {
   FormDataState,
   setIsLoading,
 } from "../features/programming/programmingSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { THandleSubmit } from "../types/THandleSubmits";
-import { THandleChangeI } from "../types/THandleChanges";
 import { showAndUpdateToast } from "../functions";
-import { api } from "../api/axios";
-import { registerAChange } from "../features/calendar/calendarSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { cancellSchema } from "../schemas/joiValidation";
+import { THandleChangeI } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
 
 interface IProps {
   closeModalCancell: () => void;
 }
 
-const FormCancellPerson = ({
+export default function FormCancellPerson({
   closeModalCancell,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
   const [myToast, setMyToast] = useState<ToastId>("");
 
@@ -106,6 +106,4 @@ const FormCancellPerson = ({
       </Row>
     </Form>
   );
-};
-
-export default FormCancellPerson;
+}

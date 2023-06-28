@@ -1,34 +1,34 @@
-import { useState, useRef, useEffect } from "react";
-import Responsive from "./Responsive";
-import LoadCalendar from "./LoadCalendar";
-import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
-import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
-import FullCalendar from "@fullcalendar/react";
 import esLocale from "@fullcalendar/core/locales/es";
-import { toast } from "react-toastify";
-import { Container } from "react-bootstrap";
-import {
-  FormDataState,
-  setFormData,
-} from "../features/programming/programmingSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { EventSourceInput, globalPlugins } from "fullcalendar";
+import FullCalendar from "@fullcalendar/react";
 import { format } from "date-fns";
+import { EventSourceInput, globalPlugins } from "fullcalendar";
+import { useEffect, useRef, useState } from "react";
+import { Container } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import {
   ICalendarState,
   setCalendarEvents,
 } from "../features/calendar/calendarSlice";
+import {
+  FormDataState,
+  setFormData,
+} from "../features/programming/programmingSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import LoadCalendar from "./LoadCalendar";
+import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
+import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
+import Responsive from "./Responsive";
 
 interface IProps {
   right: string;
   initialView: string;
 }
 
-const FullCalendarScheduling = ({
+export default function FullCalendarScheduling({
   right,
   initialView,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const action = "schedule";
 
   const formDataState: FormDataState = useAppSelector(
@@ -173,6 +173,4 @@ const FullCalendarScheduling = ({
       <p className="text-center mt-2">Scheduled scheduling month to month.</p>
     </Responsive>
   );
-};
-
-export default FullCalendarScheduling;
+}

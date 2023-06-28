@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { BiTrash, BiKey } from "react-icons/bi";
-import { IUserBase } from "../interfaces/IUserBase";
-import { User } from "../features/admin/adminSlice";
+import { BiKey, BiTrash } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { api } from "../api/axios";
+import { User } from "../features/admin/adminSlice";
+import { IUserBase } from "../interfaces/IUserBase";
 
 interface IProps {
   user: User;
 }
 
-const UserRow = ({
+export default function UserRow({
   user: { id, email, role },
-}: IProps): React.JSX.Element | undefined => {
+}: IProps): React.JSX.Element | undefined {
   const [deleted, setDeleted] = useState(false);
 
   const handleClick = async (roleId: IUserBase["id"]): Promise<void> => {
@@ -67,6 +67,4 @@ const UserRow = ({
       </td>
     </tr>
   );
-};
-
-export default UserRow;
+}

@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { toast, Id as ToastId } from "react-toastify";
-import { Form, Row, Col, Spinner } from "react-bootstrap";
-import Submitter from "./Submitter";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
-import { THandleSubmit } from "../types/THandleSubmits";
-import { THandleChangeI } from "../types/THandleChanges";
-import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../functions";
+import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
+import { showAndUpdateToast } from "../functions";
+import { IUserBase } from "../interfaces/IUserBase";
 import { changePswSchema } from "../schemas/joiValidation";
+import { THandleChangeI } from "../types/THandleChanges";
+import { THandleSubmit } from "../types/THandleSubmits";
+import Submitter from "./Submitter";
 
 interface IProps {
   userId: IUserBase["id"];
@@ -20,7 +20,7 @@ interface FormState {
   confirmPassword: string;
 }
 
-const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
+export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
   const formDataInitialState: FormState = {
     currentPassword: "",
     newPassword: "",
@@ -138,6 +138,4 @@ const FormChangePsw = ({ userId }: IProps): React.JSX.Element => {
       </Row>
     </Form>
   );
-};
-
-export default FormChangePsw;
+}

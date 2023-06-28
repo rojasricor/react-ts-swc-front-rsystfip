@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import { setFaculties } from "../features/resources/resourcesSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { FormDataState } from "../features/programming/programmingSlice";
-import { IFacultie } from "../interfaces/IResources";
+import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
+import { FormDataState } from "../features/programming/programmingSlice";
+import { setFaculties } from "../features/resources/resourcesSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { IFacultie } from "../interfaces/IResources";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -15,11 +15,11 @@ interface IProps {
   facultieSelectRef: React.RefObject<HTMLSelectElement>;
 }
 
-const SelectFaculties = ({
+export default function SelectFaculties({
   action,
   handleChange,
   facultieSelectRef,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const formDataState: FormDataState | undefined = useAppSelector(
     ({ programming: { formData } }) => formData[action]
   );
@@ -67,6 +67,4 @@ const SelectFaculties = ({
       </FormSelect>
     </FloatingLabel>
   );
-};
-
-export default SelectFaculties;
+}

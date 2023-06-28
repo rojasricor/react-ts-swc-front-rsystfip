@@ -1,13 +1,13 @@
-import Downloader from "./Downloader";
 import * as pdfMake from "pdfmake/build/pdfmake";
-import { createHeader, footer, myFonts, styles } from "../extras/pdfmake";
-import { useAppSelector } from "../hooks";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
-import { QueryData, Reports } from "../features/reports/reportsSlice";
+import { createHeader, footer, myFonts, styles } from "../extras/pdfmake";
 import { People } from "../features/people/peopleSlice";
+import { QueryData, Reports } from "../features/reports/reportsSlice";
+import { useAppSelector } from "../hooks";
 import { ICounts } from "../interfaces/ICounts";
+import Downloader from "./Downloader";
 
-const PdfCreator = (): React.JSX.Element => {
+export default function PdfCreator(): React.JSX.Element {
   const pngBase64State: string = useAppSelector(
     ({ reports }) => reports.pngBase64
   );
@@ -195,6 +195,4 @@ const PdfCreator = (): React.JSX.Element => {
   );
 
   return <Downloader pdf={pdf} />;
-};
-
-export default PdfCreator;
+}

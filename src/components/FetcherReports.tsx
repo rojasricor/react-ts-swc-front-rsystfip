@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import PdfCreator from "./PdfCreator";
 import { toast } from "react-toastify";
+import { api } from "../api/axios";
 import { setPeople, setPeopleOrigen } from "../features/people/peopleSlice";
 import {
-  setPngBase64,
-  setReportsCountOnRange,
-  setReportsCountAllTime,
   QueryData,
+  setPngBase64,
+  setReportsCountAllTime,
+  setReportsCountOnRange,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { api } from "../api/axios";
+import PdfCreator from "./PdfCreator";
 
-const FetcherReports = (): React.JSX.Element => {
+export default function FetcherReports(): React.JSX.Element {
   const queryDataState: QueryData = useAppSelector(
     ({ reports }) => reports.queryData
   );
@@ -78,6 +78,4 @@ const FetcherReports = (): React.JSX.Element => {
   }, [queryDataState.startDate, queryDataState.endDate]);
 
   return <PdfCreator />;
-};
-
-export default FetcherReports;
+}

@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import { toast, Id as ToastId } from "react-toastify";
-import { Row, Col, Form, Spinner } from "react-bootstrap";
-import Submitter from "./Submitter";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
-import { setDocuments } from "../features/resources/resourcesSlice";
+import { Id as ToastId, toast } from "react-toastify";
+import { v4 } from "uuid";
+import { api } from "../api/axios";
 import {
   FormData,
   resetFormDataAdmin,
   setFormData,
   setIsLoading,
 } from "../features/admin/adminSlice";
+import { setDocuments } from "../features/resources/resourcesSlice";
+import { showAndUpdateToast } from "../functions";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { IDocument } from "../interfaces/IResources";
+import { userSchema } from "../schemas/joiValidation";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { IDocument } from "../interfaces/IResources";
-import { v4 } from "uuid";
-import { showAndUpdateToast } from "../functions";
-import { api } from "../api/axios";
-import { userSchema } from "../schemas/joiValidation";
+import Submitter from "./Submitter";
 
-const FormUserAdd = (): React.JSX.Element => {
+export default function FormUserAdd(): React.JSX.Element {
   const isLoadingState: boolean = useAppSelector(
     ({ admin }) => admin.isLoading
   );
@@ -258,6 +258,4 @@ const FormUserAdd = (): React.JSX.Element => {
       </Row>
     </Form>
   );
-};
-
-export default FormUserAdd;
+}

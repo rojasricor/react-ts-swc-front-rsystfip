@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import FormSchedulePeople from "../components/FormSchedulePeople";
 

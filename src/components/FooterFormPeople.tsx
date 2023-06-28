@@ -1,17 +1,18 @@
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import ProtectedElement from "./ProtectedElement";
-import { Button, Spinner, Col } from "react-bootstrap";
+import { Button, Col, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { GiReturnArrow } from "react-icons/gi";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 import { THandleClick } from "../types/THandleClicks";
-import React from "react";
+import ProtectedElement from "./ProtectedElement";
 
 interface IProps {
   isAllowed: boolean;
 }
 
-const FooterFormPeople = ({ isAllowed }: IProps): React.JSX.Element => {
+export default function FooterFormPeople({
+  isAllowed,
+}: IProps): React.JSX.Element {
   const isLoadingState: boolean = useAppSelector(
     ({ programming }) => programming.isLoading
   );
@@ -46,6 +47,4 @@ const FooterFormPeople = ({ isAllowed }: IProps): React.JSX.Element => {
       </ProtectedElement>
     </Col>
   );
-};
-
-export default FooterFormPeople;
+}

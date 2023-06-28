@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Col, Container, Image, Row } from "react-bootstrap";
 import Error404Actioner from "./Error404Actioner";
 
-const ResetTokenInvalid = (): React.JSX.Element => {
+export default function ResetTokenInvalid(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Not found";
   }, []);
@@ -27,6 +27,4 @@ const ResetTokenInvalid = (): React.JSX.Element => {
       </Row>
     </Container>
   );
-};
-
-export default ResetTokenInvalid;
+}

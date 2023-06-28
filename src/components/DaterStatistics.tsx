@@ -7,7 +7,9 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { IProps } from "./Statistics";
 
-const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
+export default function DaterStatistics({
+  scheduling_type,
+}: IProps): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   const queryDataState: QueryData = useAppSelector(
@@ -67,6 +69,4 @@ const DaterStatistics = ({ scheduling_type }: IProps): React.JSX.Element => {
       </Col>
     </>
   );
-};
-
-export default DaterStatistics;
+}

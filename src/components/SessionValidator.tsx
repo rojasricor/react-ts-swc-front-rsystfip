@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { api } from "../api/axios";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { toast } from "react-toastify";
 import Notify from "./Notify";
-import { api } from "../api/axios";
 
-const SessionValidator = (): React.JSX.Element | undefined => {
+export default function SessionValidator(): React.JSX.Element | undefined {
   const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   const dispatch = useAppDispatch();
@@ -41,6 +41,4 @@ const SessionValidator = (): React.JSX.Element | undefined => {
   }, [authState.auth]);
 
   return <Notify />;
-};
-
-export default SessionValidator;
+}

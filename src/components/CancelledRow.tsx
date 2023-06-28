@@ -5,7 +5,7 @@ interface IProps {
   person: PeopleCancelled;
 }
 
-const CancelledRow = ({
+export default function CancelledRow({
   index,
   person: {
     name,
@@ -16,17 +16,17 @@ const CancelledRow = ({
     facultie,
     cancelled_asunt,
   },
-}: IProps): React.JSX.Element => (
-  <tr>
-    <td>{index + 1}</td>
-    <td>{name}</td>
-    <td title={description}>
-      {ty_doc} {document_number}
-    </td>
-    <td>{category}</td>
-    <td>{facultie}</td>
-    <td>{cancelled_asunt}</td>
-  </tr>
-);
-
-export default CancelledRow;
+}: IProps): React.JSX.Element {
+  return (
+    <tr>
+      <td>{index + 1}</td>
+      <td>{name}</td>
+      <td title={description}>
+        {ty_doc} {document_number}
+      </td>
+      <td>{category}</td>
+      <td>{facultie}</td>
+      <td>{cancelled_asunt}</td>
+    </tr>
+  );
+}

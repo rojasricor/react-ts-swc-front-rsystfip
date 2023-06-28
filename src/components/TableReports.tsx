@@ -1,10 +1,10 @@
 import { Table } from "react-bootstrap";
-import ReportRow from "./ReportRow";
-import { useAppSelector } from "../hooks";
-import { QueryData, Reports } from "../features/reports/reportsSlice";
 import { v4 } from "uuid";
+import { QueryData, Reports } from "../features/reports/reportsSlice";
+import { useAppSelector } from "../hooks";
+import ReportRow from "./ReportRow";
 
-const TableReports = (): React.JSX.Element => {
+export default function TableReports(): React.JSX.Element {
   const reportsState: Reports[] = useAppSelector(
     ({ reports }) => reports.reports
   );
@@ -35,6 +35,4 @@ const TableReports = (): React.JSX.Element => {
       </tbody>
     </Table>
   );
-};
-
-export default TableReports;
+}

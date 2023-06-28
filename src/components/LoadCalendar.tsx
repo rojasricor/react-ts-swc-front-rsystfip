@@ -4,10 +4,12 @@ interface IProps {
   loadEventsRef: React.RefObject<HTMLDivElement>;
 }
 
-const LoadCalendar = ({ loadEventsRef }: IProps): React.JSX.Element => (
-  <div className="load-events" ref={loadEventsRef}>
-    Cargando <Spinner size="sm" />
-  </div>
-);
-
-export default LoadCalendar;
+export default function LoadCalendar({
+  loadEventsRef,
+}: IProps): React.JSX.Element {
+  return (
+    <div className="load-events" ref={loadEventsRef}>
+      Cargando <Spinner size="sm" />
+    </div>
+  );
+}

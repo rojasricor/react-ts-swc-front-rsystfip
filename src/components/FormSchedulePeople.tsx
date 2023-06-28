@@ -1,28 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Form, Spinner, Col, Row, ModalFooter, Button } from "react-bootstrap";
-import { toast, Id as ToastId } from "react-toastify";
-import SelectPerson from "./SelectPerson";
-import SelectDocument from "./SelectDocument";
-import SelectFaculties from "./SelectFaculties";
-import SmallCaption from "./SmallCaption";
-import FooterFormPeople from "./FooterFormPeople";
-import { IoCalendarNumber } from "react-icons/io5";
+import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { GiReturnArrow } from "react-icons/gi";
+import { IoCalendarNumber } from "react-icons/io5";
+import { useParams } from "react-router-dom";
+import { Id as ToastId, toast } from "react-toastify";
+import { api } from "../api/axios";
+import { registerAChange } from "../features/calendar/calendarSlice";
 import {
   Deans,
   FormDataState,
   setFormData,
   setIsLoading,
 } from "../features/programming/programmingSlice";
-import ProtectedElement from "./ProtectedElement";
+import { showAndUpdateToast } from "../functions";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { peopleEditSchema, schedulerSchema } from "../schemas/joiValidation";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { showAndUpdateToast } from "../functions";
-import { api } from "../api/axios";
-import { registerAChange } from "../features/calendar/calendarSlice";
-import { peopleEditSchema, schedulerSchema } from "../schemas/joiValidation";
+import FooterFormPeople from "./FooterFormPeople";
+import ProtectedElement from "./ProtectedElement";
+import SelectDocument from "./SelectDocument";
+import SelectFaculties from "./SelectFaculties";
+import SelectPerson from "./SelectPerson";
+import SmallCaption from "./SmallCaption";
 
 interface IProps {
   action: "add" | "edit" | "schedule";
@@ -30,13 +30,12 @@ interface IProps {
 }
 
 export type actionFormSchedule = IProps["action"];
-
 type TParams = { id: string };
 
-const FormSchedulePeople = ({
+export default function FormSchedulePeople({
   action,
   closeModalScheduling,
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   const { id } = useParams<TParams>();
 
   const [myToast, setMyToast] = useState<ToastId>("");
@@ -403,6 +402,4 @@ const FormSchedulePeople = ({
       </Row>
     </Form>
   );
-};
-
-export default FormSchedulePeople;
+}

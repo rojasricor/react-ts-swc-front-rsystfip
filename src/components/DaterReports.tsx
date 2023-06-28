@@ -1,23 +1,23 @@
 import { useEffect } from "react";
-import { UNSET_STATUS } from "../constants";
-import FetcherReports from "./FetcherReports";
 import {
   Col,
-  Row,
   FloatingLabel,
   FormControl,
   FormSelect,
+  Row,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { setCategories } from "../features/resources/resourcesSlice";
-import { QueryData, setQueryData } from "../features/reports/reportsSlice";
-import { THandleChangeITS } from "../types/THandleChanges";
-import { ICategory } from "../interfaces/IResources";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
+import { UNSET_STATUS } from "../constants";
+import { QueryData, setQueryData } from "../features/reports/reportsSlice";
+import { setCategories } from "../features/resources/resourcesSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { ICategory } from "../interfaces/IResources";
+import { THandleChangeITS } from "../types/THandleChanges";
+import FetcherReports from "./FetcherReports";
 
-const DaterReports = (): React.JSX.Element => {
+export default function DaterReports(): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   const categoriesState: ICategory[] = useAppSelector(
@@ -101,6 +101,4 @@ const DaterReports = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default DaterReports;
+}

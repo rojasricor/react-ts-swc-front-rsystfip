@@ -1,23 +1,23 @@
 import { useEffect } from "react";
+import { Button, ButtonGroup, FormControl, Spinner } from "react-bootstrap";
+import { FaSyncAlt, FaTimes } from "react-icons/fa";
+import { ImUserPlus } from "react-icons/im";
+import { IoCalendarNumber } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Spinner, FormControl, Button, ButtonGroup } from "react-bootstrap";
-import TablePeople from "./TablePeople";
+import { api } from "../api/axios";
 import {
-  setPeople,
-  setPeopleOrigen,
-  setIsLoading,
   People,
   setFind,
+  setIsLoading,
+  setPeople,
+  setPeopleOrigen,
 } from "../features/people/peopleSlice";
-import { FaSyncAlt, FaTimes } from "react-icons/fa";
-import { IoCalendarNumber } from "react-icons/io5";
-import { ImUserPlus } from "react-icons/im";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { THandleChangeI } from "../types/THandleChanges";
-import { api } from "../api/axios";
+import TablePeople from "./TablePeople";
 
-const Searcher = (): React.JSX.Element => {
+export default function Searcher(): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   const peopleOrigenState: People[] = useAppSelector(
@@ -111,6 +111,4 @@ const Searcher = (): React.JSX.Element => {
       <TablePeople />
     </>
   );
-};
-
-export default Searcher;
+}

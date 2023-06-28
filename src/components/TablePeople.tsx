@@ -1,10 +1,10 @@
 import { Table } from "react-bootstrap";
-import PersonRow from "./PersonRow";
-import { useAppSelector } from "../hooks";
-import { People } from "../features/people/peopleSlice";
 import { v4 } from "uuid";
+import { People } from "../features/people/peopleSlice";
+import { useAppSelector } from "../hooks";
+import PersonRow from "./PersonRow";
 
-const TablePeople = (): React.JSX.Element => {
+export default function TablePeople(): React.JSX.Element {
   const peopleState: People[] = useAppSelector(({ people }) => people.people);
 
   return (
@@ -28,6 +28,4 @@ const TablePeople = (): React.JSX.Element => {
       </tbody>
     </Table>
   );
-};
-
-export default TablePeople;
+}

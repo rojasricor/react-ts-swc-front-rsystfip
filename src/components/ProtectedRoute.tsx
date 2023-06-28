@@ -5,14 +5,11 @@ interface IProps extends IPropsProtected {
   navigateTo?: string;
 }
 
-const ProtectedRoute = ({
+export default function ProtectedRoute({
   children,
   isAllowed,
   navigateTo = "/auth/login",
-}: IProps): React.JSX.Element => {
+}: IProps): React.JSX.Element {
   if (!isAllowed) return <Navigate to={navigateTo} />;
-
   return children || <Outlet />;
-};
-
-export default ProtectedRoute;
+}
