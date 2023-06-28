@@ -65,13 +65,9 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
     Tooltip
   );
 
-  const labelText: string =
-    scheduling_type === "daily" ? "diario" : "programado";
+  const labelText = scheduling_type === "daily" ? "diario" : "programado";
 
-  const refreshChart: (labels: string[], data: string[]) => void = (
-    labels: string[],
-    data: string[]
-  ): void => {
+  const refreshChart = (labels: string[], data: string[]) => {
     if (chartJS) chartJS.destroy();
 
     const newChart: typeof chartJS = new ChartJS(
@@ -131,7 +127,7 @@ const Statistics = ({ scheduling_type }: IProps): React.JSX.Element => {
                 );
                 const percent: number = Math.round((value / sum) * 100);
 
-                return (isNaN(percent) ? 0 : percent) + "%";
+                return (isNaN(percent) ? 0 : percent).toString().concat("%");
               },
               labels: { title: { font: { size: 20 } } },
               align: "end",
