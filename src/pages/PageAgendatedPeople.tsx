@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Searcher from "../components/Searcher";
 
-const PageAgendatedPeople = (): React.JSX.Element => {
+export default function PageAgendatedPeople(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Agendated People";
   }, []);
@@ -15,6 +15,4 @@ const PageAgendatedPeople = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageAgendatedPeople;
+}

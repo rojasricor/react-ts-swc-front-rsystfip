@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import Statistics from "../components/Statistics";
 import { Row } from "react-bootstrap";
+import Statistics from "../components/Statistics";
 
-const PageStcsDaily = (): React.JSX.Element => {
+export default function PageStcsDaily(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Statistics daily people";
   }, []);
@@ -12,6 +12,4 @@ const PageStcsDaily = (): React.JSX.Element => {
       <Statistics scheduling_type="daily" />
     </Row>
   );
-};
-
-export default PageStcsDaily;
+}

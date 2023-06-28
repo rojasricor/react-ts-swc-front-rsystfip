@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Card } from "react-bootstrap";
-import TableUsers from "../components/TableUsers";
+import { Card, Col, Row } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import TableUsers from "../components/TableUsers";
 
-const PageManageUsers = (): React.JSX.Element => {
+export default function PageManageUsers(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Manage users";
   }, []);
@@ -26,6 +26,4 @@ const PageManageUsers = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageManageUsers;
+}

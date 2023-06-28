@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import FormSchedulePeople from "../components/FormSchedulePeople";
 
-const PageAddPeople = (): React.JSX.Element => {
+export default function PageAddPeople(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Daily Scheduling";
   }, []);
@@ -19,6 +19,4 @@ const PageAddPeople = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageAddPeople;
+}

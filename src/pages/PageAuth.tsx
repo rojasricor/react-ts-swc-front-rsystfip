@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import HeaderLogin from "../components/HeaderLogin";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import FormLogin from "../components/FormLogin";
-import { Col, Row, Card, Container } from "react-bootstrap";
+import HeaderLogin from "../components/HeaderLogin";
 
-const PageAuth = (): React.JSX.Element => {
+export default function PageAuth(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Authenticate";
   }, []);
@@ -22,6 +22,4 @@ const PageAuth = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageAuth;
+}

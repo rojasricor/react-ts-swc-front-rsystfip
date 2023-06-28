@@ -1,38 +1,38 @@
+import { Container } from "react-bootstrap";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useAppSelector } from "./hooks";
+import "./App.scss";
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
 import ProtectedElement from "./components/ProtectedElement";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { Container } from "react-bootstrap";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import PageAuth from "./pages/PageAuth";
-import PageHome from "./pages/PageHome";
-import PageManageUsers from "./pages/PageManageUsers";
-import PageRegisterUsers from "./pages/PageRegisterUsers";
-import PageChangePassword from "./pages/PageChangePassword";
-import PageRecoveryPassword from "./pages/PageRecoveryPassword";
-import PageLinkRecoveryPsw from "./pages/PageLinkRecoveryPsw";
-import PageProgramming from "./pages/PageProgramming";
-import PageCalendar from "./pages/PageCalendar";
+import SessionValidator from "./components/SessionValidator";
+import { AuthState } from "./features/auth/authSlice";
+import { useAppSelector } from "./hooks";
 import PageAddPeople from "./pages/PageAddPeople";
-import PageEditPeople from "./pages/PageEditPeople";
 import PageAgendatedPeople from "./pages/PageAgendatedPeople";
+import PageAuth from "./pages/PageAuth";
+import PageCalendar from "./pages/PageCalendar";
 import PageCancelledPeople from "./pages/PageCancelledPeople";
+import PageChangePassword from "./pages/PageChangePassword";
+import PageEditPeople from "./pages/PageEditPeople";
+import PageFaqs from "./pages/PageFaqs";
+import PageHome from "./pages/PageHome";
+import PageLinkRecoveryPsw from "./pages/PageLinkRecoveryPsw";
+import PageManageUsers from "./pages/PageManageUsers";
+import PageNotFound from "./pages/PageNotFound";
+import PageProgramming from "./pages/PageProgramming";
+import PageRecoveryPassword from "./pages/PageRecoveryPassword";
+import PageRegisterUsers from "./pages/PageRegisterUsers";
 import PageReportsPeople from "./pages/PageReportsPeople";
 import PageStcsDaily from "./pages/PageStcsDaily";
 import PageStcsScheduled from "./pages/PageStcsScheduled";
-import PageFaqs from "./pages/PageFaqs";
-import PageNotFound from "./pages/PageNotFound";
-import "./App.scss";
-import { AuthState } from "./features/auth/authSlice";
-import SessionValidator from "./components/SessionValidator";
 
 export interface srcUser {
   avatar: string;
   permissions: string[];
 }
 
-const App = (): React.JSX.Element => {
+export default function App(): React.JSX.Element {
   const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   const avatar: srcUser["avatar"] = authState.auth
@@ -52,36 +52,28 @@ const App = (): React.JSX.Element => {
         <Routes>
           <Route
             index
-            element={
-              <ProtectedRoute
-                isAllowed={!authState.auth}
-                navigateTo="/home/welcome"
-              >
-                <PageAuth />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={!authState.auth}
+              navigateTo="/home/welcome"
+            >
+              <PageAuth />
+            </ProtectedRoute>} />
           <Route
             path="/auth/login"
-            element={
-              <ProtectedRoute
-                isAllowed={!authState.auth}
-                navigateTo="/home/welcome"
-              >
-                <PageAuth />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={!authState.auth}
+              navigateTo="/home/welcome"
+            >
+              <PageAuth />
+            </ProtectedRoute>} />
 
           <Route element={<ProtectedRoute isAllowed={authState.auth} />}>
             <Route
               path="/home/welcome"
-              element={<PageHome permissions={permissions} />}
-            />
+              element={<PageHome permissions={permissions} />} />
             <Route
               path="/users/manage/password/:role/change"
-              element={<PageChangePassword />}
-            />
+              element={<PageChangePassword />} />
             <Route path="/people/view" element={<PageAgendatedPeople />} />
             <Route path="/people/cancelled" element={<PageCancelledPeople />} />
             <Route path="/people/view/:id/edit" element={<PageEditPeople />} />
@@ -89,102 +81,78 @@ const App = (): React.JSX.Element => {
           </Route>
 
           <Route
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("admin")}
-                navigateTo="/home/welcome"
-              />
-            }
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("admin")}
+              navigateTo="/home/welcome" />}
           >
             <Route path="/users/manage" element={<PageManageUsers />} />
             <Route path="/users/manage/add" element={<PageRegisterUsers />} />
             <Route
               path="/users/manage/:role/delete"
-              element={<PageManageUsers />}
-            />
+              element={<PageManageUsers />} />
           </Route>
 
           <Route
             path="/people/add"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("add")}
-                navigateTo="/home/welcome"
-              >
-                <PageAddPeople />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("add")}
+              navigateTo="/home/welcome"
+            >
+              <PageAddPeople />
+            </ProtectedRoute>} />
 
           <Route
             path="/people/schedule"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("schedule")}
-                navigateTo="/home/welcome"
-              >
-                <PageProgramming />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("schedule")}
+              navigateTo="/home/welcome"
+            >
+              <PageProgramming />
+            </ProtectedRoute>} />
 
           <Route
             path="/people/preview"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth}
-                navigateTo="/home/welcome"
-              >
-                <PageCalendar />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth}
+              navigateTo="/home/welcome"
+            >
+              <PageCalendar />
+            </ProtectedRoute>} />
 
           <Route
             path="/people/reports"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("reports")}
-                navigateTo="/home/welcome"
-              >
-                <PageReportsPeople />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("reports")}
+              navigateTo="/home/welcome"
+            >
+              <PageReportsPeople />
+            </ProtectedRoute>} />
 
           <Route
             path="/people/statistics/daily"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("statistics")}
-                navigateTo="/home/welcome"
-              >
-                <PageStcsDaily />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("statistics")}
+              navigateTo="/home/welcome"
+            >
+              <PageStcsDaily />
+            </ProtectedRoute>} />
 
           <Route
             path="/people/statistics/scheduled"
-            element={
-              <ProtectedRoute
-                isAllowed={authState.auth && permissions.includes("statistics")}
-                navigateTo="/home/welcome"
-              >
-                <PageStcsScheduled />
-              </ProtectedRoute>
-            }
-          />
+            element={<ProtectedRoute
+              isAllowed={authState.auth && permissions.includes("statistics")}
+              navigateTo="/home/welcome"
+            >
+              <PageStcsScheduled />
+            </ProtectedRoute>} />
 
           <Route
             path="/forget/my/password"
-            element={<PageRecoveryPassword />}
-          />
+            element={<PageRecoveryPassword />} />
 
           <Route
             path="/forget/my/password/:email/:resetToken"
-            element={<PageLinkRecoveryPsw />}
-          />
+            element={<PageLinkRecoveryPsw />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>
@@ -193,6 +161,5 @@ const App = (): React.JSX.Element => {
       <Footer />
     </BrowserRouter>
   );
-};
+}
 
-export default App;

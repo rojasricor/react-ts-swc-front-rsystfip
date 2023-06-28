@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Row, Col, Accordion } from "react-bootstrap";
+import { Accordion, Col, Row } from "react-bootstrap";
 
-const PageFaqs = (): React.JSX.Element => {
+export default function PageFaqs(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Frecuently asked questions";
   }, []);
@@ -156,6 +156,4 @@ const PageFaqs = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageFaqs;
+}

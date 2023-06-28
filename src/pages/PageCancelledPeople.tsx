@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import TableCancelled from "../components/TableCancelled";
 
-const PageCancelledPeople = (): React.JSX.Element => {
+export default function PageCancelledPeople(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Cancelled people";
   });
@@ -15,6 +15,4 @@ const PageCancelledPeople = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageCancelledPeople;
+}

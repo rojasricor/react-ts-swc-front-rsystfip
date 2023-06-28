@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import ActionerReports from "../components/ActionerReports";
 import { Col, Row } from "react-bootstrap";
+import ActionerReports from "../components/ActionerReports";
 
-const PageReportsPeople = (): React.JSX.Element => {
+export default function PageReportsPeople(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Generate reports";
   }, []);
@@ -15,6 +15,4 @@ const PageReportsPeople = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageReportsPeople;
+}

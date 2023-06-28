@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Col, Container, Image, Row } from "react-bootstrap";
 import Error404Actioner from "../components/Error404Actioner";
 
-const PageNotFound = (): React.JSX.Element => {
+export default function PageNotFound(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Not found";
   }, []);
@@ -25,6 +25,4 @@ const PageNotFound = (): React.JSX.Element => {
       </Row>
     </Container>
   );
-};
-
-export default PageNotFound;
+}

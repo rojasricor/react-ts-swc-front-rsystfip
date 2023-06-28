@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import Statistics from "../components/Statistics";
 import { Row } from "react-bootstrap";
+import Statistics from "../components/Statistics";
 
-const PageStcsSchedule = (): React.JSX.Element => {
+export default function PageStcsSchedule(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Statistics scheduled people";
   }, []);
@@ -12,6 +12,4 @@ const PageStcsSchedule = (): React.JSX.Element => {
       <Statistics scheduling_type="scheduled" />
     </Row>
   );
-};
-
-export default PageStcsSchedule;
+}

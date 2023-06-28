@@ -1,16 +1,16 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import UserLoggedInfo from "../components/UserLoggedInfo";
-import ProtectedElement from "../components/ProtectedElement";
+import { Col, Row } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import ProtectedElement from "../components/ProtectedElement";
+import UserLoggedInfo from "../components/UserLoggedInfo";
 
 interface IProps {
   permissions: string[];
 }
 
-const PageHome = ({ permissions }: IProps): React.JSX.Element => {
+export default function PageHome({ permissions }: IProps): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Home";
   }, []);
@@ -38,6 +38,4 @@ const PageHome = ({ permissions }: IProps): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageHome;
+}

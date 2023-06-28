@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import FormSchedulePeople from "../components/FormSchedulePeople";
 
-const PageEditPeople = (): React.JSX.Element => {
+export default function PageEditPeople(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Edit people";
   }, []);
@@ -19,6 +19,4 @@ const PageEditPeople = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageEditPeople;
+}

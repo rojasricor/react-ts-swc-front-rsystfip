@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Row } from "react-bootstrap";
 import RecoveryLinkPassword from "../components/RecoveryLinkPassword";
 
-const PageLinkRecoveryPsw = (): React.JSX.Element => {
+export default function PageLinkRecoveryPsw(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Recover my password";
   }, []);
@@ -12,6 +12,4 @@ const PageLinkRecoveryPsw = (): React.JSX.Element => {
       <RecoveryLinkPassword />
     </Row>
   );
-};
-
-export default PageLinkRecoveryPsw;
+}

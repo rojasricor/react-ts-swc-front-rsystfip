@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import FormUserAdd from "../components/FormUserAdd";
 
-const PageRegisterUsers = (): React.JSX.Element => {
+export default function PageRegisterUsers(): React.JSX.Element {
   useEffect(() => {
     document.title = "RSystfip | Register user";
   }, []);
@@ -19,6 +19,4 @@ const PageRegisterUsers = (): React.JSX.Element => {
       </Col>
     </Row>
   );
-};
-
-export default PageRegisterUsers;
+}
