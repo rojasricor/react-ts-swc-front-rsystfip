@@ -14,7 +14,7 @@ export default function PageFaqs(): React.JSX.Element {
 
       <Col md={6}>
         <Accordion>
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="0">
+          <Accordion.Item className="border-0" eventKey="0">
             <Accordion.Header>
               #1 Cómo puedo ver una lista de todas las personas que han visitado
               la rectoría hasta el día de hoy?
@@ -29,7 +29,7 @@ export default function PageFaqs(): React.JSX.Element {
             </Accordion.Body>
           </Accordion.Item>
 
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="1">
+          <Accordion.Item className="border-0" eventKey="1">
             <Accordion.Header>
               #2 Cómo hacer un agendamiento programado para una fecha o día y
               hora en específico?
@@ -63,7 +63,7 @@ export default function PageFaqs(): React.JSX.Element {
             </Accordion.Body>
           </Accordion.Item>
 
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="2">
+          <Accordion.Item className="border-0" eventKey="2">
             <Accordion.Header>
               #3 Cómo hacer un agendamiento rápido del día a día en el
               aplicativo web Rsystfip?
@@ -85,7 +85,7 @@ export default function PageFaqs(): React.JSX.Element {
 
       <Col md={6}>
         <Accordion>
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="0">
+          <Accordion.Item className="border-0" eventKey="0">
             <Accordion.Header>
               #4 Cómo ver estadísticas e informes gráficos de las personas que
               visitaron la rectoría en determinada fecha ó mes a mes?
@@ -107,7 +107,7 @@ export default function PageFaqs(): React.JSX.Element {
             </Accordion.Body>
           </Accordion.Item>
 
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="1">
+          <Accordion.Item className="border-0" eventKey="1">
             <Accordion.Header>
               #5 Cómo generar reportes y ver un listado detallado con la
               información de fecha y hora de agendamiento?
@@ -124,7 +124,7 @@ export default function PageFaqs(): React.JSX.Element {
             </Accordion.Body>
           </Accordion.Item>
 
-          <Accordion.Item className="border-0 shadow-sm rounded-3" eventKey="2">
+          <Accordion.Item className="border-0" eventKey="2">
             <Accordion.Header>
               #6 Cómo generar un reporte PDF con la información de las personas
               que visitaron la rectoría en determinado lapso de tiempo o hasta

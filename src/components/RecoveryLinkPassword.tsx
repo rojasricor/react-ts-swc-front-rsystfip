@@ -8,7 +8,7 @@ import ResetTokenInvalid from "./ResetTokenInvalid";
 
 type TParams = { email: string; resetToken: string };
 
-export default function RecoveryPassword(): React.JSX.Element {
+export default function RecoveryLinkPassword(): React.JSX.Element {
   const { email, resetToken } = useParams<TParams>();
   const [tokenResetIsValid, setTokenResetIsValid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

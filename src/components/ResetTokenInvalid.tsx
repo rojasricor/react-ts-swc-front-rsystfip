@@ -1,12 +1,7 @@
-import { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import Error404Actioner from "./Error404Actioner";
 
 export default function ResetTokenInvalid(): React.JSX.Element {
-  useEffect(() => {
-    document.title = "RSystfip | Not found";
-  }, []);
-
   return (
     <Container className="px-4 py-5 my-5 text-center">
       <Row className="justify-content-center">
