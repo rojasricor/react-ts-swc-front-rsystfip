@@ -104,7 +104,7 @@ export default function FullCalendarScheduling({
           weekNumberCalculation="ISO"
           selectable
           selectMirror
-          select={({ view: { calendar, type }, start, end }): void => {
+          select={({ view: { calendar, type }, start, end }) => {
             if ("dayGridMonth" === type) return;
 
             const now = new Date();
@@ -140,7 +140,7 @@ export default function FullCalendarScheduling({
               ])
             );
           }}
-          eventClick={({ event: { id, start } }): void => {
+          eventClick={({ event: { id, start } }) => {
             showModalCancell();
 
             dispatch(
@@ -162,7 +162,7 @@ export default function FullCalendarScheduling({
             hour: "numeric",
             minute: "2-digit",
           }}
-          loading={(state: boolean): void => {
+          loading={(state: boolean) => {
             if (loadEventsRef.current)
               loadEventsRef.current.style.display = state ? "block" : "none";
           }}

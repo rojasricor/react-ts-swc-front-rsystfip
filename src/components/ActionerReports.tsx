@@ -39,7 +39,7 @@ export default function ActionerReports(): React.JSX.Element {
     }
   };
 
-  const filterReports = (dataToFilter = reportsOrigenState): void => {
+  const filterReports = (dataToFilter = reportsOrigenState) => {
     dispatch(
       setReports(
         queryDataState.category !== UNSET_STATUS

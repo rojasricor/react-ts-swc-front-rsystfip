@@ -29,8 +29,9 @@ interface IProps {
   closeModalScheduling?: () => void;
 }
 
-export type actionFormSchedule = IProps["action"];
 type TParams = { id: string };
+
+export type actionFormSchedule = IProps["action"];
 
 export default function FormSchedulePeople({
   action,
@@ -193,19 +194,19 @@ export default function FormSchedulePeople({
     );
   };
 
-  const loadDeans = (): void => {
+  const autocompleteDeansData = () => {
     if (!deansState || formDataState?.person !== "4") return;
 
-    for (const { _id, dean, facultie_id } of deansState) {
-      if (_id === formDataState?.doc) {
+    for (const dean of deansState) {
+      if (dean._id === formDataState?.doc) {
         dispatch(
           setFormData([
             action,
             {
               ...formDataState,
               doctype: "1",
-              name: dean,
-              facultie: facultie_id.toString(),
+              name: dean.dean,
+              facultie: dean.facultie_id.toString(),
               disabledAfterAutocomplete: true,
             },
           ])
@@ -222,8 +223,8 @@ export default function FormSchedulePeople({
   };
 
   useEffect(() => {
-    loadDeans();
-  }, [formDataState?.doc]);
+    autocompleteDeansData();
+  }, [formDataState.doc]);
 
   useEffect(() => {
     id && getUserData();

@@ -6,10 +6,10 @@ import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import Notify from "./Notify";
 
-export default function SessionValidator(): React.JSX.Element | undefined {
-  const authState: AuthState = useAppSelector(({ auth }) => auth);
-
+export default function SessionValidator(): React.JSX.Element {
   const dispatch = useAppDispatch();
+
+  const authState: AuthState = useAppSelector(({ auth }) => auth);
 
   const navigate: NavigateFunction = useNavigate();
 

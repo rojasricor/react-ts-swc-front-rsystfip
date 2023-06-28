@@ -12,11 +12,11 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import PdfCreator from "./PdfCreator";
 
 export default function FetcherReports(): React.JSX.Element {
+  const dispatch = useAppDispatch();
+
   const queryDataState: QueryData = useAppSelector(
     ({ reports }) => reports.queryData
   );
-
-  const dispatch = useAppDispatch();
 
   const getPeople = async (): Promise<void> => {
     try {
@@ -57,9 +57,9 @@ export default function FetcherReports(): React.JSX.Element {
         responseType: "blob",
       });
 
-      const reader: FileReader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(data);
-      reader.addEventListener("load", (): void => {
+      reader.addEventListener("load", () => {
         if (reader.result) dispatch(setPngBase64(reader.result as string));
       });
     } catch (error: any) {

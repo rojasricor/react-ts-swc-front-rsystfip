@@ -23,7 +23,7 @@ export default function NavLogoutDropdown({
 
   const navigate: NavigateFunction = useNavigate();
 
-  const logout = (): void => {
+  const logout = () => {
     if (
       !confirm(
         `${authState.user.name} estás seguro(a)que deseas cerrar sesión?`
@@ -37,7 +37,6 @@ export default function NavLogoutDropdown({
     dispatch(resetQueryDataStatistics());
     dispatch(resetAllFormDataProgramming());
     dispatch(destroyTemporals());
-
     navigate("/auth/login");
   };
 

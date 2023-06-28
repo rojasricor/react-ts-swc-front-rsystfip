@@ -4,7 +4,7 @@ import { TOAST_ID } from "../constants";
 export const showAndUpdateToast = (
   errors: string | string[],
   setMyToast?: (toastId: ToastId) => void
-): void => {
+) => {
   let errorMessages: typeof errors;
   let errorMessagesText = "";
 
