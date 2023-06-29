@@ -144,7 +144,19 @@ export const schedulerSchema = JoiDefaults.object({
   facultie: Joi.string().length(1).required(),
   asunt: Joi.string().min(10).max(150).required(),
   color: Joi.string().min(4).max(7).required(),
-  date: Joi.string().required(),
-  start: Joi.string().required(),
-  end: Joi.string().required(),
+  date: Joi.when("status", {
+    is: "scheduled",
+    then: Joi.string().required(),
+    otherwise: Joi.optional(),
+  }),
+  start: Joi.when("status", {
+    is: "scheduled",
+    then: Joi.string().required(),
+    otherwise: Joi.optional(),
+  }),
+  end: Joi.when("status", {
+    is: "scheduled",
+    then: Joi.string().required(),
+    otherwise: Joi.optional(),
+  }),
 });

@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { updateFormDataByAction } from "./functions";
 import { IKeyBool } from "../../interfaces/IKeyBool";
-import { format } from "date-fns";
+import { updateFormDataByAction } from "./functions";
 
 export interface FormDataState {
   eventId?: string;
@@ -40,9 +39,9 @@ export const formDataInitialState: FormDataState = {
   facultie: "",
   asunt: "",
   color: "#388cdc",
-  date: format(new Date(), "yyyy-MM-dd"),
-  start: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-  end: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+  date: "",
+  start: "",
+  end: "",
   status: "daily",
   disabledAll: true,
   disabledAfterAutocomplete: false,
