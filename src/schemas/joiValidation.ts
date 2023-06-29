@@ -55,7 +55,7 @@ export const recoverPswSchema = emailItfipSchema.keys({
 });
 
 export const forgetPswSchema = emailItfipSchema.keys({
-  resetToken: Joi.string().length(32).required(),
+  resetToken: Joi.string().required(),
   password: Joi.string().min(8).max(30).required(),
   password_confirm: Joi.string()
     .valid(Joi.ref("password"), "")
@@ -143,7 +143,7 @@ export const schedulerSchema = JoiDefaults.object({
   }),
   facultie: Joi.string().length(1).required(),
   asunt: Joi.string().min(10).max(150).required(),
-  color: Joi.string().length(7).required(),
+  color: Joi.string().min(4).max(7).required(),
   date: Joi.string().required(),
   start: Joi.string().required(),
   end: Joi.string().required(),
