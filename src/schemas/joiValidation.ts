@@ -107,7 +107,7 @@ export const peopleEditSchema = JoiDefaults.object({
 
 export const schedulerSchema = JoiDefaults.object({
   status: Joi.string()
-    .valid("daily", "scheduled", "cancelled")
+    .valid("daily", "scheduled") // excludes "cancelled"
     .required()
     .messages({ "any.only": "Error, status not valid" }),
   person: Joi.string().length(1).required(),
