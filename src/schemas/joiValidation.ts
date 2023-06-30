@@ -47,7 +47,12 @@ const emailItfipSchema = JoiDefaults.object({
       maxDomainSegments: 3,
       tlds: { allow: ["co"] },
     })
-    .required(),
+    .regex(/^[A-Za-z0-9._%+-]+@itfip\.edu\.co$/)
+    .required()
+    .messages({
+      "string.pattern.base":
+        '"email" does not belong to the itfip.edu.co domain',
+    }),
 });
 
 export const recoverPswSchema = emailItfipSchema.keys({
