@@ -4,19 +4,38 @@ const JoiDefaults = Joi.defaults((scheme) =>
   scheme.options({ abortEarly: false })
 );
 
+export const idSchema = JoiDefaults.object({
+  id: Joi.string().min(1).max(11).required(),
+});
+
+const emailItfipSchema = JoiDefaults.object({
+  email: Joi.string()
+    .min(10)
+    .max(30)
+    .email({
+      minDomainSegments: 3,
+      maxDomainSegments: 3,
+      tlds: { allow: ["co"] },
+    })
+    .regex(/^[A-Za-z0-9._%+-]+@itfip\.edu\.co$/)
+    .required()
+    .messages({
+      "string.pattern.base":
+        '"email" does not belong to the itfip.edu.co domain',
+    }),
+});
+
 export const authSchema = JoiDefaults.object({
   username: Joi.string().min(5).max(255).required(),
   password: Joi.string().min(8).max(30).required(),
 });
 
-export const cancellSchema = JoiDefaults.object({
-  id: Joi.string().min(1).max(11).required(),
+export const cancellSchema = idSchema.keys({
   date: Joi.string().required(),
   cancelled_asunt: Joi.string().min(10).max(150).required(),
 });
 
-export const changePswSchema = JoiDefaults.object({
-  id: Joi.number().min(1).max(10).required(), // Will _id user
+export const changePswSchema = idSchema.keys({
   current_password: Joi.string().min(8).max(30).required(),
   new_password: Joi.string()
     .min(8)
@@ -35,23 +54,6 @@ export const changePswSchema = JoiDefaults.object({
     .messages({
       "any.invalid": "The new password must be different from the old password",
       "any.only": "Passwords does not match",
-    }),
-});
-
-const emailItfipSchema = JoiDefaults.object({
-  email: Joi.string()
-    .min(10)
-    .max(30)
-    .email({
-      minDomainSegments: 3,
-      maxDomainSegments: 3,
-      tlds: { allow: ["co"] },
-    })
-    .regex(/^[A-Za-z0-9._%+-]+@itfip\.edu\.co$/)
-    .required()
-    .messages({
-      "string.pattern.base":
-        '"email" does not belong to the itfip.edu.co domain',
     }),
 });
 
@@ -95,8 +97,7 @@ export const userSchema = emailItfipSchema.keys({
     .messages({ "any.only": "Passwords does not match" }),
 });
 
-export const peopleEditSchema = JoiDefaults.object({
-  id: Joi.string().min(1).max(11).required(), // Will _id people
+export const peopleEditSchema = idSchema.keys({
   person: Joi.string().length(1).required(),
   name: Joi.string().min(8).max(50).required(),
   doctype: Joi.string().length(1).required(),

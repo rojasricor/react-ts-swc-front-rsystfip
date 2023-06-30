@@ -14,7 +14,7 @@ import {
 } from "../features/programming/programmingSlice";
 import { showAndUpdateToast } from "../functions";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { peopleEditSchema, schedulerSchema } from "../schemas/joiValidation";
+import { peopleEditSchema, schedulerSchema } from "../validation";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import FooterFormPeople from "./FooterFormPeople";

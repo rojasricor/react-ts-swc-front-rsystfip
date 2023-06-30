@@ -8,7 +8,7 @@ import { AUTH_KEY } from "../constants";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
 import { showAndUpdateToast } from "../functions";
 import { useAppDispatch } from "../hooks";
-import { authSchema } from "../schemas/joiValidation";
+import { authSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import Submitter from "./Submitter";

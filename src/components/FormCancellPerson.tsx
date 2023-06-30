@@ -10,7 +10,7 @@ import {
 } from "../features/programming/programmingSlice";
 import { showAndUpdateToast } from "../functions";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { cancellSchema } from "../schemas/joiValidation";
+import { cancellSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 

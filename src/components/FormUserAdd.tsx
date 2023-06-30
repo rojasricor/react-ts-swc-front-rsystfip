@@ -14,7 +14,7 @@ import { setDocuments } from "../features/resources/resourcesSlice";
 import { showAndUpdateToast } from "../functions";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
-import { userSchema } from "../schemas/joiValidation";
+import { userSchema } from "../validation";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import Submitter from "./Submitter";

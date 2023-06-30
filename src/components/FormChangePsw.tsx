@@ -5,7 +5,7 @@ import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
 import { showAndUpdateToast } from "../functions";
 import { IUserBase } from "../interfaces/IUserBase";
-import { changePswSchema } from "../schemas/joiValidation";
+import { changePswSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import Submitter from "./Submitter";

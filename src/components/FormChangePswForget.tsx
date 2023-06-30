@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
 import { showAndUpdateToast } from "../functions";
-import { forgetPswSchema } from "../schemas/joiValidation";
+import { forgetPswSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import Submitter from "./Submitter";
