@@ -27,26 +27,19 @@ import PageReportsPeople from "./pages/PageReportsPeople";
 import PageStcsDaily from "./pages/PageStcsDaily";
 import PageStcsScheduled from "./pages/PageStcsScheduled";
 
-export interface srcUser {
-    avatar: string;
-    permissions: string[];
-}
-
 export default function App(): React.JSX.Element {
     const authState: AuthState = useAppSelector(({ auth }) => auth);
 
-    const avatar: srcUser["avatar"] = authState.auth
+    const avatar = authState.auth
         ? `/img/${authState.user.role}/avatar.png`
         : "";
-    const permissions: srcUser["permissions"] = authState.auth
-        ? authState.user.permissions
-        : [];
+    const permissions = authState.user.permissions;
 
     return (
         <BrowserRouter>
             <SessionValidator />
             <Container fluid>
-                <ProtectedElement isAllowed={authState.auth}>
+                <ProtectedElement isAllowed={!authState.auth}>
                     <NavBar avatar={avatar} permissions={permissions} />
                 </ProtectedElement>
                 <Routes>

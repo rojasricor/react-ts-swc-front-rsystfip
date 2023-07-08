@@ -1,7 +1,6 @@
 import { Button, Dropdown, Image } from "react-bootstrap";
 import { BiLogOutCircle } from "react-icons/bi";
 import { NavLink, NavigateFunction, useNavigate } from "react-router-dom";
-import { srcUser } from "../App";
 import { resetFormDataAdmin } from "../features/admin/adminSlice";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { resetAllFormDataProgramming } from "../features/programming/programmingSlice";
@@ -11,7 +10,7 @@ import { destroyTemporals } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
 interface IProps {
-    avatar: srcUser["avatar"];
+    avatar: string;
 }
 
 export default function NavLogoutDropdown({

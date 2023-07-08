@@ -1,7 +1,11 @@
 import { Container, Image, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { srcUser } from "../App";
 import NavMenu from "./NavMenu";
+
+export interface srcUser {
+    avatar: string;
+    permissions: string[];
+}
 
 export default function NavBar({
     avatar,

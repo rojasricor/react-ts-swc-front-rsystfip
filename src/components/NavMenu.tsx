@@ -1,8 +1,8 @@
 import { Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { srcUser } from "../App";
 import NavLogoutDropdown from "./NavLogoutDropdown";
 import ProtectedElement from "./ProtectedElement";
+import { srcUser } from "./NavBar";
 
 export default function NavMenu({
     avatar,
