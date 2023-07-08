@@ -43,13 +43,13 @@ export default function FormUserAdd(): React.JSX.Element {
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const { error } = userSchema.validate(formDataState);
+        const { error, value } = userSchema.validate(formDataState);
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const { data } = await api.post("/user", formDataState);
+            const { data } = await api.post("/users", value);
 
             dispatch(resetFormDataAdmin());
             showAndUpdateToast(data.ok, {
@@ -65,10 +65,7 @@ export default function FormUserAdd(): React.JSX.Element {
 
     const getDocuments = async (): Promise<void> => {
         try {
-            const { data } = await api("/resource", {
-                params: { resource: "documents" },
-            });
-
+            const { data } = await api("/resource/documents");
             dispatch(setDocuments(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

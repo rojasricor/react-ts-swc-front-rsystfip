@@ -17,19 +17,12 @@ export default function RecoveryLinkPassword(): React.JSX.Element {
         setLoading(true);
 
         try {
-            const { data } = await api.post("/auth/verify/resetToken", {
-                resetToken,
-                email,
-            });
+            const { data } = await api.post(
+                "/account/verify-jwt-for-recover-password",
+                { resetToken, email }
+            );
 
             setTokenResetIsValid(data.tokenIsValid);
-
-            if (!data.tokenIsValid) {
-                await api.delete("/auth/delete/resetToken", {
-                    headers: { "Content-Type": "application/json" },
-                    data: { resetToken },
-                });
-            }
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {

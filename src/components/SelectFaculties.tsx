@@ -31,10 +31,7 @@ export default function SelectFaculties({
 
     const getFaculties = async (): Promise<void> => {
         try {
-            const { data } = await api("/resource", {
-                params: { resource: "faculties" },
-            });
-
+            const { data } = await api("/resource/faculties");
             dispatch(setFaculties(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

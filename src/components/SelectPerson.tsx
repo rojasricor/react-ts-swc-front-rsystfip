@@ -37,7 +37,6 @@ export default function SelectPerson({
     const getDeans = async (): Promise<void> => {
         try {
             const { data } = await api("/deans");
-
             dispatch(setDeans(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });
@@ -71,10 +70,7 @@ export default function SelectPerson({
 
     const getCategories = async (): Promise<void> => {
         try {
-            const { data } = await api("/resource", {
-                params: { resource: "categories" },
-            });
-
+            const { data } = await api("/resource/categories");
             dispatch(setCategories(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

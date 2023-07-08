@@ -53,7 +53,7 @@ export default function FormSchedulePeople({
     );
 
     const editPerson = async (): Promise<void> => {
-        const payload = {
+        const { error, value } = peopleEditSchema.validate({
             id,
             person: formDataState?.person,
             name: formDataState?.name,
@@ -61,14 +61,13 @@ export default function FormSchedulePeople({
             doc: formDataState?.doc,
             facultie: formDataState?.facultie,
             asunt: formDataState?.asunt,
-        };
-        const { error } = peopleEditSchema.validate(payload);
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const { data } = await api.put("/person", payload);
+            const { data } = await api.put(`/people/${id}`, value);
 
             dispatch(setFormData([action]));
 
@@ -86,7 +85,7 @@ export default function FormSchedulePeople({
     const schedulePerson = async (
         closeModalScheduling?: IProps["closeModalScheduling"]
     ): Promise<void> => {
-        const payload = {
+        const { error, value } = schedulerSchema.validate({
             person: formDataState?.person,
             name: formDataState?.name,
             doctype: formDataState?.doctype,
@@ -106,14 +105,13 @@ export default function FormSchedulePeople({
             start: formDataState?.start,
             end: formDataState?.end,
             status: formDataState?.status,
-        };
-        const { error } = schedulerSchema.validate(payload);
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const { data } = await api.post("/person", payload);
+            const { data } = await api.post("/people", value);
 
             dispatch(setFormData([action]));
 
@@ -159,7 +157,7 @@ export default function FormSchedulePeople({
 
     const getUserData = async (): Promise<void> => {
         try {
-            const { data } = await api("/person", { params: { id } });
+            const { data } = await api(`/people/${id}`);
 
             dispatch(
                 setFormData([

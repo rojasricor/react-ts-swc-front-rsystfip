@@ -15,14 +15,19 @@ export default function FormRecoveryPsw(): React.JSX.Element {
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const payload = { email, APP_ROUTE: window.location.href };
-        const { error } = recoverPswSchema.validate(payload);
+        const { error, value } = recoverPswSchema.validate({
+            email,
+            APP_ROUTE: window.location.href,
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const { data } = await api.post("/auth/recover/password", payload);
+            const { data } = await api.post(
+                "/account/send-jwt-for-recover-password",
+                value
+            );
 
             showAndUpdateToast(data.ok, { type: "success" });
         } catch (error: any) {

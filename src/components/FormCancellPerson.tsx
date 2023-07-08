@@ -34,18 +34,17 @@ export default function FormCancellPerson({
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const payload = {
+        const { error, value } = cancellSchema.validate({
             id: formDataState.eventId,
             date: formDataState.date,
             cancelled_asunt,
-        };
-        const { error } = cancellSchema.validate(payload);
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const { data } = await api.patch("/person", payload);
+            const { data } = await api.patch(`/schedule/${value.id}`, value);
 
             dispatch(registerAChange());
             showAndUpdateToast(data.ok, {

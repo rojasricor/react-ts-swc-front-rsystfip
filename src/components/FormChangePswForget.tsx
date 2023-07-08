@@ -14,7 +14,7 @@ interface FormData {
     confirmPassword: string;
 }
 
-type TParams = { resetToken: string; email: string };
+type TParams = { resetToken: string };
 
 export default function FormChangePswForget(): React.JSX.Element {
     const formDataInitialState: FormData = {
@@ -25,24 +25,22 @@ export default function FormChangePswForget(): React.JSX.Element {
     const [formData, setFormData] = useState<FormData>(formDataInitialState);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const { resetToken, email } = useParams<TParams>();
+    const { resetToken } = useParams<TParams>();
 
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const payload = {
-            email,
+        const { error, value } = forgetPswSchema.validate({
             resetToken,
             password: formData.password,
             password_confirm: formData.confirmPassword,
-        };
-        const { error } = forgetPswSchema.validate(payload);
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const { data } = await api.put("/recover/password", payload);
+            const { data } = await api.put("/account/update-password", value);
 
             setFormData(formDataInitialState);
             showAndUpdateToast(data.ok, {

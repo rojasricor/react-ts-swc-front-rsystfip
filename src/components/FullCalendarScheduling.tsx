@@ -55,7 +55,7 @@ export default function FullCalendarScheduling({
 
     const getEvents = async (): Promise<void> => {
         try {
-            const { data } = await api("/scheduling/all");
+            const { data } = await api("/schedule");
             dispatch(setCalendarEvents(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

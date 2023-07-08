@@ -29,10 +29,7 @@ export default function SelectDocument({
 
     const getDocuments = async (): Promise<void> => {
         try {
-            const { data } = await api("/resource", {
-                params: { resource: "documents" },
-            });
-
+            const { data } = await api("/resource/documents");
             dispatch(setDocuments(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

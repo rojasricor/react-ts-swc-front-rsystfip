@@ -21,7 +21,7 @@ export default function FetcherDataForChangePsw(): React.JSX.Element {
 
     const getDatauser = async (): Promise<void> => {
         try {
-            const { data } = await api("/user", { params: { role } });
+            const { data } = await api(`/users/${role}`);
 
             dispatch(setTempDataForChangePsw(data));
         } catch (error: any) {

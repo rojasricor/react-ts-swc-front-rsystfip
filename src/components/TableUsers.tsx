@@ -15,7 +15,6 @@ export default function TableUsers(): React.JSX.Element {
     const getUsers = async (): Promise<void> => {
         try {
             const { data } = await api("/users");
-
             dispatch(setUsers(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

@@ -148,9 +148,12 @@ export default function Statistics({
 
     const getStatistics = async (): Promise<void> => {
         try {
-            const { data } = await api(
-                `/statistics/${scheduling_type}?start=${queryDataState.start}&end=${queryDataState.end}`
-            );
+            const { data } = await api(`/statistics/${scheduling_type}`, {
+                params: {
+                    start: queryDataState.start,
+                    end: queryDataState.end,
+                },
+            });
 
             const labels: string[] = data.map(
                 ({ category }: { category: string }) => category
@@ -168,7 +171,13 @@ export default function Statistics({
     const getMostAgendatedOnRange = async (): Promise<void> => {
         try {
             const { data } = await api(
-                `/statistics/${scheduling_type}/onrange?start=${queryDataState.start}&end=${queryDataState.end}`
+                `/statistics/onrange/${scheduling_type}`,
+                {
+                    params: {
+                        start: queryDataState.start,
+                        end: queryDataState.end,
+                    },
+                }
             );
 
             dispatch(setMostAgendatedOnRange([scheduling_type, data]));
@@ -180,7 +189,7 @@ export default function Statistics({
     const getMostAgendatedAllTime = async (): Promise<void> => {
         try {
             const { data } = await api(
-                `/statistics/${scheduling_type}/alltime`
+                `/statistics/alltime/${scheduling_type}`
             );
 
             dispatch(setMostAgendatedAllTime([scheduling_type, data]));

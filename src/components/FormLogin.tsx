@@ -38,13 +38,13 @@ export default function FormLogin(): React.JSX.Element {
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const { error } = authSchema.validate(formData);
+        const { error, value } = authSchema.validate(formData);
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const { data, headers } = await api.post("/auth", formData);
+            const { data, headers } = await api.post("/auth", value);
 
             const dataToSavedSession: AuthState = {
                 ...data,

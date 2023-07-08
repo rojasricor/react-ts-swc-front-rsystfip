@@ -19,7 +19,7 @@ export default function TableCancelled(): React.JSX.Element {
 
     const getCancelled = async (): Promise<void> => {
         try {
-            const { data } = await api("/cancelled");
+            const { data } = await api("/people/cancelled");
 
             dispatch(setCancelledPeople(data));
         } catch (error: any) {

@@ -28,7 +28,6 @@ export default function ActionerReports(): React.JSX.Element {
                 params: {
                     start: queryDataState.startDate,
                     end: queryDataState.endDate,
-                    category: queryDataState.category,
                 },
             });
 

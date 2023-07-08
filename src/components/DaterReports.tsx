@@ -38,10 +38,7 @@ export default function DaterReports(): React.JSX.Element {
 
     const getCategories = async (): Promise<void> => {
         try {
-            const { data } = await api("/resource", {
-                params: { resource: "categories" },
-            });
-
+            const { data } = await api("/resource/categories");
             dispatch(setCategories(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

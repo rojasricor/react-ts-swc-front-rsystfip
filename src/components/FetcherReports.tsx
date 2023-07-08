@@ -31,9 +31,12 @@ export default function FetcherReports(): React.JSX.Element {
 
     const getReportsCountOnRange = async (): Promise<void> => {
         try {
-            const { data } = await api(
-                `/reports/count?start=${queryDataState.startDate}&end=${queryDataState.endDate}`
-            );
+            const { data } = await api("/reports/count", {
+                params: {
+                    start: queryDataState.startDate,
+                    end: queryDataState.endDate,
+                },
+            });
 
             dispatch(setReportsCountOnRange(data));
         } catch (error: any) {
@@ -44,7 +47,6 @@ export default function FetcherReports(): React.JSX.Element {
     const getReportsCountAlltime = async (): Promise<void> => {
         try {
             const { data } = await api("/reports/counts");
-
             dispatch(setReportsCountAllTime(data));
         } catch (error: any) {
             showAndUpdateToast(error.response.data.error, { type: "error" });

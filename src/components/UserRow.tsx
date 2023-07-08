@@ -20,10 +20,7 @@ export default function UserRow({
         if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
         try {
-            const { data } = await api.delete("/user", {
-                headers: { "Content-Type": "application/json" },
-                data: { roleId },
-            });
+            const { data } = await api.delete(`/users/${roleId}`);
 
             setDeleted(true);
             showAndUpdateToast(data.ok, {

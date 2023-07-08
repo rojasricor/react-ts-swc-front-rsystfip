@@ -32,19 +32,21 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
 
-        const payload = {
+        const { error, value } = changePswSchema.validate({
             id: userId,
             current_password: formData.currentPassword,
             new_password: formData.newPassword,
             new_password_confirm: formData.confirmPassword,
-        };
-        const { error } = changePswSchema.validate(payload);
+        });
         if (error)
             return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const { data } = await api.put("/password", payload);
+            const { data } = await api.put(
+                `/account/update-password/${value.id}`,
+                value
+            );
 
             setFormData(formDataInitialState);
             showAndUpdateToast(data.ok, {
