@@ -39,7 +39,7 @@ export default function App(): React.JSX.Element {
         <BrowserRouter>
             <SessionValidator />
             <Container fluid>
-                <ProtectedElement isAllowed={!authState.auth}>
+                <ProtectedElement isAllowed={authState.auth}>
                     <NavBar avatar={avatar} permissions={permissions} />
                 </ProtectedElement>
                 <Routes>
