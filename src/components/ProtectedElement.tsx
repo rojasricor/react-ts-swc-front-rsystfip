@@ -1,8 +1,8 @@
 import { IPropsProtected } from "../interfaces/IPropsProtected";
 
 export default function ProtectedElement({
-  children,
-  isAllowed,
+    children,
+    isAllowed,
 }: IPropsProtected): React.JSX.Element | undefined {
-  return isAllowed ? children : undefined;
+    return isAllowed ? children : undefined;
 }

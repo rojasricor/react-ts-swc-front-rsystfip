@@ -1,3 +1,3 @@
 export interface IKeyBool {
-  [key: string]: boolean;
+    [key: string]: boolean;
 }

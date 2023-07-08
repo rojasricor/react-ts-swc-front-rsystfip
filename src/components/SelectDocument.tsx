@@ -10,58 +10,59 @@ import { IDocument } from "../interfaces/IResources";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
-  action: actionFormSchedule;
-  handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    action: actionFormSchedule;
+    handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function SelectDocument({
-  action,
-  handleChange,
+    action,
+    handleChange,
 }: IProps): React.JSX.Element {
-  const documentsState: IDocument[] = useAppSelector(
-    ({ resources }) => resources.documents
-  );
-  const formDataState: FormDataState | undefined = useAppSelector(
-    ({ programming: { formData } }) => formData[action]
-  );
+    const documentsState: IDocument[] = useAppSelector(
+        ({ resources }) => resources.documents
+    );
+    const formDataState: FormDataState | undefined = useAppSelector(
+        ({ programming: { formData } }) => formData[action]
+    );
 
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  const getDocuments = async (): Promise<void> => {
-    try {
-      const { data } = await api("/resource", {
-        params: { resource: "documents" },
-      });
+    const getDocuments = async (): Promise<void> => {
+        try {
+            const { data } = await api("/resource", {
+                params: { resource: "documents" },
+            });
 
-      dispatch(setDocuments(data));
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getDocuments();
-  }, []);
-
-  return (
-    <FloatingLabel label="Tipo de Documento:">
-      <FormSelect
-        name="doctype"
-        className="border-0 bg-white"
-        onChange={handleChange}
-        value={formDataState?.doctype}
-        disabled={
-          formDataState?.disabledAll || formDataState?.disabledAfterAutocomplete
+            dispatch(setDocuments(data));
+        } catch (error: any) {
+            toast.error(error.message);
         }
-        required
-      >
-        <option value="">No seleccionado</option>
-        {documentsState.map(({ id, description }) => (
-          <option key={v4()} value={id}>
-            {description}
-          </option>
-        ))}
-      </FormSelect>
-    </FloatingLabel>
-  );
+    };
+
+    useEffect(() => {
+        getDocuments();
+    }, []);
+
+    return (
+        <FloatingLabel label="Tipo de Documento:">
+            <FormSelect
+                name="doctype"
+                className="border-0 bg-white"
+                onChange={handleChange}
+                value={formDataState?.doctype}
+                disabled={
+                    formDataState?.disabledAll ||
+                    formDataState?.disabledAfterAutocomplete
+                }
+                required
+            >
+                <option value="">No seleccionado</option>
+                {documentsState.map(({ id, description }) => (
+                    <option key={v4()} value={id}>
+                        {description}
+                    </option>
+                ))}
+            </FormSelect>
+        </FloatingLabel>
+    );
 }

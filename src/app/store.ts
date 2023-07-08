@@ -11,18 +11,18 @@ import calendarSlice from "../features/calendar/calendarSlice";
 import tempSlice from "../features/temp/tempSlice";
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    people: peopleSlice,
-    admin: adminSlice,
-    cancelledPeople: cancelledPeopleSlice,
-    reports: reportsSlice,
-    statistics: statisticsSlice,
-    resources: resourcesSlice,
-    programming: programmingSlice,
-    calendar: calendarSlice,
-    temp: tempSlice,
-  },
+    reducer: {
+        auth: authReducer,
+        people: peopleSlice,
+        admin: adminSlice,
+        cancelledPeople: cancelledPeopleSlice,
+        reports: reportsSlice,
+        statistics: statisticsSlice,
+        resources: resourcesSlice,
+        programming: programmingSlice,
+        calendar: calendarSlice,
+        temp: tempSlice,
+    },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

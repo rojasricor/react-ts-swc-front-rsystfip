@@ -1,15 +1,15 @@
 export interface IBase {
-  id: number;
+    id: number;
 }
 
 export interface ICategory extends IBase {
-  category: string;
+    category: string;
 }
 
 export interface IFacultie extends IBase {
-  facultie: string;
+    facultie: string;
 }
 
 export interface IDocument extends IBase {
-  description: string;
+    description: string;
 }

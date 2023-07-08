@@ -2,14 +2,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { IPropsProtected } from "../interfaces/IPropsProtected";
 
 interface IProps extends IPropsProtected {
-  navigateTo?: string;
+    navigateTo?: string;
 }
 
 export default function ProtectedRoute({
-  children,
-  isAllowed,
-  navigateTo = "/auth/login",
+    children,
+    isAllowed,
+    navigateTo = "/auth/login",
 }: IProps): React.JSX.Element {
-  if (!isAllowed) return <Navigate to={navigateTo} />;
-  return children || <Outlet />;
+    if (!isAllowed) return <Navigate to={navigateTo} />;
+    return children || <Outlet />;
 }

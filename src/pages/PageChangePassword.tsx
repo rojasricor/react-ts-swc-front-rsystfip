@@ -3,13 +3,13 @@ import { Row } from "react-bootstrap";
 import FetcherDataForChangePsw from "../components/FetcherDataForChangePsw";
 
 export default function PageChangePassword(): React.JSX.Element {
-  useEffect(() => {
-    document.title = "RSystfip | Change password users";
-  }, []);
+    useEffect(() => {
+        document.title = "RSystfip | Change password users";
+    }, []);
 
-  return (
-    <Row>
-      <FetcherDataForChangePsw />
-    </Row>
-  );
+    return (
+        <Row>
+            <FetcherDataForChangePsw />
+        </Row>
+    );
 }

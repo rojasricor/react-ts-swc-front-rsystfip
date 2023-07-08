@@ -4,7 +4,7 @@ import App from "./App";
 import { store } from "./app/store";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App />
+    </Provider>
 );

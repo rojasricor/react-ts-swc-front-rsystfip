@@ -8,38 +8,38 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import UserRow from "./UserRow";
 
 export default function TableUsers(): React.JSX.Element {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  const usersState: User[] = useAppSelector(({ admin }) => admin.users);
+    const usersState: User[] = useAppSelector(({ admin }) => admin.users);
 
-  const getUsers = async (): Promise<void> => {
-    try {
-      const { data } = await api("/users");
+    const getUsers = async (): Promise<void> => {
+        try {
+            const { data } = await api("/users");
 
-      dispatch(setUsers(data));
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+            dispatch(setUsers(data));
+        } catch (error: any) {
+            toast.error(error.message);
+        }
+    };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+    useEffect(() => {
+        getUsers();
+    }, []);
 
-  return (
-    <Table responsive hover borderless size="sm" className="text-center">
-      <caption>Access users.</caption>
-      <thead>
-        <tr>
-          <th>Correo institucional</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {usersState.map((user) => (
-          <UserRow key={v4()} user={user} />
-        ))}
-      </tbody>
-    </Table>
-  );
+    return (
+        <Table responsive hover borderless size="sm" className="text-center">
+            <caption>Access users.</caption>
+            <thead>
+                <tr>
+                    <th>Correo institucional</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {usersState.map((user) => (
+                    <UserRow key={v4()} user={user} />
+                ))}
+            </tbody>
+        </Table>
+    );
 }

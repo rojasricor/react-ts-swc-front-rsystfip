@@ -9,36 +9,36 @@
 @import "react-toastify/scss/animations/zoom";
 
 body {
-  padding: 140px 10px 0 10px;
+    padding: 140px 10px 0 10px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .bottom-px {
-  bottom: 40px;
+    bottom: 40px;
 }
 
 @media (max-width: 768px) {
-  .schg-sm {
-    width: 1100px;
-  }
+    .schg-sm {
+        width: 1100px;
+    }
 
-  .bottom-px {
-    bottom: 60px;
-  }
+    .bottom-px {
+        bottom: 60px;
+    }
 }
 
 .load-events {
-  display: none;
-  position: absolute;
-  top: 95px;
-  right: 40px;
+    display: none;
+    position: absolute;
+    top: 95px;
+    right: 40px;
 }
 
 textarea {
-  resize: none;
+    resize: none;
 }

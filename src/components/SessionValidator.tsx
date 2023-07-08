@@ -7,38 +7,40 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import Notify from "./Notify";
 
 export default function SessionValidator(): React.JSX.Element {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  const authState: AuthState = useAppSelector(({ auth }) => auth);
+    const authState: AuthState = useAppSelector(({ auth }) => auth);
 
-  const navigate: NavigateFunction = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
-  const sessionValidatorTimerRef = useRef<NodeJS.Timer | undefined>(undefined);
+    const sessionValidatorTimerRef = useRef<NodeJS.Timer | undefined>(
+        undefined
+    );
 
-  const validateSession = async (): Promise<void> => {
-    if (!authState.auth || !authState.token) return;
+    const validateSession = async (): Promise<void> => {
+        if (!authState.auth || !authState.token) return;
 
-    try {
-      await api.post("/auth/validate/token/session", {
-        token: authState.token,
-      });
-    } catch (error: any) {
-      toast.error(error.response.data, {
-        position: toast.POSITION.TOP_CENTER,
-        closeButton: false,
-      });
-      dispatch(resetUserAuthenticated());
-      navigate("/auth/login");
-    }
-  };
+        try {
+            await api.post("/auth/validate/token/session", {
+                token: authState.token,
+            });
+        } catch (error: any) {
+            toast.error(error.response.data, {
+                position: toast.POSITION.TOP_CENTER,
+                closeButton: false,
+            });
+            dispatch(resetUserAuthenticated());
+            navigate("/auth/login");
+        }
+    };
 
-  useEffect(() => {
-    api.defaults.headers.common["Authorization"] = authState.token;
+    useEffect(() => {
+        api.defaults.headers.common["Authorization"] = authState.token;
 
-    sessionValidatorTimerRef.current = setInterval(validateSession, 30000);
+        sessionValidatorTimerRef.current = setInterval(validateSession, 30000);
 
-    return () => clearInterval(sessionValidatorTimerRef.current);
-  }, [authState.auth]);
+        return () => clearInterval(sessionValidatorTimerRef.current);
+    }, [authState.auth]);
 
-  return <Notify />;
+    return <Notify />;
 }

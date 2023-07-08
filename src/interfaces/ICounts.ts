@@ -1,4 +1,4 @@
 export interface ICounts {
-  category: string;
-  counts: number;
+    category: string;
+    counts: number;
 }
