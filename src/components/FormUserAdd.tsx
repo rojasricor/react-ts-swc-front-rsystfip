@@ -11,7 +11,7 @@ import {
     setIsLoading,
 } from "../features/admin/adminSlice";
 import { setDocuments } from "../features/resources/resourcesSlice";
-import { showAndUpdateToast } from "../functions";
+import { showAndUpdateToast } from "../libs";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { userSchema } from "../validation";

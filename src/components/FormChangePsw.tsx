@@ -3,7 +3,7 @@ import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
 import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../functions";
+import { showAndUpdateToast } from "../libs";
 import { IUserBase } from "../interfaces/IUserBase";
 import { changePswSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";

@@ -1,9 +1,10 @@
-import { toast, Id as ToastId } from "react-toastify";
+import { toast, Id as ToastId, ToastOptions } from "react-toastify";
 import { TOAST_ID } from "../constants";
 
 export const showAndUpdateToast = (
     errors: string | string[],
-    setMyToast?: (toastId: ToastId) => void
+    setMyToast?: (toastId: ToastId) => void,
+    options?: ToastOptions
 ) => {
     let errorMessages: typeof errors;
     let errorMessagesText = "";

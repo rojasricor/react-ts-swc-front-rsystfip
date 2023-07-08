@@ -12,7 +12,7 @@ import {
     setFormData,
     setIsLoading,
 } from "../features/programming/programmingSlice";
-import { showAndUpdateToast } from "../functions";
+import { showAndUpdateToast } from "../libs";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { peopleEditSchema, schedulerSchema } from "../validation";
 import { THandleChangeITS } from "../types/THandleChanges";

@@ -21,7 +21,7 @@ export default function SessionValidator(): React.JSX.Element {
         if (!authState.auth || !authState.token) return;
 
         try {
-            await api.post("/auth/validate/token/session", {
+            await api.post("/session/verify-jwt-of-session", {
                 token: authState.token,
             });
         } catch (error: any) {
@@ -37,7 +37,7 @@ export default function SessionValidator(): React.JSX.Element {
     useEffect(() => {
         api.defaults.headers.common["Authorization"] = authState.token;
 
-        sessionValidatorTimerRef.current = setInterval(validateSession, 30000);
+        sessionValidatorTimerRef.current = setInterval(validateSession, 5000);
 
         return () => clearInterval(sessionValidatorTimerRef.current);
     }, [authState.auth]);
