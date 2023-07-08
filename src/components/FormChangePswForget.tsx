@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
 import { useParams } from "react-router-dom";
-import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
 import { showAndUpdateToast } from "../libs";
-import { forgetPswSchema } from "../validation";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { forgetPswSchema } from "../validation";
 import Submitter from "./Submitter";
 
 interface FormData {
@@ -25,7 +24,6 @@ export default function FormChangePswForget(): React.JSX.Element {
 
     const [formData, setFormData] = useState<FormData>(formDataInitialState);
     const [loading, setLoading] = useState<boolean>(false);
-    const [myToast, setMyToast] = useState<ToastId>("");
 
     const { resetToken, email } = useParams<TParams>();
 
@@ -39,21 +37,20 @@ export default function FormChangePswForget(): React.JSX.Element {
             password_confirm: formData.confirmPassword,
         };
         const { error } = forgetPswSchema.validate(payload);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const {
-                data: { errors, ok },
-            } = await api.put("/recover/password", payload);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.put("/recover/password", payload);
 
             setFormData(formDataInitialState);
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

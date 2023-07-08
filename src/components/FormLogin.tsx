@@ -39,7 +39,8 @@ export default function FormLogin(): React.JSX.Element {
         e.preventDefault();
 
         const { error } = authSchema.validate(formData);
-        if (error) return showAndUpdateToast(error.message);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
@@ -57,7 +58,7 @@ export default function FormLogin(): React.JSX.Element {
             dispatch(setAuthenticatedUser(dataToSavedSession));
             navigate("/home/welcome");
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.errors);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

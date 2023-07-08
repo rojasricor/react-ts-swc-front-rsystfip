@@ -6,7 +6,6 @@ import {
     FormSelect,
     Row,
 } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { UNSET_STATUS } from "../constants";
@@ -14,6 +13,7 @@ import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeITS } from "../types/THandleChanges";
 import FetcherReports from "./FetcherReports";
 
@@ -44,7 +44,7 @@ export default function DaterReports(): React.JSX.Element {
 
             dispatch(setCategories(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { FormDataState } from "../features/programming/programmingSlice";
@@ -8,6 +7,7 @@ import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { actionFormSchedule } from "./FormSchedulePeople";
+import { showAndUpdateToast } from "../libs";
 
 interface IProps {
     action: actionFormSchedule;
@@ -35,7 +35,7 @@ export default function SelectDocument({
 
             dispatch(setDocuments(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

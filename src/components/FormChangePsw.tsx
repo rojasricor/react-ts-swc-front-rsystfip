@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
-import { toast, Id as ToastId } from "react-toastify";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../libs";
 import { IUserBase } from "../interfaces/IUserBase";
-import { changePswSchema } from "../validation";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { changePswSchema } from "../validation";
 import Submitter from "./Submitter";
 
 interface IProps {
@@ -29,7 +28,6 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
 
     const [formData, setFormData] = useState<FormState>(formDataInitialState);
     const [loading, setLoading] = useState<boolean>(false);
-    const [myToast, setMyToast] = useState<ToastId>("");
 
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
@@ -41,21 +39,20 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
             new_password_confirm: formData.confirmPassword,
         };
         const { error } = changePswSchema.validate(payload);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         setLoading(true);
         try {
-            const {
-                data: { errors, ok },
-            } = await api.put("/password", payload);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.put("/password", payload);
 
             setFormData(formDataInitialState);
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

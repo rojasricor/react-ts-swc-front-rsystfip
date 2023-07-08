@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import {
@@ -8,6 +7,7 @@ import {
     setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import CancelledRow from "./CancelledRow";
 
 export default function TableCancelled(): React.JSX.Element {
@@ -23,7 +23,7 @@ export default function TableCancelled(): React.JSX.Element {
 
             dispatch(setCancelledPeople(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

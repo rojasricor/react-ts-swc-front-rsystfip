@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { EventSourceInput, globalPlugins } from "fullcalendar";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import {
     ICalendarState,
@@ -15,6 +14,7 @@ import {
     setFormData,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import LoadCalendar from "./LoadCalendar";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
@@ -58,7 +58,7 @@ export default function FullCalendarScheduling({
             const { data } = await api("/scheduling/all");
             dispatch(setCalendarEvents(data));
         } catch (error: any) {
-            toast.error("Error al obtener los agendamientos");
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -110,10 +110,10 @@ export default function FullCalendarScheduling({
                         const now = new Date();
                         if (start < now) {
                             calendar.unselect();
-                            toast.warn(
-                                "No se puede agendar en una fecha que ya ha pasado."
+                            return showAndUpdateToast(
+                                "No se puede agendar en una fecha que ya ha pasado.",
+                                { type: "warning" }
                             );
-                            return;
                         }
 
                         if (
@@ -123,10 +123,10 @@ export default function FullCalendarScheduling({
                         ) {
                             // The selection is out of allow range, cancel
                             calendar.unselect();
-                            toast.warn(
-                                "Agendamientos no disponible en ese horario."
+                            return showAndUpdateToast(
+                                "Agendamientos no disponible en ese horario.",
+                                { type: "warning" }
                             );
-                            return;
                         }
 
                         showModalScheduling();

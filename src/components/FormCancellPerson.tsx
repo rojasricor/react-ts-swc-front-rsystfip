@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { Id as ToastId, toast } from "react-toastify";
 import { api } from "../api/axios";
 import { registerAChange } from "../features/calendar/calendarSlice";
 import {
     FormDataState,
     setIsLoading,
 } from "../features/programming/programmingSlice";
-import { showAndUpdateToast } from "../libs";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { cancellSchema } from "../validation";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { cancellSchema } from "../validation";
 
 interface IProps {
     closeModalCancell: () => void;
@@ -22,7 +21,6 @@ export default function FormCancellPerson({
     closeModalCancell,
 }: IProps): React.JSX.Element {
     const [cancelled_asunt, setCancelled_asunt] = useState<string>("");
-    const [myToast, setMyToast] = useState<ToastId>("");
 
     const dispatch = useAppDispatch();
 
@@ -42,23 +40,22 @@ export default function FormCancellPerson({
             cancelled_asunt,
         };
         const { error } = cancellSchema.validate(payload);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const {
-                data: { ok, errors },
-            } = await api.patch("/person", payload);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.patch("/person", payload);
 
             dispatch(registerAChange());
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
             setCancelled_asunt("");
             closeModalCancell();
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }

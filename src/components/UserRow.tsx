@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { BiKey, BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import { User } from "../features/admin/adminSlice";
 import { IUserBase } from "../interfaces/IUserBase";
+import { showAndUpdateToast } from "../libs";
 
 interface IProps {
     user: User;
@@ -20,22 +20,18 @@ export default function UserRow({
         if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
 
         try {
-            const {
-                data: { ok, error },
-            } = await api.delete("/user", {
+            const { data } = await api.delete("/user", {
                 headers: { "Content-Type": "application/json" },
                 data: { roleId },
             });
 
-            if (error || !ok) {
-                toast.warn(error);
-                return;
-            }
-
             setDeleted(true);
-            toast.success(ok, { position: "top-left" });
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

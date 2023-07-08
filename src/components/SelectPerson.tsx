@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { UNSET_STATUS } from "../constants";
@@ -12,6 +11,7 @@ import {
 import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
+import { showAndUpdateToast } from "../libs";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -40,7 +40,7 @@ export default function SelectPerson({
 
             dispatch(setDeans(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -77,7 +77,7 @@ export default function SelectPerson({
 
             dispatch(setCategories(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

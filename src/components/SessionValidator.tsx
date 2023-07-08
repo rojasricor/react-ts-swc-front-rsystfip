@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import Notify from "./Notify";
+import { showAndUpdateToast } from "../libs";
+import ContainerToast from "./ContainerToast";
 
 export default function SessionValidator(): React.JSX.Element {
     const dispatch = useAppDispatch();
@@ -25,8 +25,9 @@ export default function SessionValidator(): React.JSX.Element {
                 token: authState.token,
             });
         } catch (error: any) {
-            toast.error(error.response.data, {
-                position: toast.POSITION.TOP_CENTER,
+            showAndUpdateToast(error.response.data.error, {
+                type: "error",
+                position: "top-center",
                 closeButton: false,
             });
             dispatch(resetUserAuthenticated());
@@ -42,5 +43,5 @@ export default function SessionValidator(): React.JSX.Element {
         return () => clearInterval(sessionValidatorTimerRef.current);
     }, [authState.auth]);
 
-    return <Notify />;
+    return <ContainerToast />;
 }

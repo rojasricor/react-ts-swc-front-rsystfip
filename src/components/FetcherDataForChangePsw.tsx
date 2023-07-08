@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IUserBase } from "../interfaces/IUserBase";
+import { showAndUpdateToast } from "../libs";
 import FormChangePsw from "./FormChangePsw";
 
 type TParams = { role: string };
@@ -25,7 +25,7 @@ export default function FetcherDataForChangePsw(): React.JSX.Element {
 
             dispatch(setTempDataForChangePsw(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

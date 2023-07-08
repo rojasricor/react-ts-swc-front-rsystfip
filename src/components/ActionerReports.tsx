@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import { UNSET_STATUS } from "../constants";
 import {
@@ -9,6 +8,7 @@ import {
     setReportsOrigen,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import DaterReports from "./DaterReports";
 import TableReports from "./TableReports";
 
@@ -35,7 +35,7 @@ export default function ActionerReports(): React.JSX.Element {
             filterReports(data);
             dispatch(setReportsOrigen(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

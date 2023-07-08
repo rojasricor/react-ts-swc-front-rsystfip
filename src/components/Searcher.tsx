@@ -4,7 +4,6 @@ import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { ImUserPlus } from "react-icons/im";
 import { IoCalendarNumber } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import {
     People,
@@ -14,6 +13,7 @@ import {
     setPeopleOrigen,
 } from "../features/people/peopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeI } from "../types/THandleChanges";
 import TablePeople from "./TablePeople";
 
@@ -34,9 +34,9 @@ export default function Searcher(): React.JSX.Element {
 
             dispatch(setPeopleOrigen(data));
             findState !== "" ? filterPeople() : dispatch(setPeople(data));
-        } catch ({ message }: any) {
+        } catch (error: any) {
             dispatch(setIsLoading(2));
-            toast.error(message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(1));
         }

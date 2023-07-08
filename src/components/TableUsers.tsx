@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import UserRow from "./UserRow";
 
 export default function TableUsers(): React.JSX.Element {
@@ -18,7 +18,7 @@ export default function TableUsers(): React.JSX.Element {
 
             dispatch(setUsers(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

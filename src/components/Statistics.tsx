@@ -17,7 +17,6 @@ import {
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import {
     QueryData,
@@ -25,6 +24,7 @@ import {
     setMostAgendatedOnRange,
 } from "../features/statistics/statisticsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import Ctx from "./Ctx";
 import DaterStatistics from "./DaterStatistics";
 import ListerStatistics from "./ListerStatistics";
@@ -161,7 +161,7 @@ export default function Statistics({
             );
             refreshChart(labels, dataset);
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -173,7 +173,7 @@ export default function Statistics({
 
             dispatch(setMostAgendatedOnRange([scheduling_type, data]));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -185,7 +185,7 @@ export default function Statistics({
 
             dispatch(setMostAgendatedAllTime([scheduling_type, data]));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

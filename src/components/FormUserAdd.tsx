@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
-import { Id as ToastId, toast } from "react-toastify";
 import { v4 } from "uuid";
 import { api } from "../api/axios";
 import {
@@ -11,12 +10,12 @@ import {
     setIsLoading,
 } from "../features/admin/adminSlice";
 import { setDocuments } from "../features/resources/resourcesSlice";
-import { showAndUpdateToast } from "../libs";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
-import { userSchema } from "../validation";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { userSchema } from "../validation";
 import Submitter from "./Submitter";
 
 export default function FormUserAdd(): React.JSX.Element {
@@ -29,8 +28,6 @@ export default function FormUserAdd(): React.JSX.Element {
     const documentsState: IDocument[] = useAppSelector(
         ({ resources }) => resources.documents
     );
-
-    const [myToast, setMyToast] = useState<ToastId>("");
 
     const dispatch = useAppDispatch();
 
@@ -47,21 +44,20 @@ export default function FormUserAdd(): React.JSX.Element {
         e.preventDefault();
 
         const { error } = userSchema.validate(formDataState);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const {
-                data: { errors, ok },
-            } = await api.post("/user", formDataState);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.post("/user", formDataState);
 
             dispatch(resetFormDataAdmin());
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -75,7 +71,7 @@ export default function FormUserAdd(): React.JSX.Element {
 
             dispatch(setDocuments(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 

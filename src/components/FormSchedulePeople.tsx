@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { GiReturnArrow } from "react-icons/gi";
 import { IoCalendarNumber } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import { Id as ToastId, toast } from "react-toastify";
 import { api } from "../api/axios";
 import { registerAChange } from "../features/calendar/calendarSlice";
 import {
@@ -12,11 +11,11 @@ import {
     setFormData,
     setIsLoading,
 } from "../features/programming/programmingSlice";
-import { showAndUpdateToast } from "../libs";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { peopleEditSchema, schedulerSchema } from "../validation";
+import { showAndUpdateToast } from "../libs";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
+import { peopleEditSchema, schedulerSchema } from "../validation";
 import FooterFormPeople from "./FooterFormPeople";
 import ProtectedElement from "./ProtectedElement";
 import SelectDocument from "./SelectDocument";
@@ -38,8 +37,6 @@ export default function FormSchedulePeople({
     closeModalScheduling,
 }: IProps): React.JSX.Element {
     const { id } = useParams<TParams>();
-
-    const [myToast, setMyToast] = useState<ToastId>("");
 
     const facultieSelectRef = useRef<HTMLSelectElement>(null);
 
@@ -66,22 +63,21 @@ export default function FormSchedulePeople({
             asunt: formDataState?.asunt,
         };
         const { error } = peopleEditSchema.validate(payload);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const {
-                data: { ok, errors },
-            } = await api.put("/person", payload);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.put("/person", payload);
 
             dispatch(setFormData([action]));
 
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -112,28 +108,26 @@ export default function FormSchedulePeople({
             status: formDataState?.status,
         };
         const { error } = schedulerSchema.validate(payload);
-        if (error) return showAndUpdateToast(error.message, setMyToast);
+        if (error)
+            return showAndUpdateToast(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
-            const {
-                data: { ok, errors },
-            } = await api.post("/person", payload);
-
-            if (errors || !ok) return showAndUpdateToast(errors, setMyToast);
+            const { data } = await api.post("/person", payload);
 
             dispatch(setFormData([action]));
 
             if (formDataState?.status === "scheduled" && closeModalScheduling) {
                 dispatch(registerAChange());
-
                 closeModalScheduling();
             }
 
-            toast.success(ok, { position: "top-left" });
-            toast.dismiss(myToast);
+            showAndUpdateToast(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -182,7 +176,7 @@ export default function FormSchedulePeople({
                 ])
             );
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -220,7 +214,8 @@ export default function FormSchedulePeople({
                     facultieSelectRef.current.className =
                         "form-control border-0 bg-white";
 
-                toast.info("Se han completado los datos", {
+                showAndUpdateToast("Se han completado los datos", {
+                    type: "info",
                     position: "top-left",
                 });
                 break;

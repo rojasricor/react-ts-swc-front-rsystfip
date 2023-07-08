@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
+import { showAndUpdateToast } from "../libs";
 import FormChangePswForget from "./FormChangePswForget";
 import ResetTokenInvalid from "./ResetTokenInvalid";
 
@@ -17,28 +17,21 @@ export default function RecoveryLinkPassword(): React.JSX.Element {
         setLoading(true);
 
         try {
-            const {
-                data: { tokenIsValid, error },
-            } = await api.post("/auth/verify/resetToken", {
+            const { data } = await api.post("/auth/verify/resetToken", {
                 resetToken,
                 email,
             });
 
-            setTokenResetIsValid(tokenIsValid);
+            setTokenResetIsValid(data.tokenIsValid);
 
-            if (error) {
-                toast.warn(error);
-                return;
-            }
-
-            if (!tokenIsValid) {
+            if (!data.tokenIsValid) {
                 await api.delete("/auth/delete/resetToken", {
                     headers: { "Content-Type": "application/json" },
                     data: { resetToken },
                 });
             }
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

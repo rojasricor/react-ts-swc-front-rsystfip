@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { api } from "../api/axios";
 import { setPeople, setPeopleOrigen } from "../features/people/peopleSlice";
 import {
@@ -9,6 +8,7 @@ import {
     setReportsCountOnRange,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { showAndUpdateToast } from "../libs";
 import PdfCreator from "./PdfCreator";
 
 export default function FetcherReports(): React.JSX.Element {
@@ -25,7 +25,7 @@ export default function FetcherReports(): React.JSX.Element {
             dispatch(setPeople(data));
             dispatch(setPeopleOrigen(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -37,7 +37,7 @@ export default function FetcherReports(): React.JSX.Element {
 
             dispatch(setReportsCountOnRange(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -47,7 +47,7 @@ export default function FetcherReports(): React.JSX.Element {
 
             dispatch(setReportsCountAllTime(data));
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
@@ -64,7 +64,7 @@ export default function FetcherReports(): React.JSX.Element {
                     dispatch(setPngBase64(reader.result as string));
             });
         } catch (error: any) {
-            toast.error(error.message);
+            showAndUpdateToast(error.response.data.error, { type: "error" });
         }
     };
 
