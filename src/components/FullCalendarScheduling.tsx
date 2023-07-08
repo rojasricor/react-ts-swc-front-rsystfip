@@ -14,7 +14,7 @@ import {
     setFormData,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import LoadCalendar from "./LoadCalendar";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";

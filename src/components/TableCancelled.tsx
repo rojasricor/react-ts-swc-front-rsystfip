@@ -7,7 +7,7 @@ import {
     setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import CancelledRow from "./CancelledRow";
 
 export default function TableCancelled(): React.JSX.Element {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Container, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import FormChangePswForget from "./FormChangePswForget";
 import ResetTokenInvalid from "./ResetTokenInvalid";
 

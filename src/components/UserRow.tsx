@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { api } from "../api/axios";
 import { User } from "../features/admin/adminSlice";
 import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 
 interface IProps {
     user: User;

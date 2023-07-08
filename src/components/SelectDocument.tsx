@@ -7,7 +7,7 @@ import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { actionFormSchedule } from "./FormSchedulePeople";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 
 interface IProps {
     action: actionFormSchedule;

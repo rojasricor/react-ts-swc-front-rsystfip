@@ -11,7 +11,7 @@ import {
 import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {

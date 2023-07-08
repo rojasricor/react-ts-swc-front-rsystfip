@@ -8,7 +8,7 @@ import {
     setReportsCountOnRange,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import PdfCreator from "./PdfCreator";
 
 export default function FetcherReports(): React.JSX.Element {

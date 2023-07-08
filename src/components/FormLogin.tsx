@@ -5,7 +5,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { api } from "../api/axios";
 import { AUTH_KEY } from "../constants";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import { useAppDispatch } from "../hooks";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";

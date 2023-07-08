@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import UserRow from "./UserRow";
 
 export default function TableUsers(): React.JSX.Element {

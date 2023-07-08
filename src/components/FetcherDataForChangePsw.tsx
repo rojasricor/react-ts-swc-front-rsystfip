@@ -5,7 +5,7 @@ import { api } from "../api/axios";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import FormChangePsw from "./FormChangePsw";
 
 type TParams = { role: string };

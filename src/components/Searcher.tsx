@@ -13,7 +13,7 @@ import {
     setPeopleOrigen,
 } from "../features/people/peopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import TablePeople from "./TablePeople";
 

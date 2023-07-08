@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { api } from "../api/axios";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs";
+import { showAndUpdateToast } from "../libs/toast";
 import ContainerToast from "./ContainerToast";
 
 export default function SessionValidator(): React.JSX.Element {
