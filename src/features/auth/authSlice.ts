@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AUTH_KEY } from "../../constants";
 
-const userSessionSaved: string | null = window.localStorage.getItem(AUTH_KEY);
-
 interface User {
     iat: number;
     exp: number;
@@ -33,10 +31,12 @@ const initialState: AuthState = {
     token: "",
 };
 
+const userSessionSaved: string | null = window.localStorage.getItem(AUTH_KEY);
+
 const authSlice = createSlice({
     name: "auth",
     initialState: userSessionSaved
-        ? (JSON.parse(userSessionSaved) as AuthState)
+        ? JSON.parse(userSessionSaved)
         : initialState,
     reducers: {
         setAuthenticatedUser: (

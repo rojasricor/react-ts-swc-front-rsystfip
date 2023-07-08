@@ -18,17 +18,14 @@ export default function FormLogin(): React.JSX.Element {
         password: string;
     }
 
-    const formDataInitialState: FormData = {
-        username: "",
-        password: "",
-    };
-
-    const [formData, setFormData] = useState<FormData>(formDataInitialState);
     const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [formData, setFormData] = useState<FormData>({
+        username: "",
+        password: "",
+    });
 
     const dispatch = useAppDispatch();
-
     const navigate: NavigateFunction = useNavigate();
 
     const handleChange = (e: THandleChangeI) => {
@@ -48,8 +45,6 @@ export default function FormLogin(): React.JSX.Element {
         try {
             const { data, headers } = await api.post("/auth", formData);
 
-            if (data.errors) return showAndUpdateToast(data.errors);
-
             const dataToSavedSession: AuthState = {
                 ...data,
                 token: headers.authorization,
@@ -60,7 +55,6 @@ export default function FormLogin(): React.JSX.Element {
             );
 
             dispatch(setAuthenticatedUser(dataToSavedSession));
-
             navigate("/home/welcome");
         } catch (error: any) {
             showAndUpdateToast(error.response.data.errors);
@@ -80,7 +74,7 @@ export default function FormLogin(): React.JSX.Element {
                             onChange={handleChange}
                             value={formData.username}
                             type="text"
-                            placeholder="Usuario"
+                            placeholder="Username"
                             autoComplete="off"
                             spellCheck={false}
                             minLength={5}
@@ -98,7 +92,7 @@ export default function FormLogin(): React.JSX.Element {
                             onChange={handleChange}
                             value={formData.password}
                             type={passwordVisible ? "text" : "password"}
-                            placeholder="Contraseña"
+                            placeholder="Password"
                             autoComplete="off"
                             spellCheck={false}
                             minLength={8}
