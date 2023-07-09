@@ -8,7 +8,7 @@ import {
     setReportsCountOnRange,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import PdfCreator from "./PdfCreator";
 
 export default function FetcherReports(): React.JSX.Element {
@@ -25,7 +25,7 @@ export default function FetcherReports(): React.JSX.Element {
             dispatch(setPeople(data));
             dispatch(setPeopleOrigen(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -40,7 +40,7 @@ export default function FetcherReports(): React.JSX.Element {
 
             dispatch(setReportsCountOnRange(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -49,7 +49,7 @@ export default function FetcherReports(): React.JSX.Element {
             const { data } = await api("/reports/counts");
             dispatch(setReportsCountAllTime(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -66,7 +66,7 @@ export default function FetcherReports(): React.JSX.Element {
                     dispatch(setPngBase64(reader.result as string));
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

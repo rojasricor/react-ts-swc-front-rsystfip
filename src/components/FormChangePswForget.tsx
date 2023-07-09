@@ -3,7 +3,7 @@ import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { forgetPswSchema } from "../validation/joi";
@@ -35,20 +35,19 @@ export default function FormChangePswForget(): React.JSX.Element {
             password: formData.password,
             password_confirm: formData.confirmPassword,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         setLoading(true);
         try {
             const { data } = await api.put("/account/update-password", value);
 
             setFormData(formDataInitialState);
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

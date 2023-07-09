@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Container, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import FormChangePswForget from "./FormChangePswForget";
 import ResetTokenInvalid from "./ResetTokenInvalid";
 
@@ -24,7 +24,7 @@ export default function RecoveryLinkPassword(): React.JSX.Element {
 
             setTokenResetIsValid(data.tokenIsValid);
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

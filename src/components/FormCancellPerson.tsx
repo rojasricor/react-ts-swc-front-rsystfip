@@ -8,7 +8,7 @@ import {
     setIsLoading,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { cancellSchema } from "../validation/joi";
@@ -39,22 +39,21 @@ export default function FormCancellPerson({
             date: formDataState.date,
             cancelled_asunt,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
             const { data } = await api.patch(`/schedule/${value.id}`, value);
 
             dispatch(registerAChange());
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
             setCancelled_asunt("");
             closeModalCancell();
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }

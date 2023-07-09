@@ -7,7 +7,7 @@ import {
     setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import CancelledRow from "./CancelledRow";
 
 export default function TableCancelled(): React.JSX.Element {
@@ -23,7 +23,7 @@ export default function TableCancelled(): React.JSX.Element {
 
             dispatch(setCancelledPeople(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

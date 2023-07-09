@@ -7,7 +7,7 @@ import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { actionFormSchedule } from "./FormSchedulePeople";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 
 interface IProps {
     action: actionFormSchedule;
@@ -32,7 +32,7 @@ export default function SelectDocument({
             const { data } = await api("/resource/documents");
             dispatch(setDocuments(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

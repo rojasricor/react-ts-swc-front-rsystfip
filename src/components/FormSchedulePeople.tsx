@@ -12,7 +12,7 @@ import {
     setIsLoading,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { peopleEditSchema, schedulerSchema } from "../validation/joi";
@@ -62,8 +62,7 @@ export default function FormSchedulePeople({
             facultie: formDataState?.facultie,
             asunt: formDataState?.asunt,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
@@ -71,12 +70,12 @@ export default function FormSchedulePeople({
 
             dispatch(setFormData([action]));
 
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -106,8 +105,7 @@ export default function FormSchedulePeople({
             end: formDataState?.end,
             status: formDataState?.status,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
@@ -120,12 +118,12 @@ export default function FormSchedulePeople({
                 closeModalScheduling();
             }
 
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -174,7 +172,7 @@ export default function FormSchedulePeople({
                 ])
             );
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -212,7 +210,7 @@ export default function FormSchedulePeople({
                     facultieSelectRef.current.className =
                         "form-control border-0 bg-white";
 
-                showAndUpdateToast("Se han completado los datos", {
+                notify("Se han completado los datos", {
                     type: "info",
                     position: "top-left",
                 });

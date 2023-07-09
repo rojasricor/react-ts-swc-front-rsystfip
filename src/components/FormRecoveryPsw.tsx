@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiMailSend } from "react-icons/bi";
 import { api } from "../api/axios";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { recoverPswSchema } from "../validation/joi";
@@ -19,8 +19,7 @@ export default function FormRecoveryPsw(): React.JSX.Element {
             email,
             APP_ROUTE: window.location.href,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         setLoading(true);
         try {
@@ -29,9 +28,9 @@ export default function FormRecoveryPsw(): React.JSX.Element {
                 value
             );
 
-            showAndUpdateToast(data.ok, { type: "success" });
+            notify(data.ok, { type: "success" });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

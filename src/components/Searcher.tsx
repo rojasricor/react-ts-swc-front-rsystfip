@@ -13,7 +13,7 @@ import {
     setPeopleOrigen,
 } from "../features/people/peopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import TablePeople from "./TablePeople";
 
@@ -35,7 +35,7 @@ export default function Searcher(): React.JSX.Element {
             dispatch(setPeopleOrigen(data));
             findState !== "" ? filterPeople() : dispatch(setPeople(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
             dispatch(setIsLoading(2));
         } finally {
             dispatch(setIsLoading(1));

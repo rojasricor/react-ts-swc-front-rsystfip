@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { api } from "../api/axios";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import ContainerToast from "./ContainerToast";
 
 export default function SessionValidator(): React.JSX.Element {
@@ -25,7 +25,7 @@ export default function SessionValidator(): React.JSX.Element {
                 token: authState.token,
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, {
+            notify(error.response.data.error, {
                 type: "error",
                 position: "top-center",
                 closeButton: false,

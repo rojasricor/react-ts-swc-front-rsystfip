@@ -24,7 +24,7 @@ import {
     setMostAgendatedOnRange,
 } from "../features/statistics/statisticsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import Ctx from "./Ctx";
 import DaterStatistics from "./DaterStatistics";
 import ListerStatistics from "./ListerStatistics";
@@ -164,7 +164,7 @@ export default function Statistics({
             );
             refreshChart(labels, dataset);
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -182,7 +182,7 @@ export default function Statistics({
 
             dispatch(setMostAgendatedOnRange([scheduling_type, data]));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -194,7 +194,7 @@ export default function Statistics({
 
             dispatch(setMostAgendatedAllTime([scheduling_type, data]));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

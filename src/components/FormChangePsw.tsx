@@ -3,7 +3,7 @@ import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
 import { api } from "../api/axios";
 import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { changePswSchema } from "../validation/joi";
@@ -38,8 +38,7 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
             new_password: formData.newPassword,
             new_password_confirm: formData.confirmPassword,
         });
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         setLoading(true);
         try {
@@ -49,12 +48,12 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
             );
 
             setFormData(formDataInitialState);
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

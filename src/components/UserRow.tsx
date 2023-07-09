@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { api } from "../api/axios";
 import { User } from "../features/admin/adminSlice";
 import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 
 interface IProps {
     user: User;
@@ -23,12 +23,12 @@ export default function UserRow({
             const { data } = await api.delete(`/users/${roleId}`);
 
             setDeleted(true);
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

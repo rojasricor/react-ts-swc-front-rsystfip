@@ -12,7 +12,7 @@ import {
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
 import { userSchema } from "../validation/joi";
@@ -44,20 +44,19 @@ export default function FormUserAdd(): React.JSX.Element {
         e.preventDefault();
 
         const { error, value } = userSchema.validate(formDataState);
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
             const { data } = await api.post("/users", value);
 
             dispatch(resetFormDataAdmin());
-            showAndUpdateToast(data.ok, {
+            notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -68,7 +67,7 @@ export default function FormUserAdd(): React.JSX.Element {
             const { data } = await api("/resource/documents");
             dispatch(setDocuments(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

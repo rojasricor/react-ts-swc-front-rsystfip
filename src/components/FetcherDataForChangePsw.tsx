@@ -5,7 +5,7 @@ import { api } from "../api/axios";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IUserBase } from "../interfaces/IUserBase";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import FormChangePsw from "./FormChangePsw";
 
 type TParams = { role: string };
@@ -25,7 +25,7 @@ export default function FetcherDataForChangePsw(): React.JSX.Element {
 
             dispatch(setTempDataForChangePsw(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

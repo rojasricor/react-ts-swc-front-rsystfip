@@ -5,7 +5,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { api } from "../api/axios";
 import { AUTH_KEY } from "../constants";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { useAppDispatch } from "../hooks";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
@@ -39,8 +39,7 @@ export default function FormLogin(): React.JSX.Element {
         e.preventDefault();
 
         const { error, value } = authSchema.validate(formData);
-        if (error)
-            return showAndUpdateToast(error.message, { type: "warning" });
+        if (error) return notify(error.message, { type: "warning" });
 
         setLoading(true);
         try {
@@ -58,7 +57,7 @@ export default function FormLogin(): React.JSX.Element {
             dispatch(setAuthenticatedUser(dataToSavedSession));
             navigate("/home/welcome");
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         } finally {
             setLoading(false);
         }

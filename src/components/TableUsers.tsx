@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import { api } from "../api/axios";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import UserRow from "./UserRow";
 
 export default function TableUsers(): React.JSX.Element {
@@ -17,7 +17,7 @@ export default function TableUsers(): React.JSX.Element {
             const { data } = await api("/users");
             dispatch(setUsers(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

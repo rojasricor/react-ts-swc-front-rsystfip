@@ -14,7 +14,7 @@ import {
     setFormData,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import LoadCalendar from "./LoadCalendar";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
@@ -58,7 +58,7 @@ export default function FullCalendarScheduling({
             const { data } = await api("/schedule");
             dispatch(setCalendarEvents(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
@@ -110,7 +110,7 @@ export default function FullCalendarScheduling({
                         const now = new Date();
                         if (start < now) {
                             calendar.unselect();
-                            return showAndUpdateToast(
+                            return notify(
                                 "No se puede agendar en una fecha que ya ha pasado.",
                                 { type: "warning" }
                             );
@@ -123,7 +123,7 @@ export default function FullCalendarScheduling({
                         ) {
                             // The selection is out of allow range, cancel
                             calendar.unselect();
-                            return showAndUpdateToast(
+                            return notify(
                                 "Agendamientos no disponible en ese horario.",
                                 { type: "warning" }
                             );

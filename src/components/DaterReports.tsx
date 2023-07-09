@@ -13,7 +13,7 @@ import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import FetcherReports from "./FetcherReports";
 
@@ -41,7 +41,7 @@ export default function DaterReports(): React.JSX.Element {
             const { data } = await api("/resource/categories");
             dispatch(setCategories(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

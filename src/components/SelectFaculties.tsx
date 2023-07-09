@@ -6,7 +6,7 @@ import { FormDataState } from "../features/programming/programmingSlice";
 import { setFaculties } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IFacultie } from "../interfaces/IResources";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -34,7 +34,7 @@ export default function SelectFaculties({
             const { data } = await api("/resource/faculties");
             dispatch(setFaculties(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 

@@ -8,7 +8,7 @@ import {
     setReportsOrigen,
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { showAndUpdateToast } from "../libs/toast";
+import { notify } from "../libs/toast";
 import DaterReports from "./DaterReports";
 import TableReports from "./TableReports";
 
@@ -34,7 +34,7 @@ export default function ActionerReports(): React.JSX.Element {
             filterReports(data);
             dispatch(setReportsOrigen(data));
         } catch (error: any) {
-            showAndUpdateToast(error.response.data.error, { type: "error" });
+            notify(error.response.data.error, { type: "error" });
         }
     };
 
