@@ -136,7 +136,7 @@ export default function FullCalendarScheduling({
                                 action,
                                 {
                                     ...formDataState,
-                                    date: format(start, "yyyy-MM-dd"),
+                                    date: format(start, "yyyy-MM-dd HH:mm:ss"),
                                     start: format(start, "yyyy-MM-dd HH:mm:ss"),
                                     end: format(end, "yyyy-MM-dd HH:mm:ss"),
                                     status: "scheduled",

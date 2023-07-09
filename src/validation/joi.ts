@@ -100,6 +100,17 @@ export const forgetPswSchema = JoiDefaults.object({
         .messages({ "any.only": "Passwords does not match" }),
 });
 
+export const deanSchema = JoiDefaults.object({
+    _id: Joi.string()
+        .regex(/^[0-9]+$/)
+        .min(8)
+        .max(10)
+        .required()
+        .messages({ "string.pattern.base": '"document" invalid' }),
+    dean: Joi.string().min(8).max(50).required(),
+    facultie_id: Joi.string().length(1).required(),
+});
+
 export const userSchema = emailItfipSchema.keys({
     role: Joi.string().length(1).required(),
     name: Joi.string().min(3).max(25).required(),

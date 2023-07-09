@@ -43,7 +43,11 @@ export default function FormCancellPerson({
 
         dispatch(setIsLoading(true));
         try {
-            const { data } = await api.patch(`/schedule/${value.id}`, value);
+            const { data } = await api.post("/cancellation", {
+                person_id: value.id,
+                cancelled_asunt: value.cancelled_asunt,
+            });
+            await api.patch(`/schedule/${value.id}`, value);
 
             dispatch(registerAChange());
             notify(data.ok, {

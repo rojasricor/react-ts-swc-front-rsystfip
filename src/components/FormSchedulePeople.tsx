@@ -110,6 +110,22 @@ export default function FormSchedulePeople({
         dispatch(setIsLoading(true));
         try {
             const { data } = await api.post("/people", value);
+            console.log(data.personCreated);
+            await api.post("/schedule", {
+                person_id: data.personCreated.id.toString(),
+                status: value.status,
+                color: value.color,
+                date_filter: value.date,
+                start_date: value.start,
+                end_date: value.end,
+            });
+            if (value.person === "4") {
+                await api.post("/deans", {
+                    _id: value.doc,
+                    dean: value.name,
+                    facultie_id: value.facultie,
+                });
+            }
 
             dispatch(setFormData([action]));
 
