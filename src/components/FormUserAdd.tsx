@@ -15,7 +15,7 @@ import { IDocument } from "../interfaces/IResources";
 import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { userSchema } from "../validation";
+import { userSchema } from "../validation/joi";
 import Submitter from "./Submitter";
 
 export default function FormUserAdd(): React.JSX.Element {

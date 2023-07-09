@@ -38,7 +38,7 @@ export default function SessionValidator(): React.JSX.Element {
     useEffect(() => {
         api.defaults.headers.common["Authorization"] = authState.token;
 
-        sessionValidatorTimerRef.current = setInterval(validateSession, 5000);
+        sessionValidatorTimerRef.current = setInterval(validateSession, 30000);
 
         return () => clearInterval(sessionValidatorTimerRef.current);
     }, [authState.auth]);

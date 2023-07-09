@@ -5,7 +5,7 @@ import { api } from "../api/axios";
 import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { recoverPswSchema } from "../validation";
+import { recoverPswSchema } from "../validation/joi";
 import Submitter from "./Submitter";
 
 export default function FormRecoveryPsw(): React.JSX.Element {

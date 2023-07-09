@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { peopleEditSchema, schedulerSchema } from "../validation";
+import { peopleEditSchema, schedulerSchema } from "../validation/joi";
 import FooterFormPeople from "./FooterFormPeople";
 import ProtectedElement from "./ProtectedElement";
 import SelectDocument from "./SelectDocument";

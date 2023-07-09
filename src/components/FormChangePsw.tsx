@@ -6,7 +6,7 @@ import { IUserBase } from "../interfaces/IUserBase";
 import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { changePswSchema } from "../validation";
+import { changePswSchema } from "../validation/joi";
 import Submitter from "./Submitter";
 
 interface IProps {
@@ -33,7 +33,7 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
         e.preventDefault();
 
         const { error, value } = changePswSchema.validate({
-            id: userId,
+            id: userId.toString(),
             current_password: formData.currentPassword,
             new_password: formData.newPassword,
             new_password_confirm: formData.confirmPassword,

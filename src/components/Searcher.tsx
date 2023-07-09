@@ -35,8 +35,8 @@ export default function Searcher(): React.JSX.Element {
             dispatch(setPeopleOrigen(data));
             findState !== "" ? filterPeople() : dispatch(setPeople(data));
         } catch (error: any) {
-            dispatch(setIsLoading(2));
             showAndUpdateToast(error.response.data.error, { type: "error" });
+            dispatch(setIsLoading(2));
         } finally {
             dispatch(setIsLoading(1));
         }

@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { showAndUpdateToast } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { cancellSchema } from "../validation";
+import { cancellSchema } from "../validation/joi";
 
 interface IProps {
     closeModalCancell: () => void;

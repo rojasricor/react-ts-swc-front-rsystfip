@@ -9,7 +9,7 @@ import { showAndUpdateToast } from "../libs/toast";
 import { useAppDispatch } from "../hooks";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { authSchema } from "../validation";
+import { authSchema } from "../validation/joi";
 import Submitter from "./Submitter";
 
 export default function FormLogin(): React.JSX.Element {
