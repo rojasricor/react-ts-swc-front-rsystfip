@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { EventSourceInput, globalPlugins } from "fullcalendar";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "react-bootstrap";
-import { api } from "../api/axios";
+import api from "../api";
 import {
     ICalendarState,
     setCalendarEvents,

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
 import { v4 } from "uuid";
-import { api } from "../api/axios";
+import api from "../api";
 import { UNSET_STATUS } from "../constants";
 import {
     FormDataState,

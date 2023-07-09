@@ -17,7 +17,7 @@ import {
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
-import { api } from "../api/axios";
+import api from "../api";
 import {
     QueryData,
     setMostAgendatedAllTime,

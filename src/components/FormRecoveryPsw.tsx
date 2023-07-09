@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiMailSend } from "react-icons/bi";
-import { api } from "../api/axios";
+import api from "../api";
 import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";

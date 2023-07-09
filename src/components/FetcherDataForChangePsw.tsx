@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IUserBase } from "../interfaces/IUserBase";

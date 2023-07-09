@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { AuthState, resetUserAuthenticated } from "../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
@@ -25,11 +25,7 @@ export default function SessionValidator(): React.JSX.Element {
                 token: authState.token,
             });
         } catch (error: any) {
-            notify(error.response.data.error, {
-                type: "error",
-                position: "top-center",
-                closeButton: false,
-            });
+            notify(error.response.data.error, { type: "error" });
             dispatch(resetUserAuthenticated());
             navigate("/auth/login");
         }

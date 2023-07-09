@@ -4,7 +4,7 @@ import { FaSyncAlt, FaTimes } from "react-icons/fa";
 import { ImUserPlus } from "react-icons/im";
 import { IoCalendarNumber } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import {
     People,
     setFind,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { api } from "../api/axios";
+import api from "../api";
 import { registerAChange } from "../features/calendar/calendarSlice";
 import {
     FormDataState,

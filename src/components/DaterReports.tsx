@@ -7,7 +7,7 @@ import {
     Row,
 } from "react-bootstrap";
 import { v4 } from "uuid";
-import { api } from "../api/axios";
+import api from "../api";
 import { UNSET_STATUS } from "../constants";
 import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { setCategories } from "../features/resources/resourcesSlice";

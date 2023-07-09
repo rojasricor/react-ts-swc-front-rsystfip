@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { IoMdLogIn } from "react-icons/io";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { AUTH_KEY } from "../constants";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
 import { notify } from "../libs/toast";

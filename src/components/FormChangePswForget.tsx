@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
 import { useParams } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";

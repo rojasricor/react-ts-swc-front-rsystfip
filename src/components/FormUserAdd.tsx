@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { v4 } from "uuid";
-import { api } from "../api/axios";
+import api from "../api";
 import {
     FormData,
     resetFormDataAdmin,

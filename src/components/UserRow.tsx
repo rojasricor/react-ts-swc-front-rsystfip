@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { BiKey, BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { User } from "../features/admin/adminSlice";
 import { IUserBase } from "../interfaces/IUserBase";
 import { notify } from "../libs/toast";

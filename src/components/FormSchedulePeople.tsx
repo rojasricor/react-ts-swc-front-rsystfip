@@ -3,7 +3,7 @@ import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { GiReturnArrow } from "react-icons/gi";
 import { IoCalendarNumber } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import { api } from "../api/axios";
+import api from "../api";
 import { registerAChange } from "../features/calendar/calendarSlice";
 import {
     Deans,
