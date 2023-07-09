@@ -62,7 +62,10 @@ export default function NavLogoutDropdown({
                     Cambiar contraseña
                 </NavLink>
                 <Dropdown.Divider />
-                <Button onClick={logout} className="dropdown-item">
+                <Button
+                    onClick={logout}
+                    className="dropdown-item text-bg-light"
+                >
                     Cerrar sesión <BiLogOutCircle />
                 </Button>
             </Dropdown.Menu>
