@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUserBase } from "../../interfaces/IUserBase";
 
-export interface TempSlice {
+export interface TempState {
     tempDataForChangePsw: IUserBase;
 }
 
-const initialState: TempSlice = {
+const initialState: TempState = {
     tempDataForChangePsw: {
         id: 0,
         email: "",
@@ -19,8 +19,8 @@ const tempSlice = createSlice({
         setTempDataForChangePsw: (
             state,
             { payload }: PayloadAction<IUserBase>
-        ): TempSlice => ({ ...state, tempDataForChangePsw: payload }),
-        destroyTemporals: (): TempSlice => initialState,
+        ): TempState => ({ ...state, tempDataForChangePsw: payload }),
+        destroyTemporals: (): TempState => initialState,
     },
 });
 
