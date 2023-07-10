@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AUTH_KEY } from "../../constants";
+import { ObjsHasSameStructure } from "../../libs/utils";
 
 interface User {
     iat: number;
@@ -31,12 +32,14 @@ const initialState: AuthState = {
     token: "",
 };
 
-const userSessionSaved: string | null = window.localStorage.getItem(AUTH_KEY);
+const userSessionSaved: AuthState = JSON.parse(
+    window.localStorage.getItem(AUTH_KEY) || "{}"
+);
 
 const authSlice = createSlice({
     name: "auth",
-    initialState: userSessionSaved
-        ? JSON.parse(userSessionSaved)
+    initialState: ObjsHasSameStructure(userSessionSaved, initialState)
+        ? userSessionSaved
         : initialState,
     reducers: {
         setAuthenticatedUser: (
@@ -45,7 +48,6 @@ const authSlice = createSlice({
         ): AuthState => payload,
         resetUserAuthenticated: (): AuthState => {
             window.localStorage.removeItem(AUTH_KEY);
-
             return initialState;
         },
     },
