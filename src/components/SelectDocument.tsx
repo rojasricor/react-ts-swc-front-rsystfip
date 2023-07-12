@@ -46,10 +46,10 @@ export default function SelectDocument({
                 name="doctype"
                 className="border-0 bg-white"
                 onChange={handleChange}
-                value={formDataState?.doctype}
+                value={formDataState.doctype}
                 disabled={
-                    formDataState?.disabledAll ||
-                    formDataState?.disabledAfterAutocomplete
+                    formDataState.disabledAll ||
+                    formDataState.disabledAfterAutocomplete
                 }
                 required
             >

@@ -48,11 +48,11 @@ export default function SelectFaculties({
                 name="facultie"
                 className="border-0 bg-white"
                 onChange={handleChange}
-                value={formDataState?.facultie}
+                value={formDataState.facultie}
                 ref={facultieSelectRef}
                 disabled={
-                    formDataState?.disabledAll ||
-                    formDataState?.disabledAfterAutocomplete
+                    formDataState.disabledAll ||
+                    formDataState.disabledAfterAutocomplete
                 }
                 required
             >

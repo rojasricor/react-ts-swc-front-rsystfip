@@ -55,12 +55,12 @@ export default function FormSchedulePeople({
     const editPerson = async (): Promise<void> => {
         const { error, value } = peopleEditSchema.validate({
             id,
-            person: formDataState?.person,
-            name: formDataState?.name,
-            doctype: formDataState?.doctype,
-            doc: formDataState?.doc,
-            facultie: formDataState?.facultie,
-            asunt: formDataState?.asunt,
+            person: formDataState.person,
+            name: formDataState.name,
+            doctype: formDataState.doctype,
+            doc: formDataState.doc,
+            facultie: formDataState.facultie,
+            asunt: formDataState.asunt,
         });
         if (error) return notify(error.message, { type: "warning" });
 
@@ -85,39 +85,33 @@ export default function FormSchedulePeople({
         closeModalScheduling?: IProps["closeModalScheduling"]
     ): Promise<void> => {
         const { error, value } = schedulerSchema.validate({
-            person: formDataState?.person,
-            name: formDataState?.name,
-            doctype: formDataState?.doctype,
-            doc: formDataState?.doc,
-            emailContact:
-                formDataState?.emailContact === ""
-                    ? null
-                    : formDataState?.emailContact,
-            telContact:
-                formDataState?.telContact === ""
-                    ? null
-                    : formDataState?.telContact,
-            facultie: formDataState?.facultie,
-            asunt: formDataState?.asunt,
-            color: formDataState?.color,
-            date: formDataState?.date,
-            start: formDataState?.start,
-            end: formDataState?.end,
-            status: formDataState?.status,
+            person: formDataState.person,
+            name: formDataState.name,
+            doctype: formDataState.doctype,
+            doc: formDataState.doc,
+            emailContact: formDataState.emailContact || undefined,
+            telContact: formDataState.telContact || undefined,
+            facultie: formDataState.facultie,
+            asunt: formDataState.asunt,
+            color: formDataState.color,
+            date: formDataState.date,
+            start: formDataState.start,
+            end: formDataState.end,
+            status: formDataState.status,
         });
         if (error) return notify(error.message, { type: "warning" });
 
         dispatch(setIsLoading(true));
         try {
             const { data } = await api.post("/people", value);
-            console.log(data.personCreated);
+
             await api.post("/schedule", {
                 person_id: data.personCreated.id.toString(),
                 status: value.status,
                 color: value.color,
-                date_filter: value.date,
-                start_date: value.start,
-                end_date: value.end,
+                date_filter: value.date || undefined,
+                start_date: value.start || undefined,
+                end_date: value.end || undefined,
             });
             if (value.person === "4") {
                 await api.post("/deans", {
@@ -129,7 +123,7 @@ export default function FormSchedulePeople({
 
             dispatch(setFormData([action]));
 
-            if (formDataState?.status === "scheduled" && closeModalScheduling) {
+            if (formDataState.status === "scheduled" && closeModalScheduling) {
                 dispatch(registerAChange());
                 closeModalScheduling();
             }
@@ -205,10 +199,10 @@ export default function FormSchedulePeople({
     };
 
     const autocompleteDeansData = () => {
-        if (!deansState || formDataState?.person !== "4") return;
+        if (!deansState || formDataState.person !== "4") return;
 
         for (const dean of deansState) {
-            if (dean._id === formDataState?.doc) {
+            if (dean._id === formDataState.doc) {
                 dispatch(
                     setFormData([
                         action,
@@ -260,7 +254,7 @@ export default function FormSchedulePeople({
                             name="doc"
                             className="border-0 bg-white"
                             onChange={handleChange}
-                            value={formDataState?.doc}
+                            value={formDataState.doc}
                             type="number"
                             placeholder="Complete campo"
                             autoComplete="off"
@@ -268,8 +262,8 @@ export default function FormSchedulePeople({
                             minLength={8}
                             maxLength={30}
                             disabled={
-                                formDataState?.disabledAll ||
-                                formDataState?.disabledAfterAutocomplete
+                                formDataState.disabledAll ||
+                                formDataState.disabledAfterAutocomplete
                             }
                             autoFocus
                             required
@@ -290,7 +284,7 @@ export default function FormSchedulePeople({
                             name="name"
                             className="border-0 bg-white"
                             onChange={handleChange}
-                            value={formDataState?.name}
+                            value={formDataState.name}
                             type="text"
                             placeholder="Complete campo"
                             autoComplete="off"
@@ -298,8 +292,8 @@ export default function FormSchedulePeople({
                             minLength={8}
                             maxLength={50}
                             disabled={
-                                formDataState?.disabledAll ||
-                                formDataState?.disabledAfterAutocomplete
+                                formDataState.disabledAll ||
+                                formDataState.disabledAfterAutocomplete
                             }
                             required
                         />
@@ -313,7 +307,7 @@ export default function FormSchedulePeople({
                                 name="telContact"
                                 className="border-0 bg-white"
                                 onChange={handleChange}
-                                value={formDataState?.telContact}
+                                value={formDataState.telContact}
                                 type="number"
                                 placeholder="Complete campo"
                                 autoComplete="off"
@@ -321,8 +315,8 @@ export default function FormSchedulePeople({
                                 minLength={10}
                                 maxLength={10}
                                 disabled={
-                                    formDataState?.disabledAll ||
-                                    formDataState?.disabledAfterAutocomplete
+                                    formDataState.disabledAll ||
+                                    formDataState.disabledAfterAutocomplete
                                 }
                                 required
                             />
@@ -337,7 +331,7 @@ export default function FormSchedulePeople({
                                 name="emailContact"
                                 className="border-0 bg-white"
                                 onChange={handleChange}
-                                value={formDataState?.emailContact}
+                                value={formDataState.emailContact}
                                 type="email"
                                 placeholder="Complete campo"
                                 autoComplete="off"
@@ -345,8 +339,8 @@ export default function FormSchedulePeople({
                                 minLength={10}
                                 maxLength={30}
                                 disabled={
-                                    formDataState?.disabledAll ||
-                                    formDataState?.disabledAfterAutocomplete
+                                    formDataState.disabledAll ||
+                                    formDataState.disabledAfterAutocomplete
                                 }
                                 required
                             />
@@ -369,14 +363,14 @@ export default function FormSchedulePeople({
                             name="asunt"
                             className="border-0 bg-white"
                             onChange={handleChange}
-                            value={formDataState?.asunt}
+                            value={formDataState.asunt}
                             placeholder="Complete campo"
                             autoComplete="off"
                             spellCheck={false}
                             minLength={10}
                             maxLength={150}
                             style={{ height: "100px" }}
-                            disabled={formDataState?.disabledAll}
+                            disabled={formDataState.disabledAll}
                             required
                         />
                     </Form.FloatingLabel>
@@ -388,7 +382,7 @@ export default function FormSchedulePeople({
                             name="color"
                             className="border-0 bg-white"
                             onChange={handleChange}
-                            value={formDataState?.color}
+                            value={formDataState.color}
                             type="color"
                         />
                     </Col>

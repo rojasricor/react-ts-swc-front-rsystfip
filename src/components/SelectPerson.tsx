@@ -44,7 +44,7 @@ export default function SelectPerson({
     };
 
     useEffect(() => {
-        if (formDataState?.person !== UNSET_STATUS) {
+        if (formDataState.person !== UNSET_STATUS) {
             dispatch(
                 setFormData([
                     action,
@@ -60,13 +60,13 @@ export default function SelectPerson({
                 facultieSelectRef.current.className =
                     "form-select border-0 bg-white";
                 facultieSelectRef.current.disabled = false;
-                if (formDataState?.person === "5")
+                if (formDataState.person === "5")
                     facultieSelectRef.current.disabled = true;
             }
 
-            formDataState?.person === "4" && getDeans();
+            formDataState.person === "4" && getDeans();
         }
-    }, [formDataState?.person]);
+    }, [formDataState.person]);
 
     const getCategories = async (): Promise<void> => {
         try {
@@ -87,7 +87,7 @@ export default function SelectPerson({
                 name="person"
                 className="border-0 bg-white"
                 onChange={handleChange}
-                value={formDataState?.person}
+                value={formDataState.person}
                 required
             >
                 <option value="">No seleccionado</option>
