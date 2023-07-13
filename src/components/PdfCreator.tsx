@@ -7,7 +7,13 @@ import { useAppSelector } from "../hooks";
 import { ICounts } from "../interfaces/ICounts";
 import Downloader from "./Downloader";
 
-export default function PdfCreator(): React.JSX.Element {
+interface IProps {
+    errorReports: boolean;
+}
+
+export default function PdfCreator({
+    errorReports,
+}: IProps): React.JSX.Element {
     const pngBase64State: string = useAppSelector(
         ({ reports }) => reports.pngBase64
     );
@@ -237,5 +243,5 @@ export default function PdfCreator(): React.JSX.Element {
         myFonts
     );
 
-    return <Downloader pdf={pdf} />;
+    return <Downloader pdf={pdf} errorReports={errorReports} />;
 }

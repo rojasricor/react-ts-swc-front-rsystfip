@@ -11,7 +11,13 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
 import PdfCreator from "./PdfCreator";
 
-export default function FetcherReports(): React.JSX.Element {
+interface IProps {
+    errorReports: boolean;
+}
+
+export default function FetcherReports({
+    errorReports,
+}: IProps): React.JSX.Element {
     const dispatch = useAppDispatch();
 
     const queryDataState: QueryData = useAppSelector(
@@ -80,5 +86,5 @@ export default function FetcherReports(): React.JSX.Element {
         getReportsCountOnRange();
     }, [queryDataState.startDate, queryDataState.endDate]);
 
-    return <PdfCreator />;
+    return <PdfCreator errorReports={errorReports} />;
 }

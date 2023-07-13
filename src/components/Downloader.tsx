@@ -4,9 +4,13 @@ import { BsDownload } from "react-icons/bs";
 
 interface IProps {
     pdf: TCreatedPdf;
+    errorReports: boolean;
 }
 
-export default function Downloader({ pdf }: IProps): React.JSX.Element {
+export default function Downloader({
+    pdf,
+    errorReports,
+}: IProps): React.JSX.Element {
     return (
         <FloatingLabel label="Descargar:">
             <Button
@@ -15,7 +19,9 @@ export default function Downloader({ pdf }: IProps): React.JSX.Element {
                     () => pdf.open()
                     // pdf.download(`Rsystfip-Report-${formatTodaysDateTime()}.pdf`)
                 }
-                className="form-control border-0 bg-white"
+                className={`form-control border-0 bg-white ${
+                    errorReports ? " disabled" : ""
+                }`}
                 title="Reporte PDF"
             >
                 PDF <BsDownload className="mb-1" />

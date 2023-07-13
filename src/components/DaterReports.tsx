@@ -17,7 +17,13 @@ import { notify } from "../libs/toast";
 import { THandleChangeITS } from "../types/THandleChanges";
 import FetcherReports from "./FetcherReports";
 
-export default function DaterReports(): React.JSX.Element {
+interface IProps {
+    errorReports: boolean;
+}
+
+export default function DaterReports({
+    errorReports,
+}: IProps): React.JSX.Element {
     const dispatch = useAppDispatch();
 
     const categoriesState: ICategory[] = useAppSelector(
@@ -94,7 +100,7 @@ export default function DaterReports(): React.JSX.Element {
             </Col>
 
             <Col md={2}>
-                <FetcherReports />
+                <FetcherReports errorReports={errorReports} />
             </Col>
         </Row>
     );

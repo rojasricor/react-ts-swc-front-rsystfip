@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import { UNSET_STATUS } from "../constants";
 import {
@@ -21,6 +21,7 @@ export default function ActionerReports(): React.JSX.Element {
     const queryDataState: QueryData = useAppSelector(
         ({ reports }) => reports.queryData
     );
+    const [errorReports, setErrorReports] = useState<boolean>(false);
 
     const getReports = async (): Promise<void> => {
         try {
@@ -35,6 +36,7 @@ export default function ActionerReports(): React.JSX.Element {
             dispatch(setReportsOrigen(data));
         } catch (error: any) {
             notify(error.response.data.error, { type: "error" });
+            setErrorReports(true);
         }
     };
 
@@ -65,7 +67,7 @@ export default function ActionerReports(): React.JSX.Element {
 
     return (
         <>
-            <DaterReports />
+            <DaterReports errorReports={errorReports} />
             <TableReports />
         </>
     );
