@@ -1,16 +1,15 @@
-import { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 import { FaUserPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TableUsers from "../components/TableUsers";
 
 export default function PageManageUsers(): React.JSX.Element {
-    useEffect(() => {
-        document.title = "RSystfip | Manage users";
-    }, []);
-
     return (
         <Row>
+            <Helmet>
+                <title>RSystfip | Manage users</title>
+            </Helmet>
             <Col md={6} className="mx-auto">
                 <Card className="border-0 shadow-sm rounded-3 bg-white px-3 py-5 mt-3 mb-3">
                     <h1 className="h3 text-center">Administrar usuarios</h1>

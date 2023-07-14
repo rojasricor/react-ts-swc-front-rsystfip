@@ -1,13 +1,12 @@
-import { useEffect } from "react";
 import { Accordion, Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 export default function PageFaqs(): React.JSX.Element {
-    useEffect(() => {
-        document.title = "RSystfip | Frecuently asked questions";
-    }, []);
-
     return (
         <Row>
+            <Helmet>
+                <title>RSystfip | Frecuently asked questions</title>
+            </Helmet>
             <Col md={12}>
                 <h1 className="h3">Preguntas más frecuentes</h1>
             </Col>

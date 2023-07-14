@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 import { FaUserPlus } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -11,12 +11,11 @@ interface IProps {
 }
 
 export default function PageHome({ permissions }: IProps): React.JSX.Element {
-    useEffect(() => {
-        document.title = "RSystfip | Home";
-    }, []);
-
     return (
         <Row>
+            <Helmet>
+                <title>RSystfip | Home</title>
+            </Helmet>
             <Col md={12}>
                 <UserLoggedInfo />
                 <ProtectedElement isAllowed={permissions.includes("add")}>
