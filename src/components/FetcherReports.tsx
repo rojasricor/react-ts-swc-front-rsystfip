@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import api from "../api";
+import { UseQueryResult, useQueries } from "react-query";
 import { setPeople, setPeopleOrigen } from "../features/people/peopleSlice";
 import {
     QueryData,
@@ -9,6 +9,9 @@ import {
 } from "../features/reports/reportsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as peopleService from "../services/people.service";
+import * as reportService from "../services/report.service";
+import * as resService from "../services/res.service";
 import PdfCreator from "./PdfCreator";
 
 interface IProps {
@@ -24,67 +27,64 @@ export default function FetcherReports({
         ({ reports }) => reports.queryData
     );
 
-    const getPeople = async (): Promise<void> => {
-        try {
-            const { data } = await api("/people");
+    const queries = useQueries([
+        {
+            queryKey: "people",
+            queryFn: peopleService.getPeople,
+            refetchOnWindowFocus: false,
+        },
+        {
+            queryKey: "reportsAllTime",
+            queryFn: reportService.getReportsCountAlltime,
+            refetchOnWindowFocus: false,
+        },
+        {
+            queryKey: [
+                "reportsOnRange",
+                queryDataState.startDate,
+                queryDataState.endDate,
+            ],
+            queryFn: () => reportService.getReportsCountOnRange(queryDataState),
+            refetchOnWindowFocus: false,
+        },
+        {
+            queryKey: "pngBase64",
+            queryFn: resService.getPngbase64,
+            refetchOnWindowFocus: false,
+        },
+    ]);
 
-            dispatch(setPeople(data));
-            dispatch(setPeopleOrigen(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    useEffect(
+        () => {
+            for (let i = 0; i < queries.length; i++) {
+                const { data, error } = queries[i] as UseQueryResult<any, any>;
 
-    const getReportsCountOnRange = async (): Promise<void> => {
-        try {
-            const { data } = await api("/reports/count", {
-                params: {
-                    start: queryDataState.startDate,
-                    end: queryDataState.endDate,
-                },
-            });
+                if (data) {
+                    if (i === 0) {
+                        dispatch(setPeople(data));
+                        dispatch(setPeopleOrigen(data));
+                    } else if (i === 1) {
+                        dispatch(setReportsCountAllTime(data));
+                    } else if (i === 2) {
+                        dispatch(setReportsCountOnRange(data));
+                    } else if (i === 3) {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(data);
+                        reader.addEventListener("load", () => {
+                            if (reader.result) {
+                                dispatch(setPngBase64(reader.result as string));
+                            }
+                        });
+                    }
+                }
 
-            dispatch(setReportsCountOnRange(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
-
-    const getReportsCountAlltime = async (): Promise<void> => {
-        try {
-            const { data } = await api("/reports/counts");
-            dispatch(setReportsCountAllTime(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
-
-    const getPngbase64 = async (): Promise<void> => {
-        try {
-            const { data } = await api("/img/admin/avatar.png", {
-                responseType: "blob",
-            });
-
-            const reader = new FileReader();
-            reader.readAsDataURL(data);
-            reader.addEventListener("load", () => {
-                if (reader.result)
-                    dispatch(setPngBase64(reader.result as string));
-            });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
-
-    useEffect(() => {
-        getPeople();
-        getReportsCountAlltime();
-        getPngbase64();
-    }, []);
-
-    useEffect(() => {
-        getReportsCountOnRange();
-    }, [queryDataState.startDate, queryDataState.endDate]);
+                if (error) {
+                    notify(error.response.data.error, { type: "error" });
+                }
+            }
+        },
+        queries.flatMap(({ data, error }) => [data, error])
+    );
 
     return <PdfCreator errorReports={errorReports} />;
 }

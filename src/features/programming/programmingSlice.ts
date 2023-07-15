@@ -55,7 +55,6 @@ export interface Deans {
 
 export interface ProgrammingState {
     formData: FormData;
-    isLoading: boolean;
     deans: Deans[];
 }
 
@@ -71,7 +70,6 @@ const initialState: ProgrammingState = {
         edit: formDataInitialState,
         schedule: formDataInitialState,
     },
-    isLoading: false,
     deans: [],
 };
 
@@ -85,10 +83,6 @@ const programmingSlice = createSlice({
                 payload: [action, formData],
             }: PayloadAction<[string, FormDataState?]>
         ): ProgrammingState => updateFormDataByAction(state, action, formData),
-        setIsLoading: (
-            state,
-            { payload }: PayloadAction<boolean>
-        ): ProgrammingState => ({ ...state, isLoading: payload }),
         setDeans: (
             state,
             { payload }: PayloadAction<Deans[]>
@@ -100,11 +94,7 @@ const programmingSlice = createSlice({
     },
 });
 
-export const {
-    setFormData,
-    setIsLoading,
-    setDeans,
-    resetAllFormDataProgramming,
-} = programmingSlice.actions;
+export const { setFormData, setDeans, resetAllFormDataProgramming } =
+    programmingSlice.actions;
 
 export default programmingSlice.reducer;

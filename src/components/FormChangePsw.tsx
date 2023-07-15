@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
-import api from "../api";
+import { useMutation } from "react-query";
 import { IUserBase } from "../interfaces/IUserBase";
 import { notify } from "../libs/toast";
+import * as accountService from "../services/account.service";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { changePswSchema } from "../validation/joi";
+import { changePswSchema } from "../validation/schemas";
 import Submitter from "./Submitter";
 
 interface IProps {
@@ -27,9 +28,20 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
     };
 
     const [formData, setFormData] = useState<FormState>(formDataInitialState);
-    const [loading, setLoading] = useState<boolean>(false);
 
-    const handleSubmit = async (e: THandleSubmit): Promise<void> => {
+    const { mutate, isLoading } = useMutation(accountService.changePassword, {
+        onSuccess: (data) => {
+            setFormData(formDataInitialState);
+            notify(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
+        },
+        onError: (error: any) =>
+            notify(error.response.data.error, { type: "error" }),
+    });
+
+    const handleSubmit = (e: THandleSubmit) => {
         e.preventDefault();
 
         const { error, value } = changePswSchema.validate({
@@ -40,30 +52,11 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
         });
         if (error) return notify(error.message, { type: "warning" });
 
-        setLoading(true);
-        try {
-            const { data } = await api.put(
-                `/account/update-password/${value.id}`,
-                value
-            );
-
-            setFormData(formDataInitialState);
-            notify(data.ok, {
-                type: "success",
-                position: "top-left",
-            });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            setLoading(false);
-        }
+        mutate(value);
     };
 
     const handleChange = (e: THandleChangeI) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     return (
@@ -124,8 +117,8 @@ export default function FormChangePsw({ userId }: IProps): React.JSX.Element {
                     </Form.FloatingLabel>
                 </Col>
 
-                <Submitter loading={loading}>
-                    {!loading ? (
+                <Submitter loading={isLoading}>
+                    {!isLoading ? (
                         <>
                             Cambiar contraseña <BiKey className="mb-1" />
                         </>

@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { IoMdLogIn } from "react-icons/io";
+import { useMutation } from "react-query";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import api from "../api";
 import { AUTH_KEY } from "../constants";
 import { AuthState, setAuthenticatedUser } from "../features/auth/authSlice";
-import { notify } from "../libs/toast";
 import { useAppDispatch } from "../hooks";
+import { notify } from "../libs/toast";
+import * as authService from "../services/auth.service";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { authSchema } from "../validation/joi";
+import { authSchema } from "../validation/schemas";
 import Submitter from "./Submitter";
 
 export default function FormLogin(): React.JSX.Element {
@@ -19,7 +20,6 @@ export default function FormLogin(): React.JSX.Element {
     }
 
     const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
         username: "",
         password: "",
@@ -35,16 +35,8 @@ export default function FormLogin(): React.JSX.Element {
         });
     };
 
-    const handleSubmit = async (e: THandleSubmit): Promise<void> => {
-        e.preventDefault();
-
-        const { error, value } = authSchema.validate(formData);
-        if (error) return notify(error.message, { type: "warning" });
-
-        setLoading(true);
-        try {
-            const { data, headers } = await api.post("/auth", value);
-
+    const { mutate, isLoading } = useMutation(authService.auth, {
+        onSuccess: ({ data, headers }) => {
             const dataToSavedSession: AuthState = {
                 ...data,
                 token: headers.authorization,
@@ -56,11 +48,18 @@ export default function FormLogin(): React.JSX.Element {
 
             dispatch(setAuthenticatedUser(dataToSavedSession));
             navigate("/home/welcome");
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            setLoading(false);
-        }
+        },
+        onError: (error: any) =>
+            notify(error.response.data.error, { type: "error" }),
+    });
+
+    const handleSubmit = (e: THandleSubmit) => {
+        e.preventDefault();
+
+        const { error, value } = authSchema.validate(formData);
+        if (error) return notify(error.message, { type: "warning" });
+
+        mutate(value);
     };
 
     return (
@@ -109,8 +108,8 @@ export default function FormLogin(): React.JSX.Element {
                         label="Mostrar contraseña"
                     />
                 </Col>
-                <Submitter loading={loading}>
-                    {!loading ? (
+                <Submitter loading={isLoading}>
+                    {!isLoading ? (
                         <>
                             Entrar <IoMdLogIn className="mb-1" />
                         </>

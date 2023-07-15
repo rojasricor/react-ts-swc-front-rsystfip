@@ -1,38 +1,32 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Spinner } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import api from "../api";
 import { notify } from "../libs/toast";
+import * as accountService from "../services/account.service";
 import FormChangePswForget from "./FormChangePswForget";
 import ResetTokenInvalid from "./ResetTokenInvalid";
 
-type TParams = { email: string; resetToken: string };
-
 export default function RecoveryLinkPassword(): React.JSX.Element {
-    const { email, resetToken } = useParams<TParams>();
+    const { email, resetToken } = useParams<{
+        email: string;
+        resetToken: string;
+    }>();
     const [tokenResetIsValid, setTokenResetIsValid] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
 
-    const verifyToken = async (): Promise<void> => {
-        setLoading(true);
-
-        try {
-            const { data } = await api.post(
-                "/account/verify-jwt-for-recover-password",
-                { resetToken, email }
-            );
-
-            setTokenResetIsValid(data.tokenIsValid);
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { data, isLoading, error } = useQuery<any, any>(
+        "verifyJwtForRecoverPsw",
+        () =>
+            accountService.verifyJwtForRecoverPsw(
+                email as string,
+                resetToken as string
+            )
+    );
 
     useEffect(() => {
-        verifyToken();
-    }, []);
+        if (data) setTokenResetIsValid(data.tokenIsValid);
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Col md={4} className="mx-auto">
@@ -41,7 +35,7 @@ export default function RecoveryLinkPassword(): React.JSX.Element {
                     Recuperacion de contraseña {email}
                 </h1>
                 <Card.Body className="my-4">
-                    {!loading ? (
+                    {!isLoading ? (
                         tokenResetIsValid ? (
                             <FormChangePswForget />
                         ) : (

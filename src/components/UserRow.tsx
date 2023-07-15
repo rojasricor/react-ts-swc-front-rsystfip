@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { BiKey, BiTrash } from "react-icons/bi";
+import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
-import api from "../api";
 import { User } from "../features/admin/adminSlice";
 import { IUserBase } from "../interfaces/IUserBase";
 import { notify } from "../libs/toast";
+import * as userService from "../services/user.service";
 
 interface IProps {
     user: User;
@@ -14,25 +14,19 @@ interface IProps {
 export default function UserRow({
     user: { id, email, role },
 }: IProps): React.JSX.Element | undefined {
-    const [deleted, setDeleted] = useState(false);
+    const { isSuccess, mutate } = useMutation(userService.deleteUser, {
+        onSuccess: (data) =>
+            notify(data.ok, { type: "success", position: "top-left" }),
+        onError: (error: any) =>
+            notify(error.response.data.error, { type: "error" }),
+    });
 
-    const handleClick = async (roleId: IUserBase["id"]): Promise<void> => {
+    const handleClick = (roleId: IUserBase["id"]) => {
         if (!confirm("Seguro(a) de eliminar ese usuario?")) return;
-
-        try {
-            const { data } = await api.delete(`/users/${roleId}`);
-
-            setDeleted(true);
-            notify(data.ok, {
-                type: "success",
-                position: "top-left",
-            });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
+        mutate(roleId);
     };
 
-    if (deleted) return;
+    if (isSuccess) return;
 
     return (
         <tr>

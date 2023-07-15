@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 import { Card, Col } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import api from "../api";
 import { setTempDataForChangePsw } from "../features/temp/tempSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IUserBase } from "../interfaces/IUserBase";
 import { notify } from "../libs/toast";
+import * as userService from "../services/user.service";
 import FormChangePsw from "./FormChangePsw";
 
-type TParams = { role: string };
-
 export default function FetcherDataForChangePsw(): React.JSX.Element {
-    const { role } = useParams<TParams>();
+    const { role } = useParams<{ role: string }>();
 
     const dispatch = useAppDispatch();
 
@@ -19,19 +18,14 @@ export default function FetcherDataForChangePsw(): React.JSX.Element {
         ({ temp }) => temp.tempDataForChangePsw
     );
 
-    const getDatauser = async (): Promise<void> => {
-        try {
-            const { data } = await api(`/users/${role}`);
-
-            dispatch(setTempDataForChangePsw(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<any, any>(["userData", role], () =>
+        userService.getData(role as string)
+    );
 
     useEffect(() => {
-        getDatauser();
-    }, [role]);
+        if (data) dispatch(setTempDataForChangePsw(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Col md={4} className="mx-auto">

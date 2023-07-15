@@ -1,35 +1,32 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import {
     PeopleCancelled,
     setCancelledPeople,
 } from "../features/cancelledPeople/cancelledPeopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as peopleService from "../services/people.service";
 import CancelledRow from "./CancelledRow";
 
 export default function TableCancelled(): React.JSX.Element {
+    const dispatch = useAppDispatch();
+
     const cancelledPeopleState: PeopleCancelled[] = useAppSelector(
         ({ cancelledPeople }) => cancelledPeople
     );
 
-    const dispatch = useAppDispatch();
-
-    const getCancelled = async (): Promise<void> => {
-        try {
-            const { data } = await api("/people/cancelled");
-
-            dispatch(setCancelledPeople(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        "peopleCancelled",
+        peopleService.getPeopleCancelled
+    );
 
     useEffect(() => {
-        getCancelled();
-    }, []);
+        if (data) dispatch(setCancelledPeople(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Table responsive hover borderless size="sm" className="text-center">

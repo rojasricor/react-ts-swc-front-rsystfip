@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import { FormDataState } from "../features/programming/programmingSlice";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
-import { actionFormSchedule } from "./FormSchedulePeople";
 import { notify } from "../libs/toast";
+import { actionFormSchedule } from "./FormSchedulePeople";
+import * as documentService from "../services/document.service";
 
 interface IProps {
     action: actionFormSchedule;
@@ -27,18 +28,15 @@ export default function SelectDocument({
 
     const dispatch = useAppDispatch();
 
-    const getDocuments = async (): Promise<void> => {
-        try {
-            const { data } = await api("/resource/documents");
-            dispatch(setDocuments(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        "documents",
+        documentService.getDocuments
+    );
 
     useEffect(() => {
-        getDocuments();
-    }, []);
+        if (data) dispatch(setDocuments(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <FloatingLabel label="Tipo de Documento:">

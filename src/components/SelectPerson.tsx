@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
+import { UseQueryResult, useQueries } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import { UNSET_STATUS } from "../constants";
 import {
     FormDataState,
@@ -12,6 +12,8 @@ import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
 import { notify } from "../libs/toast";
+import * as categoryService from "../services/category.service";
+import * as deanService from "../services/dean.service";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -34,52 +36,62 @@ export default function SelectPerson({
 
     const dispatch = useAppDispatch();
 
-    const getDeans = async (): Promise<void> => {
-        try {
-            const { data } = await api("/deans");
-            dispatch(setDeans(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const queries = useQueries([
+        { queryKey: "deans", queryFn: deanService.getDeans, enabled: false },
+        { queryKey: "categories", queryFn: categoryService.getCategories },
+    ]);
 
-    useEffect(() => {
-        if (formDataState.person !== UNSET_STATUS) {
-            dispatch(
-                setFormData([
-                    action,
-                    {
-                        ...formDataState,
-                        disabledAll: false,
-                        disabledAfterAutocomplete: false,
-                    },
-                ])
-            );
+    useEffect(
+        () => {
+            for (let i = 0; i < queries.length; i++) {
+                const { data, error } = queries[i] as UseQueryResult<any, any>;
 
-            if (facultieSelectRef.current) {
-                facultieSelectRef.current.className =
-                    "form-select border-0 bg-white";
-                facultieSelectRef.current.disabled = false;
-                if (formDataState.person === "5")
-                    facultieSelectRef.current.disabled = true;
+                if (data) {
+                    if (i === 0) {
+                        dispatch(setDeans(data));
+                    } else if (i === 1) {
+                        dispatch(setCategories(data));
+                    }
+                }
+
+                if (error) {
+                    notify(error.response.data.error, { type: "error" });
+                }
             }
+        },
+        queries.flatMap(({ data, error }) => [data, error])
+    );
 
-            formDataState.person === "4" && getDeans();
+    const inputsInteraction = async () => {
+        if (formDataState.person === UNSET_STATUS) return;
+
+        dispatch(
+            setFormData([
+                action,
+                {
+                    ...formDataState,
+                    disabledAll: false,
+                    disabledAfterAutocomplete: false,
+                },
+            ])
+        );
+
+        if (formDataState.person === "4") {
+            await queries[0].refetch();
         }
-    }, [formDataState.person]);
 
-    const getCategories = async (): Promise<void> => {
-        try {
-            const { data } = await api("/resource/categories");
-            dispatch(setCategories(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
+        if (facultieSelectRef.current) {
+            facultieSelectRef.current.className =
+                "form-select border-0 bg-white";
+            facultieSelectRef.current.disabled = false;
+            if (formDataState.person === "5")
+                facultieSelectRef.current.disabled = true;
         }
     };
 
     useEffect(() => {
-        getCategories();
-    }, []);
+        inputsInteraction();
+    }, [formDataState.person]);
 
     return (
         <FloatingLabel label="Persona a registrar:">

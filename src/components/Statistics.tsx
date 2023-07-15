@@ -17,7 +17,7 @@ import {
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import { useEffect, useRef, useState } from "react";
 import { Col } from "react-bootstrap";
-import api from "../api";
+import { UseQueryResult, useQueries } from "react-query";
 import {
     QueryData,
     setMostAgendatedAllTime,
@@ -25,9 +25,26 @@ import {
 } from "../features/statistics/statisticsSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as statisticService from "../services/statistic.service";
 import Ctx from "./Ctx";
 import DaterStatistics from "./DaterStatistics";
 import ListerStatistics from "./ListerStatistics";
+
+ChartJS.register(
+    ArcElement,
+    BarController,
+    BarElement,
+    CategoryScale,
+    ChartDataLabels,
+    LinearScale,
+    LineController,
+    LineElement,
+    PieController,
+    PointElement,
+    PolarAreaController,
+    RadialLinearScale,
+    Tooltip
+);
 
 export interface IProps {
     scheduling_type: "daily" | "scheduled";
@@ -48,22 +65,6 @@ export default function Statistics({
 
     const queryDataState: QueryData = useAppSelector(
         ({ statistics }) => statistics[scheduling_type].queryData
-    );
-
-    ChartJS.register(
-        ArcElement,
-        BarController,
-        BarElement,
-        CategoryScale,
-        ChartDataLabels,
-        LinearScale,
-        LineController,
-        LineElement,
-        PieController,
-        PointElement,
-        PolarAreaController,
-        RadialLinearScale,
-        Tooltip
     );
 
     const labelText = scheduling_type === "daily" ? "diario" : "programado";
@@ -146,63 +147,80 @@ export default function Statistics({
         setChartJS(newChart);
     };
 
-    const getStatistics = async (): Promise<void> => {
-        try {
-            const { data } = await api(`/statistics/${scheduling_type}`, {
-                params: {
-                    start: queryDataState.start,
-                    end: queryDataState.end,
-                },
-            });
+    const queries = useQueries([
+        {
+            queryKey: [
+                "statistics",
+                queryDataState.start,
+                queryDataState.end,
+                queryDataState.chartType,
+            ],
+            queryFn: () =>
+                statisticService.getStatistics(scheduling_type, queryDataState),
+        },
+        {
+            queryKey: [
+                "statisticsOnRange",
+                queryDataState.start,
+                queryDataState.end,
+                queryDataState.chartType,
+            ],
+            queryFn: () =>
+                statisticService.getMostAgendatedOnRange(
+                    scheduling_type,
+                    queryDataState
+                ),
+        },
+        {
+            queryKey: [
+                "statisticsAllTime",
+                queryDataState.start,
+                queryDataState.end,
+                queryDataState.chartType,
+            ],
+            queryFn: () =>
+                statisticService.getMostAgendatedAllTime(scheduling_type),
+        },
+    ]);
 
-            const labels: string[] = data.map(
-                ({ category }: { category: string }) => category
-            );
-            const dataset: string[] = data.map(
-                ({ scheduling_count }: { scheduling_count: string }) =>
-                    scheduling_count
-            );
-            refreshChart(labels, dataset);
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    useEffect(
+        () => {
+            for (let i = 0; i < queries.length; i++) {
+                const { data, error } = queries[i] as UseQueryResult<any, any>;
 
-    const getMostAgendatedOnRange = async (): Promise<void> => {
-        try {
-            const { data } = await api(
-                `/statistics/onrange/${scheduling_type}`,
-                {
-                    params: {
-                        start: queryDataState.start,
-                        end: queryDataState.end,
-                    },
+                if (data) {
+                    if (i === 0) {
+                        const labels: string[] = data.map(
+                            ({ category }: { category: string }) => category
+                        );
+                        const dataset: string[] = data.map(
+                            ({
+                                scheduling_count,
+                            }: {
+                                scheduling_count: string;
+                            }) => scheduling_count
+                        );
+                        refreshChart(labels, dataset);
+                    }
+                    if (i === 1) {
+                        dispatch(
+                            setMostAgendatedOnRange([scheduling_type, data])
+                        );
+                    }
+                    if (i === 2) {
+                        dispatch(
+                            setMostAgendatedAllTime([scheduling_type, data])
+                        );
+                    }
                 }
-            );
 
-            dispatch(setMostAgendatedOnRange([scheduling_type, data]));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
-
-    const getMostAgendatedAllTime = async (): Promise<void> => {
-        try {
-            const { data } = await api(
-                `/statistics/alltime/${scheduling_type}`
-            );
-
-            dispatch(setMostAgendatedAllTime([scheduling_type, data]));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
-
-    useEffect(() => {
-        getStatistics();
-        getMostAgendatedOnRange();
-        getMostAgendatedAllTime();
-    }, [queryDataState.start, queryDataState.end, queryDataState.chartType]);
+                if (error) {
+                    notify(error.response.data.error, { type: "error" });
+                }
+            }
+        },
+        queries.flatMap(({ data, error }) => [data, error])
+    );
 
     return (
         <>

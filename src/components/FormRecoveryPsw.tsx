@@ -1,39 +1,36 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiMailSend } from "react-icons/bi";
-import api from "../api";
+import { useMutation } from "react-query";
 import { notify } from "../libs/toast";
+import * as accountService from "../services/account.service";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { recoverPswSchema } from "../validation/joi";
+import { emailItfipSchema } from "../validation/schemas";
 import Submitter from "./Submitter";
 
 export default function FormRecoveryPsw(): React.JSX.Element {
-    const [loading, setLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
 
-    const handleSubmit = async (e: THandleSubmit): Promise<void> => {
+    const { mutate, isLoading } = useMutation(
+        accountService.sendJwtForRecoverPsw,
+        {
+            onSuccess: (data) => {
+                notify(data.ok, { type: "success" });
+                setEmail("");
+            },
+            onError: (error: any) =>
+                notify(error.response.data.error, { type: "error" }),
+        }
+    );
+
+    const handleSubmit = (e: THandleSubmit) => {
         e.preventDefault();
 
-        const { error, value } = recoverPswSchema.validate({
-            email,
-            APP_ROUTE: window.location.href,
-        });
+        const { error, value } = emailItfipSchema.validate({ email });
         if (error) return notify(error.message, { type: "warning" });
 
-        setLoading(true);
-        try {
-            const { data } = await api.post(
-                "/account/send-jwt-for-recover-password",
-                value
-            );
-
-            notify(data.ok, { type: "success" });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            setLoading(false);
-        }
+        mutate(value.email);
     };
 
     const handleChange = (e: THandleChangeI) => setEmail(e.target.value);
@@ -60,8 +57,8 @@ export default function FormRecoveryPsw(): React.JSX.Element {
                     </Form.FloatingLabel>
                 </Col>
 
-                <Submitter loading={loading}>
-                    {!loading ? (
+                <Submitter loading={isLoading}>
+                    {!isLoading ? (
                         <>
                             Enviar email <BiMailSend className="mb-1" />
                         </>

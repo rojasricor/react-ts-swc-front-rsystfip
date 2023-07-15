@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { Button, ButtonGroup, FormControl, Spinner } from "react-bootstrap";
-import { FaSyncAlt, FaTimes } from "react-icons/fa";
+import { FaSyncAlt } from "react-icons/fa";
 import { ImUserPlus } from "react-icons/im";
 import { IoCalendarNumber } from "react-icons/io5";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import api from "../api";
 import {
     People,
     setFind,
-    setIsLoading,
     setPeople,
     setPeopleOrigen,
 } from "../features/people/peopleSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as peopleService from "../services/people.service";
 import { THandleChangeI } from "../types/THandleChanges";
 import TablePeople from "./TablePeople";
 
@@ -23,24 +23,12 @@ export default function Searcher(): React.JSX.Element {
     const peopleOrigenState: People[] = useAppSelector(
         ({ people }) => people.peopleOrigen
     );
-    const isLoadingState: number = useAppSelector(
-        ({ people }) => people.isLoading
-    );
     const findState: string = useAppSelector(({ people }) => people.find);
 
-    const getPeople = async (): Promise<void> => {
-        try {
-            const { data } = await api("/people");
-
-            dispatch(setPeopleOrigen(data));
-            findState !== "" ? filterPeople() : dispatch(setPeople(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-            dispatch(setIsLoading(2));
-        } finally {
-            dispatch(setIsLoading(1));
-        }
-    };
+    const { data, error, isLoading, refetch } = useQuery<[], any>(
+        "people",
+        peopleService.getPeople
+    );
 
     const filterPeople = (): void => {
         dispatch(
@@ -55,11 +43,21 @@ export default function Searcher(): React.JSX.Element {
     };
 
     useEffect(() => {
-        getPeople();
-    }, []);
+        if (data) {
+            dispatch(setPeopleOrigen(data));
+            if (findState === "") dispatch(setPeople(data));
+            else filterPeople();
+        }
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     const handleChange = (e: THandleChangeI) =>
         dispatch(setFind(e.target.value.toLocaleLowerCase()));
+
+    const handleClick = () => {
+        dispatch(setFind(""));
+        refetch();
+    };
 
     useEffect(() => {
         filterPeople();
@@ -82,15 +80,13 @@ export default function Searcher(): React.JSX.Element {
                 />
                 <Button
                     variant="dark"
-                    onClick={() => getPeople()}
+                    onClick={handleClick}
                     title="Refrescar datos"
                 >
-                    {isLoadingState === 0 ? (
+                    {isLoading ? (
                         <Spinner size="sm" />
-                    ) : isLoadingState === 1 ? (
-                        <FaSyncAlt className="mb-1" />
                     ) : (
-                        <FaTimes className="text-danger mb-1" />
+                        <FaSyncAlt className="mb-1" />
                     )}
                 </Button>
                 <Link

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import api from "../api";
+import { useEffect } from "react";
 import { UNSET_STATUS } from "../constants";
 import {
     QueryData,
@@ -11,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
 import DaterReports from "./DaterReports";
 import TableReports from "./TableReports";
+import { useQuery } from "react-query";
+import * as reportService from "../services/report.service";
 
 export default function ActionerReports(): React.JSX.Element {
     const dispatch = useAppDispatch();
@@ -21,24 +22,11 @@ export default function ActionerReports(): React.JSX.Element {
     const queryDataState: QueryData = useAppSelector(
         ({ reports }) => reports.queryData
     );
-    const [errorReports, setErrorReports] = useState<boolean>(false);
 
-    const getReports = async (): Promise<void> => {
-        try {
-            const { data } = await api("/reports", {
-                params: {
-                    start: queryDataState.startDate,
-                    end: queryDataState.endDate,
-                },
-            });
-
-            filterReports(data);
-            dispatch(setReportsOrigen(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-            setErrorReports(true);
-        }
-    };
+    const { data, error, isError } = useQuery<[], any>(
+        ["reports", queryDataState.startDate, queryDataState.endDate],
+        () => reportService.getReports(queryDataState)
+    );
 
     const filterReports = (dataToFilter = reportsOrigenState) => {
         dispatch(
@@ -54,12 +42,12 @@ export default function ActionerReports(): React.JSX.Element {
     };
 
     useEffect(() => {
-        getReports();
-    }, []);
-
-    useEffect(() => {
-        getReports();
-    }, [queryDataState.startDate, queryDataState.endDate]);
+        if (data) {
+            filterReports(data);
+            dispatch(setReportsOrigen(data));
+        }
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     useEffect(() => {
         filterReports();
@@ -67,7 +55,7 @@ export default function ActionerReports(): React.JSX.Element {
 
     return (
         <>
-            <DaterReports errorReports={errorReports} />
+            <DaterReports errorReports={isError} />
             <TableReports />
         </>
     );

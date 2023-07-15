@@ -34,7 +34,7 @@ export const statisticfilterSchema = statusSchema.keys({
     end: Joi.string().required(),
 });
 
-const emailItfipSchema = JoiDefaults.object({
+export const emailItfipSchema = JoiDefaults.object({
     email: Joi.string()
         .min(10)
         .max(30)
@@ -83,10 +83,6 @@ export const changePswSchema = idSchema.keys({
                 "The new password must be different from the old password",
             "any.only": "Passwords does not match",
         }),
-});
-
-export const recoverPswSchema = emailItfipSchema.keys({
-    APP_ROUTE: Joi.string().uri().required(),
 });
 
 export const forgetPswSchema = JoiDefaults.object({

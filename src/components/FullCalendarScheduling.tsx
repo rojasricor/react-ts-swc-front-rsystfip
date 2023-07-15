@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { EventSourceInput, globalPlugins } from "fullcalendar";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "react-bootstrap";
-import api from "../api";
+import { useQuery } from "react-query";
 import {
     ICalendarState,
     setCalendarEvents,
@@ -15,6 +15,7 @@ import {
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as scheduleService from "../services/schedule.service";
 import LoadCalendar from "./LoadCalendar";
 import ModalCancellPersonConfirmation from "./ModalCancellPersonConfirmation";
 import ModalSchedulePeopleForm from "./ModalSchedulePeopleForm";
@@ -53,18 +54,15 @@ export default function FullCalendarScheduling({
 
     const loadEventsRef = useRef<HTMLDivElement>(null);
 
-    const getEvents = async (): Promise<void> => {
-        try {
-            const { data } = await api("/schedule");
-            dispatch(setCalendarEvents(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        ["schedule", calendarEventsState.changes],
+        scheduleService.getEvents
+    );
 
     useEffect(() => {
-        getEvents();
-    }, [calendarEventsState.changes]);
+        if (data) dispatch(setCalendarEvents(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Responsive>

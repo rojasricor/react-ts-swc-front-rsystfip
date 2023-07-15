@@ -1,27 +1,25 @@
 import { useEffect } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
+import { useMutation, useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import {
     FormData,
     resetFormDataAdmin,
     setFormData,
-    setIsLoading,
 } from "../features/admin/adminSlice";
 import { setDocuments } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IDocument } from "../interfaces/IResources";
 import { notify } from "../libs/toast";
+import * as documentService from "../services/document.service";
+import * as userService from "../services/user.service";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { userSchema } from "../validation/joi";
+import { userSchema } from "../validation/schemas";
 import Submitter from "./Submitter";
 
 export default function FormUserAdd(): React.JSX.Element {
-    const isLoadingState: boolean = useAppSelector(
-        ({ admin }) => admin.isLoading
-    );
     const formDataState: FormData = useAppSelector(
         ({ admin }) => admin.formData
     );
@@ -40,40 +38,36 @@ export default function FormUserAdd(): React.JSX.Element {
         );
     };
 
-    const handleSubmit = async (e: THandleSubmit): Promise<void> => {
-        e.preventDefault();
-
-        const { error, value } = userSchema.validate(formDataState);
-        if (error) return notify(error.message, { type: "warning" });
-
-        dispatch(setIsLoading(true));
-        try {
-            const { data } = await api.post("/users", value);
-
+    const { mutate, isLoading } = useMutation(userService.saveUser, {
+        onSuccess: (data) => {
             dispatch(resetFormDataAdmin());
             notify(data.ok, {
                 type: "success",
                 position: "top-left",
             });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            dispatch(setIsLoading(false));
-        }
+        },
+        onError: (error: any) =>
+            notify(error.response.data.error, { type: "error" }),
+    });
+
+    const handleSubmit = (e: THandleSubmit) => {
+        e.preventDefault();
+
+        const { error, value } = userSchema.validate(formDataState);
+        if (error) return notify(error.message, { type: "warning" });
+
+        mutate(value);
     };
 
-    const getDocuments = async (): Promise<void> => {
-        try {
-            const { data } = await api("/resource/documents");
-            dispatch(setDocuments(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        "documents",
+        documentService.getDocuments
+    );
 
     useEffect(() => {
-        getDocuments();
-    }, []);
+        if (data) dispatch(setDocuments(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -240,8 +234,8 @@ export default function FormUserAdd(): React.JSX.Element {
                     </Form.FloatingLabel>
                 </Col>
 
-                <Submitter loading={isLoadingState}>
-                    {!isLoadingState ? (
+                <Submitter loading={isLoading}>
+                    {!isLoading ? (
                         <>
                             Registrar <FaUserPlus className="mb-1" />
                         </>

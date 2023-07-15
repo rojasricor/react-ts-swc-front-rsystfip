@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { BiKey } from "react-icons/bi";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import api from "../api";
 import { notify } from "../libs/toast";
+import * as accountService from "../services/account.service";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { forgetPswSchema } from "../validation/joi";
+import { forgetPswSchema } from "../validation/schemas";
 import Submitter from "./Submitter";
 
 interface FormData {
     password: string;
     confirmPassword: string;
 }
-
-type TParams = { resetToken: string };
 
 export default function FormChangePswForget(): React.JSX.Element {
     const formDataInitialState: FormData = {
@@ -23,11 +22,25 @@ export default function FormChangePswForget(): React.JSX.Element {
     };
 
     const [formData, setFormData] = useState<FormData>(formDataInitialState);
-    const [loading, setLoading] = useState<boolean>(false);
 
-    const { resetToken } = useParams<TParams>();
+    const { resetToken } = useParams<{ resetToken: string }>();
 
-    const handleSubmit = async (e: THandleSubmit): Promise<void> => {
+    const { mutate, isLoading } = useMutation(
+        accountService.changePasswordWithJwt,
+        {
+            onSuccess: (data) => {
+                setFormData(formDataInitialState);
+                notify(data.ok, {
+                    type: "success",
+                    position: "top-left",
+                });
+            },
+            onError: (error: any) =>
+                notify(error.response.data.error, { type: "error" }),
+        }
+    );
+
+    const handleSubmit = (e: THandleSubmit) => {
         e.preventDefault();
 
         const { error, value } = forgetPswSchema.validate({
@@ -37,27 +50,11 @@ export default function FormChangePswForget(): React.JSX.Element {
         });
         if (error) return notify(error.message, { type: "warning" });
 
-        setLoading(true);
-        try {
-            const { data } = await api.put("/account/update-password", value);
-
-            setFormData(formDataInitialState);
-            notify(data.ok, {
-                type: "success",
-                position: "top-left",
-            });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            setLoading(false);
-        }
+        mutate(value);
     };
 
     const handleChange = (e: THandleChangeI) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     return (
@@ -100,8 +97,8 @@ export default function FormChangePswForget(): React.JSX.Element {
                     </Form.FloatingLabel>
                 </Col>
 
-                <Submitter loading={loading}>
-                    {!loading ? (
+                <Submitter loading={isLoading}>
+                    {!isLoading ? (
                         <>
                             Cambiar contraseña <BiKey className="mb-1" />
                         </>

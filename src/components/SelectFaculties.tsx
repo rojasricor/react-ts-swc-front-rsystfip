@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { FloatingLabel, FormSelect } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import { FormDataState } from "../features/programming/programmingSlice";
 import { setFaculties } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { IFacultie } from "../interfaces/IResources";
 import { notify } from "../libs/toast";
+import * as facultieService from "../services/facultie.service";
 import { actionFormSchedule } from "./FormSchedulePeople";
 
 interface IProps {
@@ -29,18 +30,15 @@ export default function SelectFaculties({
 
     const dispatch = useAppDispatch();
 
-    const getFaculties = async (): Promise<void> => {
-        try {
-            const { data } = await api("/resource/faculties");
-            dispatch(setFaculties(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        "faculties",
+        facultieService.getFaculties
+    );
 
     useEffect(() => {
-        getFaculties();
-    }, []);
+        if (data) dispatch(setFaculties(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <FloatingLabel label="Facultad:">

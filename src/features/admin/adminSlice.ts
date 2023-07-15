@@ -23,7 +23,6 @@ export interface FormData {
 interface AdminState {
     users: User[];
     formData: FormData;
-    isLoading: boolean;
 }
 
 const initialState: AdminState = {
@@ -39,7 +38,6 @@ const initialState: AdminState = {
         password: "",
         passwordConfirmation: "",
     },
-    isLoading: false,
 };
 
 const adminSlice = createSlice({
@@ -57,13 +55,6 @@ const adminSlice = createSlice({
             ...state,
             formData: payload,
         }),
-        setIsLoading: (
-            state,
-            { payload }: PayloadAction<boolean>
-        ): AdminState => ({
-            ...state,
-            isLoading: payload,
-        }),
         resetFormDataAdmin: (state) => ({
             ...state,
             formData: initialState.formData,
@@ -71,7 +62,6 @@ const adminSlice = createSlice({
     },
 });
 
-export const { setUsers, setFormData, setIsLoading, resetFormDataAdmin } =
-    adminSlice.actions;
+export const { setUsers, setFormData, resetFormDataAdmin } = adminSlice.actions;
 
 export default adminSlice.reducer;

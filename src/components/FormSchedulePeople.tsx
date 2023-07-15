@@ -2,20 +2,22 @@ import { useEffect, useRef } from "react";
 import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { GiReturnArrow } from "react-icons/gi";
 import { IoCalendarNumber } from "react-icons/io5";
+import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import api from "../api";
 import { registerAChange } from "../features/calendar/calendarSlice";
 import {
     Deans,
     FormDataState,
     setFormData,
-    setIsLoading,
 } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as deanService from "../services/dean.service";
+import * as peopleService from "../services/people.service";
+import * as scheduleService from "../services/schedule.service";
 import { THandleChangeITS } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { peopleEditSchema, schedulerSchema } from "../validation/joi";
+import { peopleEditSchema, schedulerSchema } from "../validation/schemas";
 import FooterFormPeople from "./FooterFormPeople";
 import ProtectedElement from "./ProtectedElement";
 import SelectDocument from "./SelectDocument";
@@ -28,31 +30,44 @@ interface IProps {
     closeModalScheduling?: () => void;
 }
 
-type TParams = { id: string };
-
 export type actionFormSchedule = IProps["action"];
 
 export default function FormSchedulePeople({
     action,
     closeModalScheduling,
 }: IProps): React.JSX.Element {
-    const { id } = useParams<TParams>();
+    const { id } = useParams<{ id: string }>();
 
     const facultieSelectRef = useRef<HTMLSelectElement>(null);
 
     const dispatch = useAppDispatch();
 
-    const formDataState: FormDataState | undefined = useAppSelector(
+    const formDataState: FormDataState = useAppSelector(
         ({ programming: { formData } }) => formData[action]
     );
-    const isLoadingState: boolean = useAppSelector(
-        ({ programming }) => programming.isLoading
-    );
+
     const deansState: Deans[] = useAppSelector(
         ({ programming }) => programming.deans
     );
 
-    const editPerson = async (): Promise<void> => {
+    const mutationEditPerson = useMutation(peopleService.editPeople, {
+        onSuccess: (data) => {
+            dispatch(setFormData([action]));
+
+            notify(data.ok, {
+                type: "success",
+                position: "top-left",
+            });
+        },
+        onError: (error: any) =>
+            notify(error.response.data.error, { type: "error" }),
+    });
+
+    const mutationSavePeople = useMutation(peopleService.savePeople);
+    const mutationSchedule = useMutation(scheduleService.saveSchedule);
+    const mutationSaveDean = useMutation(deanService.saveDean);
+
+    const editPerson = () => {
         const { error, value } = peopleEditSchema.validate({
             id,
             person: formDataState.person,
@@ -64,21 +79,7 @@ export default function FormSchedulePeople({
         });
         if (error) return notify(error.message, { type: "warning" });
 
-        dispatch(setIsLoading(true));
-        try {
-            const { data } = await api.put(`/people/${id}`, value);
-
-            dispatch(setFormData([action]));
-
-            notify(data.ok, {
-                type: "success",
-                position: "top-left",
-            });
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        } finally {
-            dispatch(setIsLoading(false));
-        }
+        mutationEditPerson.mutate(value);
     };
 
     const schedulePerson = async (
@@ -101,11 +102,10 @@ export default function FormSchedulePeople({
         });
         if (error) return notify(error.message, { type: "warning" });
 
-        dispatch(setIsLoading(true));
         try {
-            const { data } = await api.post("/people", value);
+            const data = await mutationSavePeople.mutateAsync(value);
 
-            await api.post("/schedule", {
+            await mutationSchedule.mutateAsync({
                 person_id: data.personCreated.id.toString(),
                 status: value.status,
                 color: value.color,
@@ -113,8 +113,9 @@ export default function FormSchedulePeople({
                 start_date: value.start || undefined,
                 end_date: value.end || undefined,
             });
+
             if (value.person === "4") {
-                await api.post("/deans", {
+                await mutationSaveDean.mutateAsync({
                     _id: value.doc,
                     dean: value.name,
                     facultie_id: value.facultie,
@@ -134,8 +135,6 @@ export default function FormSchedulePeople({
             });
         } catch (error: any) {
             notify(error.response.data.error, { type: "error" });
-        } finally {
-            dispatch(setIsLoading(false));
         }
     };
 
@@ -163,37 +162,17 @@ export default function FormSchedulePeople({
         }
     };
 
-    const getUserData = async (): Promise<void> => {
-        try {
-            const { data } = await api(`/people/${id}`);
-
-            dispatch(
-                setFormData([
-                    action,
-                    {
-                        ...formDataState,
-                        person: data.category_id.toString(),
-                        doctype: data.document_id.toString(),
-                        facultie: data.facultie_id.toString(),
-                        name: data.name,
-                        doc: data.document_number,
-                        asunt: data.come_asunt,
-                    },
-                ])
-            );
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<any, any>(
+        ["personData", id],
+        () => peopleService.getData(id as string),
+        { enabled: !!id }
+    );
 
     const handleChange = (e: THandleChangeITS) => {
         dispatch(
             setFormData([
                 action,
-                {
-                    ...formDataState,
-                    [e.target.name]: e.target.value,
-                },
+                { ...formDataState, [e.target.name]: e.target.value },
             ])
         );
     };
@@ -201,24 +180,27 @@ export default function FormSchedulePeople({
     const autocompleteDeansData = () => {
         if (!deansState || formDataState.person !== "4") return;
 
-        for (const dean of deansState) {
-            if (dean._id === formDataState.doc) {
+        for (let i = 0; i < deansState.length; i++) {
+            const { _id, dean, facultie_id } = deansState[i];
+
+            if (_id === formDataState.doc) {
                 dispatch(
                     setFormData([
                         action,
                         {
                             ...formDataState,
                             doctype: "1",
-                            name: dean.dean,
-                            facultie: dean.facultie_id.toString(),
+                            name: dean,
+                            facultie: facultie_id.toString(),
                             disabledAfterAutocomplete: true,
                         },
                     ])
                 );
 
-                if (facultieSelectRef.current)
+                if (facultieSelectRef.current) {
                     facultieSelectRef.current.className =
                         "form-control border-0 bg-white";
+                }
 
                 notify("Se han completado los datos", {
                     type: "info",
@@ -234,8 +216,23 @@ export default function FormSchedulePeople({
     }, [formDataState.doc]);
 
     useEffect(() => {
-        id && getUserData();
-    }, []);
+        if (data)
+            dispatch(
+                setFormData([
+                    action,
+                    {
+                        ...formDataState,
+                        person: data.category_id.toString(),
+                        doctype: data.document_id.toString(),
+                        facultie: data.facultie_id.toString(),
+                        name: data.name,
+                        doc: data.document_number,
+                        asunt: data.come_asunt,
+                    },
+                ])
+            );
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -400,9 +397,14 @@ export default function FormSchedulePeople({
                             Cerrar <GiReturnArrow className="mb-1" />
                         </Button>
                         <Button type="submit">
-                            {!isLoadingState ? (
+                            {!(
+                                mutationEditPerson.isLoading ||
+                                mutationSavePeople.isLoading ||
+                                mutationSchedule.isLoading ||
+                                mutationSaveDean.isLoading
+                            ) ? (
                                 <>
-                                    Agendar{" "}
+                                    Agendar
                                     <IoCalendarNumber className="mb-1" />
                                 </>
                             ) : (

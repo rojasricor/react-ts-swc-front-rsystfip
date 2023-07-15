@@ -80,8 +80,8 @@ export default function PageFaqs(): React.JSX.Element {
                             llegado a la Rectoría y el Rector tiene la
                             disponibilidad de atenderlo en ese instante,
                             entonces en este instante se hace dicho
-                            agendamiento, para eso se dirige a la opción de{" "}
-                            <code>Agendar </code>, y luego completar el
+                            agendamiento, para eso se dirige a la opción de
+                            <code> Agendar </code>, y luego completar el
                             formulario de agendamiento, el cual es el mismo
                             excluyendo la diferencia de seleccionar la fecha y
                             hora, ya que es en el mismo instante y ésta es
@@ -131,7 +131,7 @@ export default function PageFaqs(): React.JSX.Element {
                             <code> Generar reporte de agendamientos</code> y
                             luego seleccionar la fecha entre la cual desea el
                             reporte, tambien puede especificar el tipo de
-                            persona que visitaron la rectoría y darle click en{" "}
+                            persona que visitaron la rectoría y darle click en
                             <code> Filtrar</code>, para obtener el reporte.
                         </Accordion.Body>
                     </Accordion.Item>

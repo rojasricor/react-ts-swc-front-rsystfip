@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Button, Col, Form, ModalFooter, Row, Spinner } from "react-bootstrap";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import api from "../api";
 import { registerAChange } from "../features/calendar/calendarSlice";
-import {
-    FormDataState,
-    setIsLoading,
-} from "../features/programming/programmingSlice";
+import { FormDataState } from "../features/programming/programmingSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
 import { THandleChangeI } from "../types/THandleChanges";
 import { THandleSubmit } from "../types/THandleSubmits";
-import { cancellSchema } from "../validation/joi";
+import { cancellSchema } from "../validation/schemas";
+import { useMutation } from "react-query";
+import * as cancellationService from "../services/cancellation.service";
+import * as scheduleService from "../services/schedule.service";
 
 interface IProps {
     closeModalCancell: () => void;
@@ -24,12 +23,14 @@ export default function FormCancellPerson({
 
     const dispatch = useAppDispatch();
 
-    const isLoadingStatus: boolean = useAppSelector(
-        ({ programming }) => programming.isLoading
-    );
     const formDataState: FormDataState = useAppSelector(
         ({ programming }) => programming.formData.schedule
     );
+
+    const mutationCancellation = useMutation(
+        cancellationService.createCancellation
+    );
+    const mutationSchedule = useMutation(scheduleService.cancellSchedule);
 
     const handleSubmit = async (e: THandleSubmit): Promise<void> => {
         e.preventDefault();
@@ -41,13 +42,9 @@ export default function FormCancellPerson({
         });
         if (error) return notify(error.message, { type: "warning" });
 
-        dispatch(setIsLoading(true));
         try {
-            const { data } = await api.post("/cancellation", {
-                person_id: value.id,
-                cancelled_asunt: value.cancelled_asunt,
-            });
-            await api.patch(`/schedule/${value.id}`, value);
+            const data = await mutationCancellation.mutateAsync(value);
+            await mutationSchedule.mutateAsync(value);
 
             dispatch(registerAChange());
             notify(data.ok, {
@@ -58,8 +55,6 @@ export default function FormCancellPerson({
             closeModalCancell();
         } catch (error: any) {
             notify(error.response.data.error, { type: "error" });
-        } finally {
-            dispatch(setIsLoading(false));
         }
     };
 
@@ -94,10 +89,16 @@ export default function FormCancellPerson({
                     </Button>
                     <Button
                         variant="danger"
-                        disabled={isLoadingStatus}
+                        disabled={
+                            mutationCancellation.isLoading ||
+                            mutationSchedule.isLoading
+                        }
                         type="submit"
                     >
-                        {!isLoadingStatus ? (
+                        {!(
+                            mutationCancellation.isLoading ||
+                            mutationSchedule.isLoading
+                        ) ? (
                             <>
                                 Sí, cancelar <FaCheck className="mb-1" />
                             </>

@@ -6,14 +6,15 @@ import {
     FormSelect,
     Row,
 } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import { UNSET_STATUS } from "../constants";
 import { QueryData, setQueryData } from "../features/reports/reportsSlice";
 import { setCategories } from "../features/resources/resourcesSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { ICategory } from "../interfaces/IResources";
 import { notify } from "../libs/toast";
+import * as categoryService from "../services/category.service";
 import { THandleChangeITS } from "../types/THandleChanges";
 import FetcherReports from "./FetcherReports";
 
@@ -42,18 +43,15 @@ export default function DaterReports({
         );
     };
 
-    const getCategories = async (): Promise<void> => {
-        try {
-            const { data } = await api("/resource/categories");
-            dispatch(setCategories(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>(
+        "categories",
+        categoryService.getCategories
+    );
 
     useEffect(() => {
-        getCategories();
-    }, []);
+        if (data) dispatch(setCategories(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Row className="g-3 mb-5">

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { useQuery } from "react-query";
 import { v4 } from "uuid";
-import api from "../api";
 import { User, setUsers } from "../features/admin/adminSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { notify } from "../libs/toast";
+import * as userService from "../services/user.service";
 import UserRow from "./UserRow";
 
 export default function TableUsers(): React.JSX.Element {
@@ -12,18 +13,12 @@ export default function TableUsers(): React.JSX.Element {
 
     const usersState: User[] = useAppSelector(({ admin }) => admin.users);
 
-    const getUsers = async (): Promise<void> => {
-        try {
-            const { data } = await api("/users");
-            dispatch(setUsers(data));
-        } catch (error: any) {
-            notify(error.response.data.error, { type: "error" });
-        }
-    };
+    const { data, error } = useQuery<[], any>("users", userService.getUsers);
 
     useEffect(() => {
-        getUsers();
-    }, []);
+        if (data) dispatch(setUsers(data));
+        if (error) notify(error.response.data.error, { type: "error" });
+    }, [data, error]);
 
     return (
         <Table responsive hover borderless size="sm" className="text-center">
