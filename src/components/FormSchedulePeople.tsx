@@ -388,7 +388,15 @@ export default function FormSchedulePeople({
                 <SmallCaption />
 
                 <ProtectedElement isAllowed={action !== "schedule"}>
-                    <FooterFormPeople isAllowed={action === "edit"} />
+                    <FooterFormPeople
+                        isAllowed={action === "edit"}
+                        isLoading={
+                            mutationEditPerson.isLoading ||
+                            mutationSavePeople.isLoading ||
+                            mutationSchedule.isLoading ||
+                            mutationSaveDean.isLoading
+                        }
+                    />
                 </ProtectedElement>
 
                 <ProtectedElement isAllowed={action === "schedule"}>

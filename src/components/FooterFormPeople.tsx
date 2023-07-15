@@ -2,21 +2,18 @@ import { Button, Col, Spinner } from "react-bootstrap";
 import { FaUserPlus } from "react-icons/fa";
 import { GiReturnArrow } from "react-icons/gi";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hooks";
 import { THandleClick } from "../types/THandleClicks";
 import ProtectedElement from "./ProtectedElement";
 
 interface IProps {
     isAllowed: boolean;
+    isLoading: boolean;
 }
 
 export default function FooterFormPeople({
     isAllowed,
+    isLoading,
 }: IProps): React.JSX.Element {
-    const isLoadingState: boolean = useAppSelector(
-        ({ programming }) => programming.isLoading
-    );
-
     const navigate: NavigateFunction = useNavigate();
 
     const handleClick = (e: THandleClick) => {
@@ -26,8 +23,8 @@ export default function FooterFormPeople({
 
     return (
         <Col md={12}>
-            <Button className="m-1" disabled={isLoadingState} type="submit">
-                {!isLoadingState ? (
+            <Button className="m-1" disabled={isLoading} type="submit">
+                {!isLoading ? (
                     <>
                         Registrar <FaUserPlus className="mb-1" />
                     </>
